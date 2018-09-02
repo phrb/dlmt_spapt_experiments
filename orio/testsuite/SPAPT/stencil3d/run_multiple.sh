@@ -7,7 +7,7 @@ do
 	../../../orcc -v -e $2
 done
 
-mkdir $NODE_NAME
+mkdir -p $NODE_NAME
 
 ./db2csv.py
 mv results.* search_space.* $NODE_NAME
