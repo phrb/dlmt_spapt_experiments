@@ -350,7 +350,7 @@ class PerfTestDriver:
 
         # execute the search sequentially
         else:
-            cmd = 'timeout 20m %s ./%s %s' % (Globals().pre_cmd,self.exe_name, cmdlineargs)
+            cmd = 'timeout --kill-after=30s --signal=9 20m %s ./%s %s' % (Globals().pre_cmd,self.exe_name, cmdlineargs)
             info(' running test:\n\t' + cmd)
             out = None
             try:
