@@ -1,6 +1,6 @@
 #! /bin/bash
 
-NODE_NAME="xeon_e5_2630_v3_$(uname -n | cut -d. -f1)_$(date +%s)"
+NODE_NAME="xeon_e5_2630_v3_$(uname -n | cut -d. -f1)"
 
 for i in `seq 1 $1`;
 do
@@ -10,4 +10,4 @@ done
 mkdir -p $NODE_NAME
 
 ./db2csv.py
-cp results.* search_space.* $NODE_NAME
+cp results.* search_space.* ${NODE_NAME}_*
