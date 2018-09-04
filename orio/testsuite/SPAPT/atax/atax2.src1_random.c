@@ -7,13 +7,13 @@
 
   def performance_counter
   {
-  arg repetitions = 30;
+  arg repetitions = 35;
   }
 
   def search
   {
     arg algorithm = 'Randomsearch';
-    arg total_runs = 100;
+    arg total_runs = 300;
   }
 
   def performance_params
@@ -49,8 +49,7 @@
     param VEC2[] = [False,True];
 
     # Parallelization
-    # param OMP[] = [False,True];
-    # openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
+    param OMP[] = [False,True];
 
     # Constraints
     constraint tileI = ((T2_I == 1) or (T2_I % T1_I == 0));
@@ -106,7 +105,8 @@ double* tmp=(double*) malloc(nx*sizeof(double));
     unrolljam = (['k','j','i'],[U_K,U_J,U_I]),
     scalarreplace = (SCR, 'double'),
     regtile = (['i','j','k'],[RT_I,RT_J,RT_K]),
-    vector = (VEC2, ['ivdep','vector always'])
+    vector = (VEC2, ['ivdep','vector always']),
+    openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
   )
   for (i = 0; i<=nx-1; i++) {
     tmp[i] = 0;

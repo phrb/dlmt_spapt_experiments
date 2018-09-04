@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-  arg repetitions = 30;
+  arg repetitions = 35;
   }
 
   def search
@@ -20,7 +20,7 @@
     # arg dlmt_quadratic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
     # arg dlmt_cubic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K"]';
     # arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "ACOPY_x", "ACOPY_y", "SCR", "VEC1", "VEC2"]';
-    arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "ACOPY_x", "ACOPY_y", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K", "SCR", "VEC1", "VEC2"]';
+    arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "ACOPY_x", "ACOPY_y", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K", "SCR", "VEC1", "VEC2", "OMP"]';
     #arg dlmt_inverse = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
     # arg dlmt_quadratic = '["RT_I", "RT_J", "RT_K", "T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K"]';
     # arg dlmt_cubic = '["T1_I", "T1_J", "T1_K", "U1_I", "U_I", "U_J", "U_K"]';
