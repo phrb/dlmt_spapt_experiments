@@ -42,7 +42,8 @@
     param RT_K[] = [1,8,32];
 
     # Scalar replacement
-    param SCR[]  = [False,True];
+    #scalarreplace = (SCR, 'double'),
+    #param SCR[]  = [False,True];
 
     # Vectorization
     param VEC1[] = [False,True];
@@ -103,7 +104,6 @@ double* tmp=(double*) malloc(nx*sizeof(double));
     arrcopy = [(ACOPY_y, 'y[k]', [(T1_K if T1_K>1 else T2_K)],'_copy'),
                (ACOPY_x, 'x[j]', [(T1_J if T1_J>1 else T2_J)],'_copy')],
     unrolljam = (['k','j','i'],[U_K,U_J,U_I]),
-    scalarreplace = (SCR, 'double'),
     regtile = (['i','j','k'],[RT_I,RT_J,RT_K]),
     vector = (VEC2, ['ivdep','vector always']),
     openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')

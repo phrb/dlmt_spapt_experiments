@@ -17,10 +17,11 @@
     arg dlmt_federov_sampling = 30;
     arg dlmt_extra_experiments = 10;
     arg dlmt_steps = 8;
+    arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "ACOPY_x", "ACOPY_y", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K", "VEC1", "VEC2", "OMP"]';
+    #arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "ACOPY_x", "ACOPY_y", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K", "SCR", "VEC1", "VEC2", "OMP"]';
     # arg dlmt_quadratic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
     # arg dlmt_cubic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K"]';
     # arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "ACOPY_x", "ACOPY_y", "SCR", "VEC1", "VEC2"]';
-    arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "ACOPY_x", "ACOPY_y", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K", "SCR", "VEC1", "VEC2", "OMP"]';
     #arg dlmt_inverse = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
     # arg dlmt_quadratic = '["RT_I", "RT_J", "RT_K", "T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K"]';
     # arg dlmt_cubic = '["T1_I", "T1_J", "T1_K", "U1_I", "U_I", "U_J", "U_K"]';
@@ -54,7 +55,8 @@
     param RT_K[] = [1,8,32];
 
     # Scalar replacement
-    param SCR[]  = [False,True];
+    #scalarreplace = (SCR, 'double'),
+    #param SCR[]  = [False,True];
 
     # Vectorization
     param VEC1[] = [False,True];
@@ -115,7 +117,6 @@ double* tmp=(double*) malloc(nx*sizeof(double));
     arrcopy = [(ACOPY_y, 'y[k]', [(T1_K if T1_K>1 else T2_K)],'_copy'),
                (ACOPY_x, 'x[j]', [(T1_J if T1_J>1 else T2_J)],'_copy')],
     unrolljam = (['k','j','i'],[U_K,U_J,U_I]),
-    scalarreplace = (SCR, 'double'),
     regtile = (['i','j','k'],[RT_I,RT_J,RT_K]),
     vector = (VEC2, ['ivdep','vector always']),
     openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
