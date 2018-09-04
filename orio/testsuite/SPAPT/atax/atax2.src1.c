@@ -15,8 +15,8 @@
     arg algorithm = 'DLMT';
     arg total_runs = 75;
     arg dlmt_federov_sampling = 30;
-    arg dlmt_extra_experiments = 10;
-    arg dlmt_steps = 8;
+    arg dlmt_extra_experiments = 15;
+    arg dlmt_steps = 3;
     arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "ACOPY_x", "ACOPY_y", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K", "SCR", "VEC1", "VEC2"]';
     #arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "ACOPY_x", "ACOPY_y", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K", "SCR", "VEC1", "VEC2", "OMP"]';
     # arg dlmt_quadratic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
