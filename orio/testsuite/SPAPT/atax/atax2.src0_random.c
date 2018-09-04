@@ -1,13 +1,13 @@
 /*@ begin PerfTuning (
   def build
   {
-  arg build_command = 'gcc -O3 -fopenmp -DDYNAMIC';
+  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp ';
   arg libs = '-lm';
   }
 
   def performance_counter
   {
-  arg repetitions = 30;
+  arg repetitions = 35;
   }
 
   def search
