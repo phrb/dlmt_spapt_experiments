@@ -1,7 +1,7 @@
 /*@ begin PerfTuning (
   def build
   {
-  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp ';
+  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
   arg libs = '-lm';
   }
 

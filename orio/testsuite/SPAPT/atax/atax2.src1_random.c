@@ -1,7 +1,7 @@
 /*@ begin PerfTuning (
   def build
   {
-  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp ';
+  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
   arg libs = '-lm';
   }
 
@@ -42,15 +42,15 @@
     param RT_K[] = [1,8,32];
 
     # Scalar replacement
-    #scalarreplace = (SCR, 'double'),
-    #param SCR[]  = [False,True];
+    param SCR[]  = [False,True];
 
     # Vectorization
     param VEC1[] = [False,True];
     param VEC2[] = [False,True];
 
     # Parallelization
-    param OMP[] = [False,True];
+    #openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
+    #param OMP[] = [False,True];
 
     # Constraints
     constraint tileI = ((T2_I == 1) or (T2_I % T1_I == 0));
@@ -104,9 +104,9 @@ double* tmp=(double*) malloc(nx*sizeof(double));
     arrcopy = [(ACOPY_y, 'y[k]', [(T1_K if T1_K>1 else T2_K)],'_copy'),
                (ACOPY_x, 'x[j]', [(T1_J if T1_J>1 else T2_J)],'_copy')],
     unrolljam = (['k','j','i'],[U_K,U_J,U_I]),
+    scalarreplace = (SCR, 'double'),
     regtile = (['i','j','k'],[RT_I,RT_J,RT_K]),
-    vector = (VEC2, ['ivdep','vector always']),
-    openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
+    vector = (VEC2, ['ivdep','vector always'])
   )
   for (i = 0; i<=nx-1; i++) {
     tmp[i] = 0;
