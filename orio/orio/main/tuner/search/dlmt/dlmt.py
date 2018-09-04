@@ -682,7 +682,12 @@ class DLMT(orio.main.tuner.search.search.Search):
 
             info("Measuring Predicted Best:")
             info(str(predicted_best))
-            predicted_best_value = numpy.mean((self.getPerfCosts([predicted_best]).values()[0])[0])
+            measured_predicted_best = self.getPerfCosts([predicted_best])
+
+            if measured_predicted_best != {}:
+                predicted_best_value = numpy.mean((measured_predicted_best.values()[0])[0])
+            else:
+                predicted_best_value = float("inf")
 
             design_best = step_data["design_best"]
             info("Design Best Point:")
