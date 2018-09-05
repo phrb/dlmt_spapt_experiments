@@ -65,12 +65,8 @@
 
   def search
   {
-    arg algorithm = 'DLMT';
-    arg total_runs = 75;
-    arg dlmt_federov_sampling = 30;
-    arg dlmt_extra_experiments = 10;
-    arg dlmt_steps = 3;
-    arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT4_I", "RT4_J", "SCR", "VEC1", "VEC2", "VEC3", "VEC4", "OMP"]';
+    arg algorithm = 'Randomsearch';
+    arg total_runs = 80;
   }
 
   def input_params
