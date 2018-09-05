@@ -2,7 +2,7 @@
 # Implementation of the simulated-annealing search algorithm
 #
 
-import math, sys, time, random
+import math, sys, time, random, numpy
 import orio.main.tuner.search.search
 from orio.main.util.globals import *
 
@@ -38,6 +38,8 @@ class Annealing(orio.main.tuner.search.search.Search):
         random.seed(2556)
 
         orio.main.tuner.search.search.Search.__init__(self, params)
+        self.name = "SIMA"
+        self.runs = 0
 
         # set all algorithm-specific arguments to their default values
         self.local_distance = 0
@@ -84,9 +86,6 @@ class Annealing(orio.main.tuner.search.search.Search):
 
         info("--> end temperature initialization")
 
-        # record the number of runs
-        runs = 0
-
         # start the timer
         start_time = time.time()
 
@@ -105,13 +104,15 @@ class Annealing(orio.main.tuner.search.search.Search):
 
             # get the performance cost of the current initial coordinate
             perf_cost = self.getPerfCost(coord)
+            if perf_cost != self.MAXFLOAT:
+                self.runs += 1
 
             # record the best coordinate and its best performance cost
             best_coord = coord
             best_perf_cost = perf_cost
 
             info(
-                "\n(run %s) initial coord: %s, cost: %e" % (runs + 1, coord, perf_cost)
+                "\n(run %s) initial coord: %s, cost: %e" % (self.runs + 1, coord, perf_cost)
             )
 
             # the annealing loop
@@ -140,6 +141,8 @@ class Annealing(orio.main.tuner.search.search.Search):
 
                     # get the performance cost of the new coordinate
                     new_perf_cost = self.getPerfCost(new_coord)
+                    if perf_cost != self.MAXFLOAT:
+                        self.runs += 1
 
                     # compare to the best result so far
                     if new_perf_cost < best_perf_cost and new_perf_cost > 0.0:
@@ -158,10 +161,7 @@ class Annealing(orio.main.tuner.search.search.Search):
                         coord = new_coord
                         perf_cost = new_perf_cost
                         good_moves += 1
-                        info(
-                            "--> move to BETTER coordinate: %s, cost: %e"
-                            % (coord, perf_cost)
-                        )
+                        info( "--> move to BETTER coordinate: %s, cost: %e" % (coord, perf_cost))
 
                     # compute the acceptance probability (i.e. the Boltzmann probability or
                     # the Metropolis criterion) to see whether a move to the new coordinate is
@@ -192,11 +192,17 @@ class Annealing(orio.main.tuner.search.search.Search):
                     ):
                         break
 
+                    if self.runs >= self.total_runs:
+                        break
+
                 # reduce the temperature (i.e. the cooling/annealing schedule)
                 temperature *= self.cooling_factor
 
                 # check if the time is up
                 if self.time_limit > 0 and (time.time() - start_time) > self.time_limit:
+                    break
+
+                if self.runs >= self.total_runs:
                     break
 
             info(
@@ -208,19 +214,21 @@ class Annealing(orio.main.tuner.search.search.Search):
             old_best_perf_cost = best_perf_cost
 
             # check if the time is not up yet
-            if self.time_limit <= 0 or (time.time() - start_time) <= self.time_limit:
+            # Removing local search step to account for all runs
+            # Should do: Count runs performed in local search
+            #if self.time_limit <= 0 or (time.time() - start_time) <= self.time_limit or self.runs < self.total_runs:
 
-                # perform a local search on the best annealing coordinate
-                best_coord, best_perf_cost = self.searchBestNeighbor(
-                    best_coord, self.local_distance
-                )
+            #    # perform a local search on the best annealing coordinate
+            #    best_coord, best_perf_cost = self.searchBestNeighbor(
+            #        best_coord, self.local_distance
+            #    )
 
-                # if the neighboring coordinate has a better performance cost
-                if best_perf_cost < old_best_perf_cost:
-                    info(
-                        "---> better neighbor found: %s, cost: %s"
-                        % (best_coord, best_perf_cost)
-                    )
+            #    # if the neighboring coordinate has a better performance cost
+            #    if best_perf_cost < old_best_perf_cost:
+            #        info(
+            #            "---> better neighbor found: %s, cost: %s"
+            #            % (best_coord, best_perf_cost)
+            #        )
 
             # compared to the best global result so far
             if best_perf_cost < best_global_perf_cost:
@@ -231,24 +239,25 @@ class Annealing(orio.main.tuner.search.search.Search):
                     % (best_global_coord, best_global_perf_cost)
                 )
 
-            # increment the number of runs
-            runs += 1
-
             # check if the time is up
             if self.time_limit > 0 and (time.time() - start_time) > self.time_limit:
                 break
 
-            # check if the maximum limit of runs is reached
-            if self.total_runs > 0 and runs >= self.total_runs:
+            # check if the maximum limit of self.runs is reached
+            if self.total_runs > 0 and self.runs >= self.total_runs:
                 break
 
         # compute the total search time
         search_time = time.time() - start_time
 
+        starting_point = numpy.mean((self.getPerfCosts([[0] * self.total_dims]).values()[0])[0])
+
+        speedup = float(starting_point) / float(best_global_perf_cost)
+
         info("----- end simulated annealing search -----")
 
         # return the best coordinate
-        return best_global_coord, best_global_perf_cost, search_time, runs
+        return best_global_coord, best_global_perf_cost, search_time, self.runs, speedup
 
         # --------------------------------------------------
 
@@ -335,9 +344,10 @@ class Annealing(orio.main.tuner.search.search.Search):
                 cur_coord_records[str(coord)] = None
                 perf_cost = self.getPerfCost(coord)
                 if perf_cost != self.MAXFLOAT:
+                    self.runs += 1
                     random_coords.append(coord)
                     perf_costs.append(perf_cost)
-                    if len(random_coords) >= max_random_coords:
+                    if len(random_coords) >= max_random_coords or self.runs >= self.total_runs:
                         break
 
         # check if not enough random coordinates are found
