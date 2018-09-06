@@ -265,7 +265,13 @@ class DLMT(orio.main.tuner.search.search.Search):
         regression <- lm(bcPower(%s, boxcox_t$lambda) ~ %s, data = design)
         regression""" %(design.r_repr(), lm_formula, response, variables)
 
-        transformed_lm = robjects.r(r_snippet)
+        # Catching R runtime errors
+        # TODO: Treat errors properly
+        try:
+            transformed_lm = robjects.r(r_snippet)
+        except:
+            transformed_lm = None
+
         return transformed_lm
 
     def anova(self, design, formula, heteroscedasticity_threshold = 0.05):
@@ -274,9 +280,14 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
 
         if heteroscedasticity_test.rx("p")[0][0] < heteroscedasticity_threshold:
-            regression = self.transform_lm(design, formula)
-            heteroscedasticity_test = self.car.ncvTest(regression)
-            info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
+            transformed_regression = self.transform_lm(design, formula)
+
+            if transformed_regression == None:
+                info("Power transform failed, skipping step")
+            else:
+                regression = transformed_regression
+                heteroscedasticity_test = self.car.ncvTest(regression)
+                info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
 
         # Checking for errors in R
         # TODO: Deal better with this, catch actual exceptions
@@ -678,7 +689,6 @@ class DLMT(orio.main.tuner.search.search.Search):
 
             info("Step {0}".format(i))
 
-            #trials = (self.design_multiplier * ((1 * len(self.model["interactions"])) + (3 * len(self.model["quadratic"])) + (1 * len(self.model["linear"])) + (3 * len(self.model["inverse"])) + (4 * len(self.model["cubic"])))) + self.extra_experiments
             trials = (self.design_multiplier * (len(self.model["interactions"]) + len(self.model["quadratic"]) + len(self.model["linear"]) + len(self.model["inverse"]) + len(self.model["cubic"]))) + self.extra_experiments
 
             step_data = self.dopt_anova_step(budget, trials, i)
