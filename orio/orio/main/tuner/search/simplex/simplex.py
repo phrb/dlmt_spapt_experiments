@@ -75,9 +75,9 @@ class Simplex(orio.main.tuner.search.search.Search):
     def searchBestCoord(self, startCoord=None):
         """
         Search for the coordinate that yields the best performance parameters.
-        
+
         @param startCoord: Starting coordinate (optional)
-        
+
         """
         # TODO: implement startCoord support
 
@@ -114,6 +114,8 @@ class Simplex(orio.main.tuner.search.search.Search):
 
         # execute the Nelder-Mead Simplex method
         while True:
+            if self.requested_runs >= self.total_runs:
+                break
 
             # list of the last several moves (used for termination criteria)
             last_simplex_moves = []
@@ -133,6 +135,8 @@ class Simplex(orio.main.tuner.search.search.Search):
             )
 
             while True:
+                if self.requested_runs >= self.total_runs:
+                    break
 
                 # sort the simplex coordinates in an increasing order of performance costs
                 sorted_simplex_cost = zip(simplex, perf_costs)
@@ -354,7 +358,7 @@ class Simplex(orio.main.tuner.search.search.Search):
                 break
 
             # check if the maximum limit of runs is reached
-            if self.total_runs > 0 and runs >= self.total_runs:
+            if self.total_runs > 0 and self.requested_runs >= self.total_runs:
                 info("simplex: total runs reached")
                 break
 

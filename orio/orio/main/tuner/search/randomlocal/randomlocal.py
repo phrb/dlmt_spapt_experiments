@@ -22,14 +22,14 @@ class Randomlocal(orio.main.tuner.search.search.Search):
 
     # algorithm-specific argument names
     __LOCAL_DIST = 'local_distance'       # default: 0
-    
+
     #--------------------------------------------------
-    
+
     def __init__(self, params):
         '''To instantiate a random search engine'''
 
         random.seed(1)
-        
+
         orio.main.tuner.search.search.Search.__init__(self, params)
 
         # set all algorithm-specific arguments to their default values
@@ -37,12 +37,12 @@ class Randomlocal(orio.main.tuner.search.search.Search):
 
         # read all algorithm-specific arguments
         self.__readAlgoArgs()
-        
+
         # complain if both the search time limit and the total number of search runs are undefined
         if self.time_limit <= 0 and self.total_runs <= 0:
             err(('orio.main.tuner.search.randomlocal.randomlocal: %s search requires either (both) the search time limit or (and) the ' +
                     'total number of search runs to be defined') % self.__class__.__name__)
-     
+
     # Method required by the search interface
     def searchBestCoord(self, startCoord=None):
         '''
@@ -50,7 +50,7 @@ class Randomlocal(orio.main.tuner.search.search.Search):
         (i.e. minimum performance cost).
         '''
         # TODO: implement startCoord support
-        
+
         info('\n----- begin random search -----')
 
         # get the total number of coordinates to be tested at the same time
@@ -124,9 +124,9 @@ class Randomlocal(orio.main.tuner.search.search.Search):
                     mean_perf_cost=sum(floatNums) / len(perf_cost)
                 except:
                     mean_perf_cost=perf_cost
-                    
+
                 transform_time=self.getTransformTime(coord_key)
-                compile_time=self.getCompileTime(coord_key)    
+                compile_time=self.getCompileTime(coord_key)
                 #info('(run %s) coordinate: %s, perf_params: %s, transform_time: %s, compile_time: %s, cost: %s' % (runs+i+1, coord_val, perf_params, transform_time, compile_time,perf_cost))
                 if mean_perf_cost < best_perf_cost and mean_perf_cost > 0.0:
                     best_coord = coord_val
@@ -138,9 +138,9 @@ class Randomlocal(orio.main.tuner.search.search.Search):
                 neigh_coords.extend(self.getNeighbors(best_coord, self.local_distance))
                 old_perf_cost = best_perf_cost
 
-            
-                           
-            # increment the number of runs    
+
+
+            # increment the number of runs
             runs += 1 #len(mean_perf_cost)
 
 
@@ -152,10 +152,10 @@ class Randomlocal(orio.main.tuner.search.search.Search):
                 msgstr1 = '(run %d) sruns: %d, fruns: %d, coordinate: %s, perf_params: %s, ' % \
                       (runs+i, sruns, fruns, str(coord_val), str(perf_params))
                 msgstr2 =  'transform_time: %2.4e, compile_time: %2.4e, cost: %s' % \
-                      (transform_time, compile_time, pcosts) 
+                      (transform_time, compile_time, pcosts)
                 info(msgstr1 + msgstr2)
-            
-            
+
+
             # check if the time is up
             # info('%s' % self.time_limit)
             if self.time_limit > 0 and (time.time()-start_time) > self.time_limit:
@@ -163,25 +163,25 @@ class Randomlocal(orio.main.tuner.search.search.Search):
 
             # check if the maximum limit of runs is reached
             #if self.total_runs > 0 and runs >= self.total_runs:
-            if self.total_runs > 0 and sruns >= self.total_runs:    
+            if self.total_runs > 0 and self.requested_runs >= self.total_runs:
                 break
 
         # compute the total search time
         search_time = time.time() - start_time
-        
+
         info('----- end random search -----')
         info('----- begin random search summary -----')
         info(' total completed runs: %s' % runs)
         info(' total successful runs: %s' % sruns)
         info(' total failed runs: %s' % fruns)
         info('----- end random search summary -----')
-        
+
         # return the best coordinate
         return best_coord, best_perf_cost, search_time, sruns
-   
+
    # Private methods
    #--------------------------------------------------
-    
+
     def __readAlgoArgs(self):
         '''To read all algorithm-specific arguments'''
 
@@ -217,20 +217,20 @@ class Randomlocal(orio.main.tuner.search.search.Search):
                 coord_records[str(coord)] = None
                 return coord
 
-        
+
         # randomly pick a coordinate that has never been explored before
         while init:
             coord = self.getInitCoord()
             if str(coord) not in coord_records:
                 coord_records[str(coord)] = None
                 return coord
-    
+
         # randomly pick a coordinate that has never been explored before
         while True:
             coord = self.getRandomCoord()
             if str(coord) not in coord_records:
                 coord_records[str(coord)] = None
                 return coord
-    
+
     #--------------------------------------------------
-            
+
