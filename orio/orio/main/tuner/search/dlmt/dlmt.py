@@ -275,23 +275,23 @@ class DLMT(orio.main.tuner.search.search.Search):
         return transformed_lm
 
     def anova(self, design, formula, heteroscedasticity_threshold = 0.05):
-        regression = self.stats.lm(Formula(formula), data = design)
-        heteroscedasticity_test = self.car.ncvTest(regression)
-        info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
-
-        if heteroscedasticity_test.rx("p")[0][0] < heteroscedasticity_threshold:
-            transformed_regression = self.transform_lm(design, formula)
-
-            if transformed_regression == None:
-                info("Power transform failed, skipping step")
-            else:
-                regression = transformed_regression
-                heteroscedasticity_test = self.car.ncvTest(regression)
-                info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
-
         # Checking for errors in R
         # TODO: Deal better with this, catch actual exceptions
         try:
+            regression = self.stats.lm(Formula(formula), data = design)
+            heteroscedasticity_test = self.car.ncvTest(regression)
+            info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
+
+            if heteroscedasticity_test.rx("p")[0][0] < heteroscedasticity_threshold:
+                transformed_regression = self.transform_lm(design, formula)
+
+                if transformed_regression == None:
+                    info("Power transform failed, skipping step")
+                else:
+                    regression = transformed_regression
+                    heteroscedasticity_test = self.car.ncvTest(regression)
+                    info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
+
             summary_regression = self.stats.summary_aov(regression)
             info("Regression Step:" + str(summary_regression))
 
