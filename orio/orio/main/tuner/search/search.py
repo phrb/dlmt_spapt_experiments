@@ -143,7 +143,7 @@ class Search:
         else:
             info('----- begin summary -----')
             info(' best coordinate: %s=%s, cost=%e, transfer_time=%e, inputs=%s, search_time=%.2f, runs=%d' % \
-                 (best_coord, self.coordToPerfParams(best_coord), best_perf, corr_transfer, str(self.input_params), search_time, runs))
+                 (best_coord, self.coordToPerfParams(best_coord), best_perf, corr_transfer, str(self.input_params), search_time, self.requested_runs))
             info('----- end summary -----')
 
 
