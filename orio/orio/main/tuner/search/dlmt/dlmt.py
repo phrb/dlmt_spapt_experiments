@@ -788,7 +788,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info('----- end DLMT summary -----')
 
         # return the best coordinate
-        return best_point, predicted_best_value, search_time, used_points, speedup
+        return best_point, predicted_best_value, search_time, speedup
 
     # Private methods
 

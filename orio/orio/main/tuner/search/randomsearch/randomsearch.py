@@ -73,7 +73,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
         old_perf_cost = best_perf_cost
 
         # record the number of runs
-        runs = 0
+        self.requested_runs = 0
         sruns = 0
         fruns = 0
 
@@ -156,7 +156,6 @@ class Randomsearch(orio.main.tuner.search.search.Search):
             eval_params.append(params)
 
             #print params
-            runs += 1
 
             perf_costs = {}
             try:
@@ -186,14 +185,14 @@ class Randomsearch(orio.main.tuner.search.search.Search):
             compile_time = self.getCompileTime(coord_key)
 
             res_obj = {}
-            res_obj['run'] = runs
+            res_obj['run'] = self.requested_runs
             res_obj['coordinate'] = coord
             res_obj['perf_params'] = params
             res_obj['transform_time'] = transform_time
             res_obj['compile_time'] = compile_time
             res_obj['cost'] = perf_cost
-            info('(run %s) | ' % runs + json.dumps(res_obj))
-            #info('run %s | coordinate: %s | perf_params: %s | transform_time: %s | compile_time: %s | cost: %s' % (runs, coord, params, transform_time, compile_time,perf_cost))
+            info('(run %s) | ' % self.requested_runs + json.dumps(res_obj))
+            #info('run %s | coordinate: %s | perf_params: %s | transform_time: %s | compile_time: %s | cost: %s' % (self.requested_runs, coord, params, transform_time, compile_time,perf_cost))
 
             eval_cost.append(mean_perf_cost)
 
@@ -202,7 +201,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
                 best_perf_cost = mean_perf_cost
                 info('>>>> best coordinate found: %s, cost: %e' %
                      (coord, mean_perf_cost))
-                num_eval_best = runs
+                num_eval_best = self.requested_runs
 
             if not math.isinf(mean_perf_cost):
                 sruns += 1
@@ -214,7 +213,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
                 break
 
             # check if the maximum limit of runs is reached
-            if self.total_runs > 0 and runs >= self.total_runs:
+            if self.total_runs > 0 and self.requested_runs >= self.total_runs:
                 break
 
         #print best_perf_cost
@@ -232,7 +231,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
         info('----- end random search -----')
 
         info('----- begin random search summary -----')
-        info(' total completed runs: %s' % runs)
+        info(' total completed runs: %s' % self.requested_runs)
         info(' total successful runs: %s' % sruns)
         info(' total failed runs: %s' % fruns)
         info(' speedup: %s' % speedup)
@@ -240,7 +239,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
         info('----- end random search summary -----')
 
         # return the best coordinate
-        return best_coord, best_perf_cost, search_time, runs, speedup
+        return best_coord, best_perf_cost, search_time, speedup
 
     # Private methods
 

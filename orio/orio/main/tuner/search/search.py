@@ -18,6 +18,7 @@ class Search:
         '''To instantiate a search engine'''
 
         self.name = "Generic Search Class"
+        self.requested_runs = 0
 
         #print params
         #print 'done'
@@ -128,7 +129,7 @@ class Search:
                 startCoord = self.__findLastCoord()
 
         # find the coordinate resulting in the best performance
-        best_coord,best_perf,search_time,runs,speedup = self.searchBestCoord(startCoord)
+        best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
         corr_transfer = self.MAXFLOAT
         if isinstance(best_perf,tuple): #unpack optionally
             corr_transfer = best_perf[1]
@@ -160,7 +161,7 @@ class Search:
         result["technique"] = self.name
         result["cost_mean"] = best_perf_cost
         result["speedup"]   = speedup
-        result["points"]    = runs
+        result["points"]    = self.requested_runs
 
         results.insert(result)
 
@@ -353,6 +354,8 @@ class Search:
 
         experiments = self.search_database['experiments']
         measurement = perf_params
+
+        measurement["baseline"] = all(c == 0 for c in uneval_coords[0])
         measurement["technique"] = self.name
 
         if perf_costs.values() != []:
@@ -384,6 +387,7 @@ class Search:
             info("Stored as a failed configuration")
 
         experiments.insert(measurement)
+        self.requested_runs += 1
 
         info("Final perf_costs: " + str(perf_costs))
         return perf_costs
@@ -583,6 +587,9 @@ class Search:
 
         # examine all neighboring coordinates
         for n in neigh_coords:
+            if self.requested_runs >= self.total_runs:
+                break
+
             perf_cost = self.getPerfCost(n)
             if perf_cost < best_perf_cost:
                 best_coord = n

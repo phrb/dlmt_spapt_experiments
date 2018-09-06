@@ -39,7 +39,6 @@ class Annealing(orio.main.tuner.search.search.Search):
 
         orio.main.tuner.search.search.Search.__init__(self, params)
         self.name = "SIMA"
-        self.runs = 0
 
         # set all algorithm-specific arguments to their default values
         self.local_distance = 0
@@ -104,15 +103,13 @@ class Annealing(orio.main.tuner.search.search.Search):
 
             # get the performance cost of the current initial coordinate
             perf_cost = self.getPerfCost(coord)
-            if perf_cost != self.MAXFLOAT:
-                self.runs += 1
 
             # record the best coordinate and its best performance cost
             best_coord = coord
             best_perf_cost = perf_cost
 
             info(
-                "\n(run %s) initial coord: %s, cost: %e" % (self.runs + 1, coord, perf_cost)
+                "\n(run) initial coord: %s, cost: %e" % (coord, perf_cost)
             )
 
             # the annealing loop
@@ -141,8 +138,6 @@ class Annealing(orio.main.tuner.search.search.Search):
 
                     # get the performance cost of the new coordinate
                     new_perf_cost = self.getPerfCost(new_coord)
-                    if perf_cost != self.MAXFLOAT:
-                        self.runs += 1
 
                     # compare to the best result so far
                     if new_perf_cost < best_perf_cost and new_perf_cost > 0.0:
@@ -192,7 +187,7 @@ class Annealing(orio.main.tuner.search.search.Search):
                     ):
                         break
 
-                    if self.runs >= self.total_runs:
+                    if self.requested_runs >= self.total_runs:
                         break
 
                 # reduce the temperature (i.e. the cooling/annealing schedule)
@@ -202,7 +197,7 @@ class Annealing(orio.main.tuner.search.search.Search):
                 if self.time_limit > 0 and (time.time() - start_time) > self.time_limit:
                     break
 
-                if self.runs >= self.total_runs:
+                if self.requested_runs >= self.total_runs:
                     break
 
             info(
@@ -216,7 +211,7 @@ class Annealing(orio.main.tuner.search.search.Search):
             # check if the time is not up yet
             # Removing local search step to account for all runs
             # Should do: Count runs performed in local search
-            #if self.time_limit <= 0 or (time.time() - start_time) <= self.time_limit or self.runs < self.total_runs:
+            #if self.time_limit <= 0 or (time.time() - start_time) <= self.time_limit or self.requested_runs < self.total_runs:
 
             #    # perform a local search on the best annealing coordinate
             #    best_coord, best_perf_cost = self.searchBestNeighbor(
@@ -243,8 +238,7 @@ class Annealing(orio.main.tuner.search.search.Search):
             if self.time_limit > 0 and (time.time() - start_time) > self.time_limit:
                 break
 
-            # check if the maximum limit of self.runs is reached
-            if self.total_runs > 0 and self.runs >= self.total_runs:
+            if self.total_runs > 0 and self.requested_runs >= self.total_runs:
                 break
 
         # compute the total search time
@@ -257,7 +251,7 @@ class Annealing(orio.main.tuner.search.search.Search):
         info("----- end simulated annealing search -----")
 
         # return the best coordinate
-        return best_global_coord, best_global_perf_cost, search_time, self.runs, speedup
+        return best_global_coord, best_global_perf_cost, search_time, speedup
 
         # --------------------------------------------------
 
@@ -344,10 +338,9 @@ class Annealing(orio.main.tuner.search.search.Search):
                 cur_coord_records[str(coord)] = None
                 perf_cost = self.getPerfCost(coord)
                 if perf_cost != self.MAXFLOAT:
-                    self.runs += 1
                     random_coords.append(coord)
                     perf_costs.append(perf_cost)
-                    if len(random_coords) >= max_random_coords or self.runs >= self.total_runs:
+                    if len(random_coords) >= max_random_coords or self.requested_runs >= self.total_runs:
                         break
 
         # check if not enough random coordinates are found
