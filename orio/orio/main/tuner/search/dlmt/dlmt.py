@@ -652,6 +652,12 @@ class DLMT(orio.main.tuner.search.search.Search):
                 info("Stopping: Used budget")
                 break
 
+            model_size = len(self.model["interactions"] + len(self.model["quadratic"] + len(self.model["linear"] + len(self.model["inverse"] + len(self.model["cubic"]
+
+            if model_size == 0:
+                info("Stopping: No more variables in model")
+                break
+
             info("Step {0}".format(i))
 
             trials = (self.design_multiplier * (len(self.model["interactions"]) + len(self.model["quadratic"]) + len(self.model["linear"]) + len(self.model["inverse"]) + len(self.model["cubic"]))) + self.extra_experiments
