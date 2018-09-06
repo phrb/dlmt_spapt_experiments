@@ -678,7 +678,8 @@ class DLMT(orio.main.tuner.search.search.Search):
 
             info("Step {0}".format(i))
 
-            trials = (self.design_multiplier * ((1 * len(self.model["interactions"])) + (3 * len(self.model["quadratic"])) + (1 * len(self.model["linear"])) + (3 * len(self.model["inverse"])) + (4 * len(self.model["cubic"])))) + self.extra_experiments
+            #trials = (self.design_multiplier * ((1 * len(self.model["interactions"])) + (3 * len(self.model["quadratic"])) + (1 * len(self.model["linear"])) + (3 * len(self.model["inverse"])) + (4 * len(self.model["cubic"])))) + self.extra_experiments
+            trials = (self.design_multiplier * (len(self.model["interactions"]) + len(self.model["quadratic"]) + len(self.model["linear"]) + len(self.model["inverse"]) + len(self.model["cubic"]))) + self.extra_experiments
 
             step_data = self.dopt_anova_step(budget, trials, i)
 
