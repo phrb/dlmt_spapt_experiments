@@ -24,6 +24,7 @@ class DLMT(orio.main.tuner.search.search.Search):
     __FEDEROV_SAMPLING  = "federov_sampling"
     __STEPS             = "steps"
     __EXTRA_EXPERIMENTS = "extra_experiments"
+    __DESIGN_MULTIPLIER = "design_multiplier"
 
     def __init__(self, params):
         self.base      = importr("base")
@@ -63,6 +64,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         self.federov_sampling  = 300
         self.steps             = 12
         self.extra_experiments = 10
+        self.design_multiplier = 1
 
         self.__readAlgoArgs()
 
@@ -75,6 +77,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Federov Sampling Multiplier: " + str(self.federov_sampling))
         info("ANOVA Steps: " + str(self.steps))
         info("Extra Experiments in Designs: " + str(self.extra_experiments))
+        info("Design Multiplier: " + str(self.design_multiplier))
 
     def clean_search_space(self, federov_search_space, full_model):
         data = {}
@@ -651,7 +654,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
             info("Step {0}".format(i))
 
-            trials = len(self.model["interactions"]) + len(self.model["quadratic"]) + len(self.model["linear"]) + len(self.model["inverse"]) + len(self.model["cubic"]) + self.extra_experiments
+            trials = (self.design_multiplier * (len(self.model["interactions"]) + len(self.model["quadratic"]) + len(self.model["linear"]) + len(self.model["inverse"]) + len(self.model["cubic"]))) + self.extra_experiments
 
             step_data = self.dopt_anova_step(budget, trials, i)
 
@@ -811,6 +814,8 @@ class DLMT(orio.main.tuner.search.search.Search):
                 self.steps = rhs
             elif vname == self.__EXTRA_EXPERIMENTS:
                 self.extra_experiments = rhs
+            elif vname == self.__DESIGN_MULTIPLIER:
+                self.design_multiplier = rhs
             elif vname == 'total_runs':
                 self.total_runs = rhs
             else:
