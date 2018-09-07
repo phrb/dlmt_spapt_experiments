@@ -356,6 +356,10 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Design Names: " + str(self.base.names(design)))
         info("Design Response: " + str(design.rx(str(self.model["response"]))))
 
+        if self.base.nrow(design) == 0:
+            info("All configurations failed. Returning now.")
+            return None
+
         best_line       = design.rx(design.rx2(str(self.model["response"])).ro == self.base.min(design.rx(str(self.model["response"]))), True)
         design_names    = [str(n) for n in self.base.names(design) if n != self.model["response"]]
         initial_factors = self.params["axis_names"]
@@ -638,7 +642,16 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         design_best = self.get_design_best(design)
 
-        if regression == None or prf_values == None:
+        if design_best == None:
+            info("All experiments failed. Returning now.")
+            return {
+                        "prf_values": None,
+                        "ordered_prf_keys": None,
+                        "design_best": None,
+                        "predicted_best": None,
+                        "used_experiments": used_experiments
+                    }
+        elif regression == None or prf_values == None:
             info("Regression failed. Returning design best")
             return {
                         "prf_values": None,
@@ -693,6 +706,9 @@ class DLMT(orio.main.tuner.search.search.Search):
 
             step_data = self.dopt_anova_step(budget, trials, i)
 
+            budget           -= step_data["used_experiments"]
+            used_experiments += step_data["used_experiments"]
+
             starting_point = numpy.mean((self.getPerfCosts([[0] * self.total_dims]).values()[0])[0])
             info("Baseline Point:")
             info(str(starting_point))
@@ -700,14 +716,18 @@ class DLMT(orio.main.tuner.search.search.Search):
             design_best = step_data["design_best"]
             info("Design Best Point:")
             info(str(design_best))
-            design_best_value    = numpy.mean((self.getPerfCosts([design_best]).values()[0])[0])
+
+            if design_best == None:
+                info("Design completely failed. Skipping this step.")
+                design_best_value = best_value
+            else:
+                design_best_value = numpy.mean((self.getPerfCosts([design_best]).values()[0])[0])
+
             design_best_slowdown = design_best_value / starting_point
             info("Slowdown (Design Best): " + str(design_best_value / starting_point))
+
             current_best       = design_best
             current_best_value = design_best_value
-
-            budget           -= step_data["used_experiments"]
-            used_experiments += step_data["used_experiments"]
 
             if step_data["predicted_best"] == None:
                 info("It seems regression failed. Skipping model update.")
