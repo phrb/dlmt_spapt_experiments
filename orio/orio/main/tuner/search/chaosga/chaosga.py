@@ -6,9 +6,10 @@ import orio.main.tuner.search.search
 class ChaosGA(orio.main.tuner.search.search.Search):
 
     def __init__(self, params):
+        self.name ="GA"
         orio.main.tuner.search.search.Search.__init__(self, params)
         self.search_time = -1
-        self.numEvals = 500
+        self.numEvals = self.total_runs
 
         # Method required by the search interface
 

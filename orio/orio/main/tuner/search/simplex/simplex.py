@@ -131,9 +131,9 @@ class Simplex(orio.main.tuner.search.search.Search):
 
             # get the performance cost of each coordinate in the simplex
             perf_costs = map(self.getPerfCost, simplex)
-            perf_costs = map(
-                lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1), perf_costs
-            )
+            #perf_costs = map(
+            #    lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1), perf_costs
+            #)
 
             while True:
                 if self.requested_runs >= self.total_runs:
@@ -147,16 +147,6 @@ class Simplex(orio.main.tuner.search.search.Search):
                 simplex, perf_costs = zip(*sorted_simplex_cost)
                 simplex = list(simplex)
                 perf_costs = list(perf_costs)
-
-                # record time elapsed vs best perf cost found so far in a format that could be read in by matlab/octave
-                # progress = 'init' if best_global_coord == None else 'continue'
-                # if best_global_coord == None:
-                # best_global_coord = 'notNone'
-                # result = perf_costs[0] if perf_costs[0] < best_global_perf_cost else best_global_perf_cost
-                # best_coord_thus_far = simplex[0] if perf_costs[0] < best_global_perf_cost else best_global_coord
-                # IOtime = Globals().stats.record(time.time()-start_time, result, best_coord_thus_far, progress)
-                # don't include time on recording data in the tuning time
-                # start_time += IOtime
 
                 # remove bogus values (0 time)
                 indicestoremove = []
@@ -205,10 +195,10 @@ class Simplex(orio.main.tuner.search.search.Search):
                 # reflection
                 refl_coords = self.__getReflection(worst_coord, centroid)
                 refl_perf_costs = map(self.getPerfCost, refl_coords)
-                refl_perf_costs = map(
-                    lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
-                    refl_perf_costs,
-                )
+                # refl_perf_costs = map(
+                #     lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
+                #     refl_perf_costs,
+                # )
 
                 refl_perf_cost = min(refl_perf_costs)
                 ipos = refl_perf_costs.index(refl_perf_cost)
@@ -230,10 +220,10 @@ class Simplex(orio.main.tuner.search.search.Search):
                     # expansion
                     exp_coords = self.__getExpansion(refl_coord, centroid)
                     exp_perf_costs = map(self.getPerfCost, exp_coords)
-                    exp_perf_costs = map(
-                        lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
-                        exp_perf_costs,
-                    )
+                    # exp_perf_costs = map(
+                    #     lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
+                    #     exp_perf_costs,
+                    # )
 
                     exp_perf_cost = min(exp_perf_costs)
                     ipos = exp_perf_costs.index(exp_perf_cost)
@@ -255,10 +245,10 @@ class Simplex(orio.main.tuner.search.search.Search):
                     # outer contraction
                     cont_coords = self.__getContraction(refl_coord, centroid)
                     cont_perf_costs = map(self.getPerfCost, cont_coords)
-                    cont_perf_costs = map(
-                        lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
-                        cont_perf_costs,
-                    )
+                    # cont_perf_costs = map(
+                    #     lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
+                    #     cont_perf_costs,
+                    # )
 
                     cont_perf_cost = min(cont_perf_costs)
                     ipos = cont_perf_costs.index(cont_perf_cost)
@@ -276,10 +266,10 @@ class Simplex(orio.main.tuner.search.search.Search):
                     # inner contraction
                     cont_coords = self.__getContraction(worst_coord, centroid)
                     cont_perf_costs = map(self.getPerfCost, cont_coords)
-                    cont_perf_costs = map(
-                        lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
-                        cont_perf_costs,
-                    )
+                    # cont_perf_costs = map(
+                    #     lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
+                    #     cont_perf_costs,
+                    # )
 
                     cont_perf_cost = min(cont_perf_costs)
                     ipos = cont_perf_costs.index(cont_perf_cost)
@@ -297,10 +287,10 @@ class Simplex(orio.main.tuner.search.search.Search):
                     # shrinkage
                     simplex = self.__getShrinkage(best_coord, simplex)
                     perf_costs = map(self.getPerfCost, simplex)
-                    perf_costs = map(
-                        lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
-                        perf_costs,
-                    )
+                    # perf_costs = map(
+                    #     lambda x: x[0] if len(x) == 1 else sum(x[1:]) / (len(x) - 1),
+                    #     perf_costs,
+                    # )
 
                     info("--> shrinkage on %s" % best_coord)
 
@@ -328,8 +318,6 @@ class Simplex(orio.main.tuner.search.search.Search):
                 (best_simplex_coord, best_simplex_perf_cost) = self.searchBestNeighbor(
                     best_simplex_coord, self.local_distance
                 )
-
-                best_simplex_perf_cost = best_simplex_perf_cost[0]
 
                 # if the neighboring coordinate has a better performance cost
                 if best_simplex_perf_cost < old_best_simplex_perf_cost:
