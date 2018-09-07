@@ -2,7 +2,7 @@
 # Implementation of the random search algorithm
 #
 
-import sys, time
+import sys, time, numpy
 import math
 import random
 import orio.main.tuner.search.search
@@ -31,6 +31,7 @@ class Randomlocal(orio.main.tuner.search.search.Search):
         random.seed(1)
 
         orio.main.tuner.search.search.Search.__init__(self, params)
+        self.name = "RSL"
 
         # set all algorithm-specific arguments to their default values
         self.local_distance = 0
@@ -169,6 +170,10 @@ class Randomlocal(orio.main.tuner.search.search.Search):
         # compute the total search time
         search_time = time.time() - start_time
 
+        starting_point = numpy.mean((self.getPerfCosts([[0] * self.total_dims]).values()[0])[0])
+
+        speedup = float(starting_point) / float(best_perf_cost)
+
         info('----- end random search -----')
         info('----- begin random search summary -----')
         info(' total completed runs: %s' % runs)
@@ -177,7 +182,7 @@ class Randomlocal(orio.main.tuner.search.search.Search):
         info('----- end random search summary -----')
 
         # return the best coordinate
-        return best_coord, best_perf_cost, search_time, sruns
+        return best_coord, best_perf_cost, search_time, speedup
 
    # Private methods
    #--------------------------------------------------

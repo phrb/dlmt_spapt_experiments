@@ -6,7 +6,7 @@
 #   by Jeffrey C. Lagarias
 #
 
-import random, sys, time
+import random, sys, time, numpy
 import orio.main.tuner.search.search
 from orio.main.util.globals import *
 
@@ -41,6 +41,7 @@ class Simplex(orio.main.tuner.search.search.Search):
         """To instantiate a Nelder-Mead simplex search engine"""
 
         orio.main.tuner.search.search.Search.__init__(self, params)
+        self.name = "SIMP"
 
         if self.use_parallel_search:
             err("parallel search for simplex is not supported yet.\n")
@@ -365,13 +366,17 @@ class Simplex(orio.main.tuner.search.search.Search):
         # compute the total search time
         search_time = time.time() - start_time
 
+        starting_point = numpy.mean((self.getPerfCosts([[0] * self.total_dims]).values()[0])[0])
+
+        speedup = float(starting_point) / float(best_global_perf_cost)
+
         info("----- end simplex search -----")
 
         # record time elapsed vs best perf cost found so far in a format that could be read in by matlab/octave
         # Globals().stats.record(time.time()-start_time, best_global_perf_cost, best_global_coord, 'done')
 
         # return the best coordinate
-        return best_global_coord, best_global_perf_cost, search_time, runs
+        return best_global_coord, best_global_perf_cost, search_time, speedup
 
     # Private methods
     # -----------------------------------------------------
