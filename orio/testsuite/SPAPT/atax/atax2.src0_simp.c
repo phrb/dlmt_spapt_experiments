@@ -13,7 +13,7 @@
   def search
   {
     arg algorithm = 'Simplex';
-    arg total_runs = 30;
+    arg total_runs = 170;
   }
 
   def performance_params
