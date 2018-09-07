@@ -265,26 +265,44 @@ class DLMT(orio.main.tuner.search.search.Search):
         regression <- lm(bcPower(%s, boxcox_t$lambda) ~ %s, data = design)
         regression""" %(design.r_repr(), lm_formula, response, variables)
 
-        transformed_lm = robjects.r(r_snippet)
+        # Catching R runtime errors
+        # TODO: Treat errors properly
+        try:
+            transformed_lm = robjects.r(r_snippet)
+        except:
+            transformed_lm = None
+
         return transformed_lm
 
     def anova(self, design, formula, heteroscedasticity_threshold = 0.05):
-        regression = self.stats.lm(Formula(formula), data = design)
-        heteroscedasticity_test = self.car.ncvTest(regression)
-        info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
-
-        if heteroscedasticity_test.rx("p")[0][0] < heteroscedasticity_threshold:
-            regression = self.transform_lm(design, formula)
+        # Checking for errors in R
+        # TODO: Deal better with this, catch actual exceptions
+        try:
+            regression = self.stats.lm(Formula(formula), data = design)
             heteroscedasticity_test = self.car.ncvTest(regression)
             info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
 
-        summary_regression = self.stats.summary_aov(regression)
-        info("Regression Step:" + str(summary_regression))
+            if heteroscedasticity_test.rx("p")[0][0] < heteroscedasticity_threshold:
+                transformed_regression = self.transform_lm(design, formula)
 
-        prf_values = {}
-        for k, v in zip(self.base.rownames(summary_regression[0]), summary_regression[0][4]):
-            if k.strip() != "Residuals":
-                prf_values[k.strip()] = v
+                if transformed_regression == None:
+                    info("Power transform failed, skipping step")
+                else:
+                    regression = transformed_regression
+                    heteroscedasticity_test = self.car.ncvTest(regression)
+                    info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
+
+            summary_regression = self.stats.summary_aov(regression)
+            info("Regression Step:" + str(summary_regression))
+
+            prf_values = {}
+            for k, v in zip(self.base.rownames(summary_regression[0]), summary_regression[0][4]):
+                if k.strip() != "Residuals":
+                    prf_values[k.strip()] = v
+        except:
+            info("Regression Step Failed!")
+            regression = None
+            prf_values = None
 
         return regression, prf_values
 
@@ -617,27 +635,38 @@ class DLMT(orio.main.tuner.search.search.Search):
         design                 = self.measure_design(design)
         used_experiments       = len(design[0])
         regression, prf_values = self.anova(design, lm_formula)
-        ordered_prf_keys       = sorted(prf_values, key = prf_values.get)
-
-        predicted_best = self.predict_best_reuse_data(regression, federov_search_space)
-        #predicted_best = self.predict_best(regression, prediction_samples)
-        # predicted_best  = self.predict_best_values(regression, prediction_samples, self.model["fixed_factors"], ordered_prf_keys, prf_values)
 
         design_best = self.get_design_best(design)
-        self.get_fixed_variables(predicted_best, ordered_prf_keys, prf_values)
-        self.prune_model(ordered_prf_keys, prf_values)
 
-        info("Best Predicted: " + str(predicted_best))
-        info("Best From Design: " + str(design_best))
-        info("Current Model: " + str(self.model))
+        if regression == None or prf_values == None:
+            info("Regression failed. Returning design best")
+            return {
+                        "prf_values": None,
+                        "ordered_prf_keys": None,
+                        "design_best": design_best,
+                        "predicted_best": None,
+                        "used_experiments": used_experiments
+                    }
+        else:
+            ordered_prf_keys = sorted(prf_values, key = prf_values.get)
+            predicted_best   = self.predict_best_reuse_data(regression, federov_search_space)
+            #predicted_best = self.predict_best(regression, prediction_samples)
+            # predicted_best  = self.predict_best_values(regression, prediction_samples, self.model["fixed_factors"], ordered_prf_keys, prf_values)
 
-        return {
-                    "prf_values": prf_values,
-                    "ordered_prf_keys": ordered_prf_keys,
-                    "design_best": design_best,
-                    "predicted_best": predicted_best,
-                    "used_experiments": used_experiments
-               }
+            self.get_fixed_variables(predicted_best, ordered_prf_keys, prf_values)
+            self.prune_model(ordered_prf_keys, prf_values)
+
+            info("Best Predicted: " + str(predicted_best))
+            info("Best From Design: " + str(design_best))
+            info("Current Model: " + str(self.model))
+
+            return {
+                        "prf_values": prf_values,
+                        "ordered_prf_keys": ordered_prf_keys,
+                        "design_best": design_best,
+                        "predicted_best": predicted_best,
+                        "used_experiments": used_experiments
+                   }
 
     def dopt_anova(self):
         iterations       = self.steps
@@ -664,74 +693,54 @@ class DLMT(orio.main.tuner.search.search.Search):
 
             step_data = self.dopt_anova_step(budget, trials, i)
 
-            budget           -= step_data["used_experiments"]
-            used_experiments += step_data["used_experiments"]
-
             starting_point = numpy.mean((self.getPerfCosts([[0] * self.total_dims]).values()[0])[0])
             info("Baseline Point:")
             info(str(starting_point))
 
-            predicted_best = [int(v[0]) for v in step_data["predicted_best"].rx(1, True)]
-            info("Predicted Best Point:")
-            info(str(predicted_best))
-            info("Length of Predicted Best: " + str(len(predicted_best)))
-            info("Original Factor Length: " + str(len(self.params["axis_names"])))
-
-            # initial_factors = self.params["axis_names"]
-            # candidate = [None] * len(initial_factors)
-
-            # for k, v in self.model["fixed_factors"].items():
-            #     candidate[initial_factors.index(k)] = int(v)
-
-            # j = 0
-            # for i in range(len(candidate)):
-            #     if candidate[i] == None:
-            #         candidate[i] = predicted_best[j]
-            #         j += 1
-
-            info("Measuring Predicted Best:")
-            info(str(predicted_best))
-            measured_predicted_best = self.getPerfCosts([predicted_best])
-
-            if measured_predicted_best != {}:
-                predicted_best_value = numpy.mean((measured_predicted_best.values()[0])[0])
-            else:
-                predicted_best_value = float("inf")
-
             design_best = step_data["design_best"]
             info("Design Best Point:")
             info(str(design_best))
-            design_best_value = numpy.mean((self.getPerfCosts([design_best]).values()[0])[0])
-
-            info("Current Model: " + str(self.model))
-
-            design_best_slowdown    = design_best_value / starting_point
-            predicted_best_slowdown = predicted_best_value / starting_point
-
+            design_best_value    = numpy.mean((self.getPerfCosts([design_best]).values()[0])[0])
+            design_best_slowdown = design_best_value / starting_point
             info("Slowdown (Design Best): " + str(design_best_value / starting_point))
-            info("Slowdown (Predicted Best): " + str(predicted_best_value / starting_point))
-            info("Budget: {0}/{1}".format(used_experiments, initial_budget))
+            current_best       = design_best
+            current_best_value = design_best_value
 
-            if design_best_slowdown < predicted_best_slowdown:
-                info("Best point from design was better than predicted point")
-                current_best = design_best
-                current_best_value = design_best_value
+            budget           -= step_data["used_experiments"]
+            used_experiments += step_data["used_experiments"]
 
-                info("Keeping fixed factors from model prediction")
-                #info("Updating Fixed Factors with Design Best Point:")
-                #info(str(design_best))
-
-                #info("Current fixed factors:")
-                #info(str(self.model["fixed_factors"]))
-
-                #for k in self.model["fixed_factors"].keys():
-                #    self.model["fixed_factors"][k] = design_best[self.params["axis_names"].index(k)]
-
-                #info("New fixed factors:")
-                #info(str(self.model["fixed_factors"]))
+            if step_data["predicted_best"] == None:
+                info("It seems regression failed. Skipping model update.")
             else:
-                current_best = predicted_best
-                current_best_value = predicted_best_value
+                predicted_best = [int(v[0]) for v in step_data["predicted_best"].rx(1, True)]
+                info("Predicted Best Point:")
+                info(str(predicted_best))
+                info("Length of Predicted Best: " + str(len(predicted_best)))
+                info("Original Factor Length: " + str(len(self.params["axis_names"])))
+                info("Measuring Predicted Best:")
+                info(str(predicted_best))
+                measured_predicted_best = self.getPerfCosts([predicted_best])
+
+                if measured_predicted_best != {}:
+                    predicted_best_value = numpy.mean((measured_predicted_best.values()[0])[0])
+                else:
+                    predicted_best_value = float("inf")
+
+                info("Current Model: " + str(self.model))
+
+                predicted_best_slowdown = predicted_best_value / starting_point
+
+                info("Slowdown (Design Best): " + str(design_best_value / starting_point))
+                info("Slowdown (Predicted Best): " + str(predicted_best_value / starting_point))
+                info("Budget: {0}/{1}".format(used_experiments, initial_budget))
+
+                if design_best_slowdown < predicted_best_slowdown:
+                    info("Best point from design was better than predicted point")
+                    current_best = design_best
+                    current_best_value = design_best_value
+                else:
+                    current_best = predicted_best
+                    current_best_value = predicted_best_value
 
             if current_best_value < best_value or best_point == []:
                 info("Updating Global Best: " + str(current_best_value))
