@@ -16,10 +16,10 @@
     arg total_runs = 75;
     arg dlmt_federov_sampling = 100;
     arg dlmt_extra_experiments = 2;
-    arg dlmt_design_multiplier = 2;
+    arg dlmt_design_multiplier = 1.5;
     arg dlmt_steps = 8;
-    arg dlmt_cubic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
-    arg dlmt_quadratic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
+    arg dlmt_cubic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K"]';
+    arg dlmt_quadratic = '["RT_I", "RT_J", "RT_K"]';
   }
 
   def performance_params
