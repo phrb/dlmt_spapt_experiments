@@ -36,7 +36,6 @@
     param RT1_I2[] = [1,8,32];
     param RT2_I1[] = [1,8,32];
     param RT2_I2[] = [1,8,32];
-    
 
     # Scalar replacement
 
@@ -53,16 +52,18 @@
     constraint reg_capacity_2 = (RT2_I1*RT2_I2 <= 150);
     constraint unroll_limit_1 =  (U1_I1 == 1) or (U1_I2 == 1); 
     constraint unroll_limit_2 =  (U2_I1 == 1) or (U2_I2 == 1) ;
-
-
-
-
   }
   
   def search
   {
-  arg algorithm = 'Randomsearch';
-  arg total_runs = 10000;
+    arg algorithm = 'DLMT';
+    arg total_runs = 75;
+    arg dlmt_federov_sampling = 60;
+    arg dlmt_extra_experiments = 4;
+    arg dlmt_design_multiplier = 1.2;
+    arg dlmt_steps = 8;
+    arg dlmt_linear = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
+    arg dlmt_quadratic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
   }
 
   def validation {
@@ -82,10 +83,8 @@
   }
 ) @*/   
 
-
 #define max(x,y)    ((x) > (y)? (x) : (y))
 #define min(x,y)    ((x) < (y)? (x) : (y))
-
 
 int i,j,t;
 int i1,i2,i1t,i2t;
@@ -93,10 +92,7 @@ int it, jt, kt;
 int ii, jj, kk;
 int iii, jjj, kkk;
 
-
-
 /*@ begin Loop (
- 
 
 for (t=0; t<=T-1; t++) 
   {
@@ -128,11 +124,7 @@ for (t=0; t<=T-1; t++)
        }
   }
 
-
 ) @*/
 
-
 /*@ end @*/
 /*@ end @*/
-
-
