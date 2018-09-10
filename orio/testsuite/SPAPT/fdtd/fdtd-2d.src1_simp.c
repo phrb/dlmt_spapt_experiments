@@ -10,32 +10,33 @@
   {
     arg repetitions = 35;
   }
-
+  
   def performance_params
   {
     # Cache tiling
+    
     param T2_I[] = [1,16,32,64,128,256,512];
     param T2_J[] = [1,16,32,64,128,256,512];
     param T2_Ia[] = [1,64,128,256,512,1024,2048];
     param T2_Ja[] = [1,64,128,256,512,1024,2048];
 
-
+    
     param T3_I[] = [1,16,32,64,128,256,512];
     param T3_J[] = [1,16,32,64,128,256,512];
     param T3_Ia[] = [1,64,128,256,512,1024,2048];
     param T3_Ja[] = [1,64,128,256,512,1024,2048];
 
-
+    
     param T4_I[] = [1,16,32,64,128,256,512];
     param T4_J[] = [1,16,32,64,128,256,512];
     param T4_Ia[] = [1,64,128,256,512,1024,2048];
     param T4_Ja[] = [1,64,128,256,512,1024,2048];
 
 
-    # Unroll-jam
-    param U1_I[]  = range(1,31);
-    param U2_I[]  = range(1,31);
-    param U2_J[]  = range(1,31);
+    # Unroll-jam 
+    param U1_I[]  = range(1,31); 
+    param U2_I[]  = range(1,31); 
+    param U2_J[]  = range(1,31); 
     param U3_I[]  = range(1,31);
     param U3_J[]  = range(1,31);
     param U4_I[]  = range(1,31);
@@ -71,30 +72,24 @@
     constraint tileI4 = ((T4_Ia == 1) or (T4_Ia % T4_I == 0));
     constraint tileJ4 = ((T4_Ja == 1) or (T4_Ja % T4_J == 0));
 
-
+    
     constraint reg_capacity_2 = (RT2_I*RT2_J <= 150);
     constraint reg_capacity_3 = (RT3_I*RT3_J <= 150);
     constraint reg_capacity_4 = (RT4_I*RT4_J <= 150);
-
-
+    
+    
     constraint unroll_limit_2 = (U2_I == 1) or (U2_J == 1);
     constraint unroll_limit_3 = (U3_I == 1) or (U3_J == 1);
     constraint unroll_limit_4 = (U4_I == 1) or (U4_J == 1);
-
+    
 
 
   }
-
+  
   def search
   {
-   arg algorithm = 'DLMT';
-   arg total_runs = 75;
-   arg dlmt_federov_sampling = 100;
-   arg dlmt_extra_experiments = 2;
-   arg dlmt_design_multiplier = 1.5;
-   arg dlmt_steps = 8;
-   arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U3_J", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT3_I", "RT3_J", "RT4_I", "RT4_J", "SCR", "VEC1", "VEC2", "VEC3", "VEC4"]';
-   arg dlmt_quadratic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U3_J", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT3_I", "RT3_J", "RT4_I", "RT4_J"]';
+   arg algorithm = 'Simplex';
+   arg total_runs = 400;
   }
 
   def input_params
@@ -102,7 +97,7 @@
   let N=500;
   param tmax[] = [100];
   param nx[] = [N];
-  param ny[] = [N];
+  param ny[] = [N]; 
   }
 
   def input_vars
@@ -117,7 +112,7 @@
   }
 
 
-) @*/
+) @*/   
 
 
 int i,j, k,t;
