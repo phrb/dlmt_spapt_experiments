@@ -65,7 +65,7 @@
 
   def search
   {
-    arg algorithm = 'Annealing';
+    arg algorithm = 'Simplex';
     arg total_runs = 400;
   }
 
