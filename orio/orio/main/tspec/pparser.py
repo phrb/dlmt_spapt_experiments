@@ -23,6 +23,7 @@ keywords = [
     'simplex_contraction_coef', 'simplex_shrinkage_coef', 'simplex_local_distance', 'simplex_x0',
     'cudacfg_instmix', 'dlmt_interactions', 'dlmt_quadratic', 'dlmt_linear',
     'dlmt_inverse', 'dlmt_cubic', 'dlmt_federov_sampling', 'dlmt_steps', 'dlmt_extra_experiments', 'dlmt_design_multiplier',
+    'dlmt_aov_threshold',
     'validation', 'validation_file', 'expected_output',
     'macro', 'performance_test_code', 'skeleton_test_code', 'skeleton_code_file',
     'other', 'device_spec_file',
@@ -226,6 +227,7 @@ def p_arg_type(p):
                 | DLMT_FEDEROV_SAMPLING
                 | DLMT_EXTRA_EXPERIMENTS
                 | DLMT_DESIGN_MULTIPLIER
+                | DLMT_AOV_THRESHOLD
                 | DLMT_STEPS
                 | SIMPLEX_X0
                 | CUDACFG_INSTMIX

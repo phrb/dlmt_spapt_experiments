@@ -25,6 +25,7 @@ class DLMT(orio.main.tuner.search.search.Search):
     __STEPS             = "steps"
     __EXTRA_EXPERIMENTS = "extra_experiments"
     __DESIGN_MULTIPLIER = "design_multiplier"
+    __AOV_THRESHOLD     = "aov_threshold"
 
     def __init__(self, params):
         self.base      = importr("base")
@@ -65,6 +66,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         self.steps             = 12
         self.extra_experiments = 10
         self.design_multiplier = 1
+        self.aov_threshold     = 0.01
 
         self.__readAlgoArgs()
 
@@ -78,6 +80,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("ANOVA Steps: " + str(self.steps))
         info("Extra Experiments in Designs: " + str(self.extra_experiments))
         info("Design Multiplier: " + str(self.design_multiplier))
+        info("AOV Threshold: " + str(self.aov_threshold))
 
     def clean_search_space(self, federov_search_space, full_model):
         data = {}
@@ -394,7 +397,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info(str(self.utils.str(pruned_data)))
         return pruned_data
 
-    def get_ordered_fixed_variables(self, ordered_keys, prf_values, threshold = 60, prf_threshold = 0.05):
+    def get_ordered_fixed_variables(self, ordered_keys, prf_values, threshold = 60):
         info("Getting fixed variables")
         info("Prf Values: ")
         info(str(prf_values))
@@ -411,7 +414,7 @@ class DLMT(orio.main.tuner.search.search.Search):
             clean_key = clean_key.replace("^2)", "")
             clean_key = clean_key.replace("^3)", "")
 
-            if (clean_key not in unique_variables) and (prf_values[k] < prf_threshold):
+            if (clean_key not in unique_variables) and (prf_values[k] < self.aov_threshold):
                 unique_variables.append(clean_key)
 
             if len(unique_variables) >= threshold:
@@ -424,7 +427,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return unique_variables
 
-    def get_ordered_fixed_terms(self, ordered_keys, prf_values, threshold = 60, prf_threshold = 0.05):
+    def get_ordered_fixed_terms(self, ordered_keys, prf_values, threshold = 60):
         info("Getting fixed Model Terms")
         info("Prf Values: ")
         info(str(prf_values))
@@ -433,7 +436,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         unique_variables = []
         for k in ordered_keys:
-            if prf_values[k] < prf_threshold:
+            if prf_values[k] < self.aov_threshold:
                 unique_variables.append(k)
 
             if len(unique_variables) >= threshold:
@@ -850,6 +853,8 @@ class DLMT(orio.main.tuner.search.search.Search):
                 self.extra_experiments = rhs
             elif vname == self.__DESIGN_MULTIPLIER:
                 self.design_multiplier = rhs
+            elif vname == self.__AOV_THRESHOLD:
+                self.aov_threshold = rhs
             elif vname == 'total_runs':
                 self.total_runs = rhs
             else:
