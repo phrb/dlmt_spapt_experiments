@@ -78,6 +78,7 @@
     arg dlmt_extra_experiments = 4;
     arg dlmt_design_multiplier = 1.5;
     arg dlmt_steps = 8;
+    arg dlmt_aov_threshold = 0.001;
     arg dlmt_linear = '["SCR", "VEC1", "VEC2", "OMP1", "OMP2", "RT1_I", "RT2_I", "RT1_J", "RT1_K", "RT2_J", "RT2_K", "T1_I", "T1_Ia", "T2_I", "T2_Ia", "U1_I", "U2_I", "T1_J", "T1_Ja", "T1_K", "T1_Ka", "T2_J", "T2_Ja", "T2_K", "T2_Ka", "U1_J", "U1_K", "U2_J", "U2_K"]';
     arg dlmt_quadratic = '["RT1_I", "RT2_I", "RT1_J", "RT1_K", "RT2_J", "RT2_K", "T1_I", "T1_Ia", "T2_I", "T2_Ia", "U1_I", "U2_I", "T1_J", "T1_Ja", "T1_K", "T1_Ka", "T2_J", "T2_Ja", "T2_K", "T2_Ka", "U1_J", "U1_K", "U2_J", "U2_K"]';
   }
