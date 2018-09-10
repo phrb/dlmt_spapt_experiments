@@ -306,15 +306,13 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return regression, prf_values
 
-    def predict_best_values(self, regression, size, fixed_variables,
-                            ordered_prf_keys, prf_values,
-                            heteroscedasticity_threshold = 0.05):
-
+    def predict_best_values(self, regression, size, ordered_prf_keys, prf_values):
         unique_variables = self.get_ordered_fixed_terms(ordered_prf_keys, prf_values)
         info("Predicting Best Values for: " + str(unique_variables))
 
         if unique_variables == []:
             model = ". ~ ."
+            info("No variables in threshold")
         else:
             model = ". ~ " + " + ".join(unique_variables)
 
@@ -325,7 +323,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Prediction Regression Step:" + str(summary_regression))
 
         #TODO only look at the target variables
-        data = self.generate_valid_sample(size, fixed_variables)
+        data = self.generate_valid_sample(size)
 
         predicted = self.stats.predict(regression, data)
         predicted_min = min(predicted)
@@ -662,9 +660,10 @@ class DLMT(orio.main.tuner.search.search.Search):
                     }
         else:
             ordered_prf_keys = sorted(prf_values, key = prf_values.get)
-            predicted_best   = self.predict_best_reuse_data(regression, federov_search_space)
+
+            #predicted_best = self.predict_best_reuse_data(regression, federov_search_space)
             #predicted_best = self.predict_best(regression, prediction_samples)
-            # predicted_best  = self.predict_best_values(regression, prediction_samples, self.model["fixed_factors"], ordered_prf_keys, prf_values)
+            predicted_best  = self.predict_best_values(regression, prediction_samples, ordered_prf_keys, prf_values)
 
             self.get_fixed_variables(predicted_best, ordered_prf_keys, prf_values)
             self.prune_model(ordered_prf_keys, prf_values)
