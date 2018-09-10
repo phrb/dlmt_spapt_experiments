@@ -111,7 +111,7 @@
 
   def search
   {
-    arg algorithm = 'Randomsearch';
+    arg algorithm = 'Annealing';
     arg total_runs = 400;
   }
 
