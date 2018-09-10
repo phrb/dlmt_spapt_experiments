@@ -61,7 +61,7 @@
   def search
   {
   arg algorithm = 'Randomsearch';
-  arg total_runs = 10000;
+  arg total_runs = 400;
   }
 
   def validation {

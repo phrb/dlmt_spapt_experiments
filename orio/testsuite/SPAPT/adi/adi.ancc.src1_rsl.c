@@ -60,7 +60,7 @@
 
   def search
   {
-    arg algorithm = 'Annealing';
+    arg algorithm = 'Randomlocal';
     arg total_runs = 400;
   }
 

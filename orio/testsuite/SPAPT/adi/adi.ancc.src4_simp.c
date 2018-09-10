@@ -1,7 +1,7 @@
 /*@ begin PerfTuning (
   def build
   {
-  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
+  arg build_command = 'gcc -O3 -fopenmp -DDYNAMIC';
   arg libs = '-lm -lrt';
   }
 
@@ -12,6 +12,7 @@
 
   def performance_params
   {
+
     param T1_I1[] = [1,16,32,64,128,256,512];
     param T1_I2[] = [1,16,32,64,128,256,512];
     param T1_I1a[] = [1,64,128,256,512,1024,2048];
@@ -21,6 +22,7 @@
     param T2_I2[] = [1,16,32,64,128,256,512];
     param T2_I1a[] = [1,64,128,256,512,1024,2048];
     param T2_I2a[] = [1,64,128,256,512,1024,2048];
+
 
     # Unroll-jam
     param U1_I1[] = range(1,31);
@@ -35,17 +37,11 @@
     param RT2_I1[] = [1,8,32];
     param RT2_I2[] = [1,8,32];
 
-
     # Scalar replacement
-    param SCR1[]  = [False,True];
-    param SCR2[]  = [False,True];
 
     # Vectorization
-    param VEC1[] = [False,True];
-    param VEC2[] = [False,True];
 
     # Parallelization
-    #param OMP[] = [False,True];
 
     # Constraints
     constraint tileT1I1 = ((T1_I1a == 1) or (T1_I1a % T1_I1 == 0));
@@ -60,7 +56,7 @@
 
   def search
   {
-    arg algorithm = 'Annealing';
+    arg algorithm = 'Simplex';
     arg total_runs = 400;
   }
 
@@ -92,7 +88,6 @@ int iii, jjj, kkk;
 
 /*@ begin Loop (
 
-
 for (t=0; t<=T-1; t++)
   {
 
@@ -100,10 +95,8 @@ for (t=0; t<=T-1; t++)
     tile = [('i1',T1_I1,'ii'),('i2',T1_I2,'jj'),
             (('ii','i1'),T1_I1a,'iii'),(('jj','i2'),T1_I2a,'jjj')],
     unrolljam = (['i1','i2'],[U1_I1,U1_I2]),
-    scalarreplace = (SCR1, 'double'),
-    regtile = (['i1','i2'],[RT1_I1,RT1_I2]),
-    vector = (VEC1, ['ivdep','vector always'])
-  )
+    regtile = (['i1','i2'],[RT1_I1,RT1_I2])
+)
   for (i1=0; i1<=N-1; i1++)
     for (i2=1; i2<=N-1; i2++)
     {
@@ -115,10 +108,8 @@ for (t=0; t<=T-1; t++)
     tile = [('i1',T2_I1,'ii'),('i2',T2_I2,'jj'),
             (('ii','i1'),T2_I1a,'iii'),(('jj','i2'),T2_I2a,'jjj')],
     unrolljam = (['i1','i2'],[U2_I1,U2_I2]),
-    scalarreplace = (SCR2, 'double'),
-    regtile = (['i1','i2'],[RT2_I1,RT2_I2]),
-    vector = (VEC2, ['ivdep','vector always'])
-  )
+    regtile = (['i1','i2'],[RT2_I1,RT2_I2])
+)
    for (i1=1; i1<=N-1; i1++)
       for (i2=0; i2<=N-1; i2++)
       {
