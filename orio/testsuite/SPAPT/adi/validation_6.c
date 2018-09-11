@@ -1,7 +1,7 @@
 
 int isValid() {
   
-  double actual = -301105.392481; // 5821.103474; // or some other user-defined computation
+  double actual = -29488901894.314121;
   double x_sum = 0.0;
   double b_sum = 0.0;
   double rand1=0.1, rand2=0.9;

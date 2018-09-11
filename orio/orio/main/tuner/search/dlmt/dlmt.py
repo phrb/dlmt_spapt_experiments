@@ -346,7 +346,6 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Predicting Best")
         data          = self.generate_valid_sample(size)
         predicted     = self.stats.predict(regression, data)
-        predicted     = self.stats.predict(regression)
         predicted_min = min(predicted)
         return data.rx(predicted.ro == self.base.min(predicted), True)
 

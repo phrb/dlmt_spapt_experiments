@@ -18,7 +18,7 @@
     arg dlmt_extra_experiments = 2;
     arg dlmt_design_multiplier = 1.5;
     arg dlmt_steps = 12;
-    arg dlmt_aov_threshold = 0.001;
+    arg dlmt_aov_threshold = 0.01;
     arg dlmt_linear = '["ACOPY_x", "ACOPY_y", "SCR", "VEC1", "VEC2", "T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
     arg dlmt_quadratic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
   }
@@ -26,12 +26,12 @@
   def performance_params
   {
     # Cache tiling
-    param T1_I[] = [1,16,32,64,128,256,512];
-    param T1_J[] = [1,16,32,64,128,256,512];
-    param T1_K[] = [1,16,32,64,128,256,512];
-    param T2_I[] = [1,64,128,256,512,1024,2048];
-    param T2_J[] = [1,64,128,256,512,1024,2048];
-    param T2_K[] = [1,64,128,256,512,1024,2048];
+    param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
     # Array copy
     param ACOPY_x[] = [False,True];
@@ -44,9 +44,9 @@
     param U_K[]  = range(1,31);
 
     # Register tiling
-    param RT_I[] = [1,8,32];
-    param RT_J[] = [1,8,32];
-    param RT_K[] = [1,8,32];
+    param RT_I[] = [1,2,4,8,16,32,64];
+    param RT_J[] = [1,2,4,8,16,32,64];
+    param RT_K[] = [1,2,4,8,16,32,64];
 
     # Scalar replacement
     param SCR[]  = [False,True];
@@ -56,8 +56,8 @@
     param VEC2[] = [False,True];
 
     # Parallelization
-    #openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
-    #param OMP[] = [False,True];
+    # param OMP[] = [False,True];
+    # openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
 
     # Constraints
     constraint tileI = ((T2_I == 1) or (T2_I % T1_I == 0));
