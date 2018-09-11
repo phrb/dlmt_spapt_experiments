@@ -16,16 +16,17 @@ from rpy2.robjects.packages import importr
 from rpy2.robjects import DataFrame, IntVector, FloatVector, StrVector, BoolVector, Formula, NULL, r
 
 class DLMT(orio.main.tuner.search.search.Search):
-    __INTERACTIONS      = "interactions"
-    __QUADRATIC         = "quadratic"
-    __LINEAR            = "linear"
-    __INVERSE           = "inverse"
-    __CUBIC             = "cubic"
-    __FEDEROV_SAMPLING  = "federov_sampling"
-    __STEPS             = "steps"
-    __EXTRA_EXPERIMENTS = "extra_experiments"
-    __DESIGN_MULTIPLIER = "design_multiplier"
-    __AOV_THRESHOLD     = "aov_threshold"
+    __INTERACTIONS       = "interactions"
+    __QUADRATIC          = "quadratic"
+    __LINEAR             = "linear"
+    __INVERSE            = "inverse"
+    __CUBIC              = "cubic"
+    __FEDEROV_SAMPLING   = "federov_sampling"
+    __STEPS              = "steps"
+    __EXTRA_EXPERIMENTS  = "extra_experiments"
+    __DESIGN_MULTIPLIER  = "design_multiplier"
+    __AOV_THRESHOLD      = "aov_threshold"
+    __PREDICTION_USE_ALL = "prediction_use_all"
 
     def __init__(self, params):
         self.base      = importr("base")
@@ -56,17 +57,18 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         info("Parameter Range Values: " + str(self.parameter_values))
 
-        self.model             = {}
-        self.interactions      = []
-        self.quadratic         = []
-        self.linear            = []
-        self.inverse           = []
-        self.cubic             = []
-        self.federov_sampling  = 300
-        self.steps             = 12
-        self.extra_experiments = 10
-        self.design_multiplier = 1
-        self.aov_threshold     = 0.01
+        self.model              = {}
+        self.interactions       = []
+        self.quadratic          = []
+        self.linear             = []
+        self.inverse            = []
+        self.cubic              = []
+        self.federov_sampling   = 300
+        self.steps              = 12
+        self.extra_experiments  = 10
+        self.design_multiplier  = 1
+        self.aov_threshold      = 0.01
+        self.prediction_use_all = False
 
         self.__readAlgoArgs()
 
@@ -81,6 +83,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Extra Experiments in Designs: " + str(self.extra_experiments))
         info("Design Multiplier: " + str(self.design_multiplier))
         info("AOV Threshold: " + str(self.aov_threshold))
+        info("Use all variables in prediction: " + str(self.prediction_use_all))
 
     def clean_search_space(self, federov_search_space, full_model):
         data = {}
@@ -663,9 +666,11 @@ class DLMT(orio.main.tuner.search.search.Search):
         else:
             ordered_prf_keys = sorted(prf_values, key = prf_values.get)
 
-            #predicted_best = self.predict_best_reuse_data(regression, federov_search_space)
-            #predicted_best = self.predict_best(regression, prediction_samples)
-            predicted_best  = self.predict_best_values(regression, prediction_samples, ordered_prf_keys, prf_values)
+            if self.prediction_use_all:
+                predicted_best = self.predict_best(regression, prediction_samples)
+                #predicted_best = self.predict_best_reuse_data(regression, federov_search_space)
+            else:
+                predicted_best = self.predict_best_values(regression, prediction_samples, ordered_prf_keys, prf_values)
 
             self.get_fixed_variables(predicted_best, ordered_prf_keys, prf_values)
             self.prune_model(ordered_prf_keys, prf_values)
@@ -854,6 +859,8 @@ class DLMT(orio.main.tuner.search.search.Search):
                 self.design_multiplier = rhs
             elif vname == self.__AOV_THRESHOLD:
                 self.aov_threshold = rhs
+            elif vname == self.__PREDICTION_USE_ALL:
+                self.prediction_use_all = rhs
             elif vname == 'total_runs':
                 self.total_runs = rhs
             else:
