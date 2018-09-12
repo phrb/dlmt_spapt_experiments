@@ -62,10 +62,12 @@
     arg total_runs = 1;
     arg dlmt_federov_sampling = 20;
     arg dlmt_extra_experiments = 4;
-    arg dlmt_design_multiplier = 4;
+    arg dlmt_design_multiplier = 3;
     arg dlmt_steps = 4;
+    arg dlmt_aov_threshold = 0.05;
     arg dlmt_linear = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2", "SCR1", "SCR2", "VEC1", "VEC2"]';
     arg dlmt_quadratic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
+    arg dlmt_cubic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
   }
 
   def validation {
