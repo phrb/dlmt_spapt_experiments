@@ -61,17 +61,17 @@
   def search
   {
     arg algorithm = 'Randomlocal';
-    arg total_runs = 400;
+    arg total_runs = 200;
   }
 
   def validation {
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_1.c';
   }
 
   def input_params
   {
   param T[] = [64];
-  param N[] = [1024];
+  param N[] = [512];
   }
 
   def input_vars {

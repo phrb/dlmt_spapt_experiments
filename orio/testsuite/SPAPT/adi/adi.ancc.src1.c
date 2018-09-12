@@ -61,23 +61,23 @@
   def search
   {
     arg algorithm = 'DLMT';
-    arg total_runs = 75;
-    arg dlmt_federov_sampling = 60;
+    arg total_runs = 1;
+    arg dlmt_federov_sampling = 20;
     arg dlmt_extra_experiments = 4;
-    arg dlmt_design_multiplier = 4;
-    arg dlmt_steps = 8;
+    arg dlmt_design_multiplier = 1.5;
+    arg dlmt_steps = 4;
     arg dlmt_linear = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2", "SCR1", "SCR2", "VEC1", "VEC2"]';
     arg dlmt_quadratic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
   }
 
   def validation {
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_1.c';
   }
 
   def input_params
   {
   param T[] = [64];
-  param N[] = [1024];
+  param N[] = [512];
   }
 
   def input_vars {

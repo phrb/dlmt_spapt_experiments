@@ -64,13 +64,13 @@
   }
 
   def validation {
-    arg validation_file = 'validation_6.c';
+    arg validation_file = 'validation_1.c';
   }
 
   def input_params
   {
-  param T[] = [256];
-  param N[] = [1024];
+  param T[] = [64];
+  param N[] = [512];
   }
 
   def input_vars {
