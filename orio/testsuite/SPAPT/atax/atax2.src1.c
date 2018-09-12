@@ -13,6 +13,7 @@
   def search
   {
     arg algorithm = 'DLMT';
+    arg total_runs = 1;
     arg dlmt_federov_sampling = 100;
     arg dlmt_extra_experiments = 2;
     arg dlmt_design_multiplier = 1.5;
