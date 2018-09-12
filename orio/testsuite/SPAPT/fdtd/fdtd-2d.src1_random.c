@@ -10,46 +10,41 @@
   {
     arg repetitions = 35;
   }
-  
+
   def performance_params
   {
     # Cache tiling
-    
-    param T2_I[] = [1,16,32,64,128,256,512];
-    param T2_J[] = [1,16,32,64,128,256,512];
-    param T2_Ia[] = [1,64,128,256,512,1024,2048];
-    param T2_Ja[] = [1,64,128,256,512,1024,2048];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-    
-    param T3_I[] = [1,16,32,64,128,256,512];
-    param T3_J[] = [1,16,32,64,128,256,512];
-    param T3_Ia[] = [1,64,128,256,512,1024,2048];
-    param T3_Ja[] = [1,64,128,256,512,1024,2048];
+    param T3_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T3_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T3_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T3_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-    
-    param T4_I[] = [1,16,32,64,128,256,512];
-    param T4_J[] = [1,16,32,64,128,256,512];
-    param T4_Ia[] = [1,64,128,256,512,1024,2048];
-    param T4_Ja[] = [1,64,128,256,512,1024,2048];
+    param T4_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T4_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T4_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T4_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-
-    # Unroll-jam 
-    param U1_I[]  = range(1,31); 
-    param U2_I[]  = range(1,31); 
-    param U2_J[]  = range(1,31); 
+    # Unroll-jam
+    param U1_I[]  = range(1,31);
+    param U2_I[]  = range(1,31);
+    param U2_J[]  = range(1,31);
     param U3_I[]  = range(1,31);
     param U3_J[]  = range(1,31);
     param U4_I[]  = range(1,31);
     param U4_J[]  = range(1,31);
 
-
     # Register tiling
-    param RT2_I[] = [1,8,32];
-    param RT2_J[] = [1,8,32];
-    param RT3_I[] = [1,8,32];
-    param RT3_J[] = [1,8,32];
-    param RT4_I[] = [1,8,32];
-    param RT4_J[] = [1,8,32];
+    param RT2_I[] = [1,2,4,8,16,32];
+    param RT2_J[] = [1,2,4,8,16,32];
+    param RT3_I[] = [1,2,4,8,16,32];
+    param RT3_J[] = [1,2,4,8,16,32];
+    param RT4_I[] = [1,2,4,8,16,32];
+    param RT4_J[] = [1,2,4,8,16,32];
 
     # Scalar replacement
     param SCR[]  = [False,True];
@@ -72,20 +67,20 @@
     constraint tileI4 = ((T4_Ia == 1) or (T4_Ia % T4_I == 0));
     constraint tileJ4 = ((T4_Ja == 1) or (T4_Ja % T4_J == 0));
 
-    
+
     constraint reg_capacity_2 = (RT2_I*RT2_J <= 150);
     constraint reg_capacity_3 = (RT3_I*RT3_J <= 150);
     constraint reg_capacity_4 = (RT4_I*RT4_J <= 150);
-    
-    
+
+
     constraint unroll_limit_2 = (U2_I == 1) or (U2_J == 1);
     constraint unroll_limit_3 = (U3_I == 1) or (U3_J == 1);
     constraint unroll_limit_4 = (U4_I == 1) or (U4_J == 1);
-    
+
 
 
   }
-  
+
   def search
   {
    arg algorithm = 'Randomsearch';
@@ -97,7 +92,7 @@
   let N=500;
   param tmax[] = [100];
   param nx[] = [N];
-  param ny[] = [N]; 
+  param ny[] = [N];
   }
 
   def input_vars
@@ -110,9 +105,7 @@
   def validation {
     arg validation_file = 'validation.c';
   }
-
-
-) @*/   
+) @*/
 
 
 int i,j, k,t;
