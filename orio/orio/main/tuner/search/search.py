@@ -389,7 +389,11 @@ class Search:
         experiments.insert(measurement)
         self.requested_runs += 1
 
-        info("Final perf_costs: " + str(perf_costs))
+        if perf_costs != {}:
+            info("Final perf_costs: " + str(np.mean((perf_costs.values()[0])[0])))
+        else:
+            info("Configuration failed")
+
         return perf_costs
 
     #----------------------------------------------------------

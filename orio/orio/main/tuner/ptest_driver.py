@@ -361,8 +361,7 @@ class PerfTestDriver:
                 #out = f.readlines()
                 #f.close()
                 out = sp.check_output(cmd, shell = True)
-                info("Program Test Output: ")
-                info(str(out))
+                info("Test was successful")
             except Exception, e:
                 self.failedRuns += 1
                 err('orio.main.tuner.ptest_driver: failed to execute the test code: "%s"\n --> %s: %s' \
@@ -390,7 +389,7 @@ class PerfTestDriver:
                     perf_costs_reps=[]
                     transfers=[]
                     out = out.rstrip().split("\n")
-                    info('out:\n %s' % out)
+                    #info('out:\n %s' % out)
                     for line in out:
                         #info('the line:\n%s' % line)
                         # Output lines have the form {'[coordinate]' : time} or {'[coordinate]' : (time, transfer_time)}
@@ -492,7 +491,7 @@ class PerfTestDriver:
         self.__cleanup()
 
         # return the performance costs
-        info("returning from 'run': " + str(perf_costs))
+        #info("returning from 'run': " + str(perf_costs))
         return perf_costs
 
 
