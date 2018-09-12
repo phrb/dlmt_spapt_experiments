@@ -13,19 +13,19 @@
   def performance_params
   {
     # Cache tiling
-    param T1_I[] = [1,16,32,64,128,256,512];
-    param T1_J[] = [1,16,32,64,128,256,512];
-    param T1_K[] = [1,16,32,64,128,256,512];
-    param T1_Ia[] = [1,64,128,256,512,1024,2048];
-    param T1_Ja[] = [1,64,128,256,512,1024,2048];
-    param T1_Ka[] = [1,64,128,256,512,1024,2048];
+    param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_Ka[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-    param T2_I[] = [1,16,32,64,128,256,512];
-    param T2_J[] = [1,16,32,64,128,256,512];
-    param T2_K[] = [1,16,32,64,128,256,512];
-    param T2_Ia[] = [1,64,128,256,512,1024,2048];
-    param T2_Ja[] = [1,64,128,256,512,1024,2048];
-    param T2_Ka[] = [1,64,128,256,512,1024,2048];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ka[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
     # Unroll-jam
     param U1_I[]  = range(1,31);
@@ -37,13 +37,13 @@
     param U2_K[]  = range(1,31);
 
     # Register tiling
-    param RT1_I[] = [1,8,32];
-    param RT1_J[] = [1,8,32];
-    param RT1_K[] = [1,8,32];
+    param RT1_I[] = [1,2,4,8,16,32];
+    param RT1_J[] = [1,2,4,8,16,32];
+    param RT1_K[] = [1,2,4,8,16,32];
 
-    param RT2_I[] = [1,8,32];
-    param RT2_J[] = [1,8,32];
-    param RT2_K[] = [1,8,32];
+    param RT2_I[] = [1,2,4,8,16,32];
+    param RT2_J[] = [1,2,4,8,16,32];
+    param RT2_K[] = [1,2,4,8,16,32];
 
     # Scalar replacement
     param SCR[]  = [False,True];
@@ -78,9 +78,10 @@
     arg dlmt_extra_experiments = 4;
     arg dlmt_design_multiplier = 1.5;
     arg dlmt_steps = 8;
-    arg dlmt_aov_threshold = 0.001;
+    arg dlmt_aov_threshold = 0.05;
     arg dlmt_linear = '["SCR", "VEC1", "VEC2", "OMP1", "OMP2", "RT1_I", "RT2_I", "RT1_J", "RT1_K", "RT2_J", "RT2_K", "T1_I", "T1_Ia", "T2_I", "T2_Ia", "U1_I", "U2_I", "T1_J", "T1_Ja", "T1_K", "T1_Ka", "T2_J", "T2_Ja", "T2_K", "T2_Ka", "U1_J", "U1_K", "U2_J", "U2_K"]';
     arg dlmt_quadratic = '["RT1_I", "RT2_I", "RT1_J", "RT1_K", "RT2_J", "RT2_K", "T1_I", "T1_Ia", "T2_I", "T2_Ia", "U1_I", "U2_I", "T1_J", "T1_Ja", "T1_K", "T1_Ka", "T2_J", "T2_Ja", "T2_K", "T2_Ka", "U1_J", "U1_K", "U2_J", "U2_K"]';
+    arg dlmt_cubic = '["RT1_I", "RT2_I", "RT1_J", "RT1_K", "RT2_J", "RT2_K", "T1_I", "T1_Ia", "T2_I", "T2_Ia", "U1_I", "U2_I", "T1_J", "T1_Ja", "T1_K", "T1_Ka", "T2_J", "T2_Ja", "T2_K", "T2_Ka", "U1_J", "U1_K", "U2_J", "U2_K"]';
   }
 
   def input_params
