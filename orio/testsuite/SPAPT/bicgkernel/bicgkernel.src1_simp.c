@@ -13,11 +13,11 @@
   def performance_params
   {
     # Cache tiling
-    param T1_I[] = [1,16,32,64,128,256,512];
-    param T1_J[] = [1,16,32,64,128,256,512];
+    param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-    param T2_I[] = [1,64,128,256,512,1024,2048];
-    param T2_J[] = [1,64,128,256,512,1024,2048];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
     # Array copy
     #param ACOPY_s[] = [False,True];
@@ -29,8 +29,8 @@
     param U_J[]  = range(1,31);
 
     # Register tiling
-    param RT_I[] = [1,8,32];
-    param RT_J[] = [1,8,32];
+    param RT_I[] = [1,2,4,8,16,32];
+    param RT_J[] = [1,2,4,8,16,32];
 
     # Scalar replacement
     param SCR[]  = [False,True];
