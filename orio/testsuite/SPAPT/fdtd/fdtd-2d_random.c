@@ -8,7 +8,7 @@
 
   def performance_counter
   {
-    arg repetitions = 35;
+    arg repetitions = 10;
   }
 
   def performance_params
@@ -84,12 +84,12 @@
   def search
   {
    arg algorithm = 'Randomsearch';
-   arg total_runs = 400;
+   arg total_runs = 200;
   }
 
   def input_params
   {
-  let N=500;
+  let N=2000;
   param tmax[] = [100];
   param nx[] = [N];
   param ny[] = [N];
@@ -103,7 +103,7 @@
   }
 
   def validation {
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_3x.c';
   }
 ) @*/
 
