@@ -3,12 +3,11 @@
   {
     arg build_command = 'gcc -O3 -openmp ';
     arg libs = '-lm -lrt';
-
   }
 
   def performance_counter
   {
-    arg repetitions = 35;
+    arg repetitions = 10;
   }
 
   def performance_params
@@ -85,11 +84,12 @@
    arg dlmt_steps = 8;
    arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U3_J", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT3_I", "RT3_J", "RT4_I", "RT4_J", "SCR", "VEC1", "VEC2", "VEC3", "VEC4"]';
    arg dlmt_quadratic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U3_J", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT3_I", "RT3_J", "RT4_I", "RT4_J"]';
+   arg dlmt_cubic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U3_J", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT3_I", "RT3_J", "RT4_I", "RT4_J"]';
   }
 
   def input_params
   {
-  let N=500;
+  let N=2000;
   param tmax[] = [100];
   param nx[] = [N];
   param ny[] = [N];
