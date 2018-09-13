@@ -7,24 +7,28 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 10;
   }
 
   def search
   {
-    arg algorithm = 'Simplex';
-    arg total_runs = 170;
+    arg algorithm = 'Randomsearch';
+    arg total_runs = 100;
   }
 
   def performance_params
   {
     # Cache tiling
-    param T1_I[] = [1,16,32,64,128,256,512];
-    param T1_J[] = [1,16,32,64,128,256,512];
-    param T1_K[] = [1,16,32,64,128,256,512];
-    param T2_I[] = [1,64,128,256,512,1024,2048];
-    param T2_J[] = [1,64,128,256,512,1024,2048];
-    param T2_K[] = [1,64,128,256,512,1024,2048];
+    param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+
+    # Array copy
+    param ACOPY_x[] = [False,True];
+    param ACOPY_y[] = [False,True];
 
     # Unroll-jam
     param U1_I[] = range(1,31);
@@ -33,9 +37,20 @@
     param U_K[]  = range(1,31);
 
     # Register tiling
-    param RT_I[] = [1,8,32];
-    param RT_J[] = [1,8,32];
-    param RT_K[] = [1,8,32];
+    param RT_I[] = [1,2,4,8,16,32,64];
+    param RT_J[] = [1,2,4,8,16,32,64];
+    param RT_K[] = [1,2,4,8,16,32,64];
+
+    # Scalar replacement
+    param SCR[]  = [False,True];
+
+    # Vectorization
+    param VEC1[] = [False,True];
+    param VEC2[] = [False,True];
+
+    # Parallelization
+    #openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
+    #param OMP[] = [False,True];
 
     # Constraints
     constraint tileI = ((T2_I == 1) or (T2_I % T1_I == 0));
@@ -49,7 +64,7 @@
 
   def input_params
   {
-  param N[] = [10000];
+  param N[] = [40000];
   }
 
   def input_vars
@@ -60,7 +75,7 @@
 
   def validation
   {
-  arg validation_file = 'validation.c';
+  arg validation_file = 'validation_4x.c';
   }
 ) @*/
 
@@ -77,7 +92,8 @@ double* tmp=(double*) malloc(nx*sizeof(double));
 /*@ begin Loop(
 
   transform Composite(
-    unrolljam = (['i'],[U1_I])
+    unrolljam = (['i'],[U1_I]),
+    vector = (VEC1, ['ivdep','vector always'])
   )
   for (i= 0; i<=ny-1; i++)
     y[i] = 0.0;
@@ -85,8 +101,12 @@ double* tmp=(double*) malloc(nx*sizeof(double));
   transform Composite(
     tile = [('i',T1_I,'ii'),('j',T1_J,'jj'),('k',T1_K,'kk'),
             (('ii','i'),T2_I,'iii'),(('jj','j'),T2_J,'jjj'),(('kk','k'),T2_K,'kkk')],
+    arrcopy = [(ACOPY_y, 'y[k]', [(T1_K if T1_K>1 else T2_K)],'_copy'),
+               (ACOPY_x, 'x[j]', [(T1_J if T1_J>1 else T2_J)],'_copy')],
     unrolljam = (['k','j','i'],[U_K,U_J,U_I]),
-    regtile = (['i','j','k'],[RT_I,RT_J,RT_K])
+    scalarreplace = (SCR, 'double'),
+    regtile = (['i','j','k'],[RT_I,RT_J,RT_K]),
+    vector = (VEC2, ['ivdep','vector always'])
   )
   for (i = 0; i<=nx-1; i++) {
     tmp[i] = 0;

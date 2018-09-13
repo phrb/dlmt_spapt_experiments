@@ -7,24 +7,23 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 2;
   }
 
   def search
   {
-    arg algorithm = 'Annealing';
-    arg total_runs = 150;
+    arg algorithm = 'Baseline';
   }
 
   def performance_params
   {
     # Cache tiling
-    param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T1_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T2_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_I[] = [1,16,32,64,128,256,512];
+    param T1_J[] = [1,16,32,64,128,256,512];
+    param T1_K[] = [1,16,32,64,128,256,512];
+    param T2_I[] = [1,64,128,256,512,1024,2048];
+    param T2_J[] = [1,64,128,256,512,1024,2048];
+    param T2_K[] = [1,64,128,256,512,1024,2048];
 
     # Array copy
     param ACOPY_x[] = [False,True];
@@ -37,9 +36,9 @@
     param U_K[]  = range(1,31);
 
     # Register tiling
-    param RT_I[] = [1,2,4,8,16,32,64];
-    param RT_J[] = [1,2,4,8,16,32,64];
-    param RT_K[] = [1,2,4,8,16,32,64];
+    param RT_I[] = [1,8,32];
+    param RT_J[] = [1,8,32];
+    param RT_K[] = [1,8,32];
 
     # Scalar replacement
     param SCR[]  = [False,True];
@@ -64,7 +63,7 @@
 
   def input_params
   {
-  param N[] = [10000];
+  param N[] = [40000];
   }
 
   def input_vars
@@ -75,7 +74,7 @@
 
   def validation
   {
-  arg validation_file = 'validation.c';
+  arg validation_file = 'validation_4x.c';
   }
 ) @*/
 
