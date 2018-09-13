@@ -1,0 +1,35 @@
+
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = iii
+expected=-259900.473046
+actual=5821.103474
+diff=265721.000000
+diff=0
+[00;31mERROR: orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  ' returned non-zero exit status 1[00m
+[00;31mERROR: orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  "[00m
+expected=-0.010957
+actual=5821.103474
+diff=5821.000000
+diff=0
+[00;31mERROR: orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest2.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest2.exe  ' returned non-zero exit status 1[00m
+[00;31mERROR: orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest2.exe  "[00m
+[00;31mERROR: orio.main.tuner.search.annealing: initialization of Simulated Annealing failed: no valid values of performance parameters can be found. the performance parameter constraints might prune out the entire search space.[00m
+Traceback (most recent call last):
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 132, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/annealing/annealing.py", line 83, in searchBestCoord
+    init_temperature = self.__initTemperature()
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/annealing/annealing.py", line 357, in __initTemperature
+    random_coords, perf_costs = zip(*sorted_coords)
+ValueError: need more than 0 values to unpack
