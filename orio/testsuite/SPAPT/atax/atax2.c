@@ -7,13 +7,20 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 10;
   }
 
   def search
   {
-    arg algorithm = 'Randomsearch';
-    arg total_runs = 150;
+    arg algorithm = 'DLMT';
+    arg total_runs = 1;
+    arg dlmt_federov_sampling = 100;
+    arg dlmt_extra_experiments = 2;
+    arg dlmt_design_multiplier = 1.2;
+    arg dlmt_steps = 4;
+    arg dlmt_aov_threshold = 0.05;
+    arg dlmt_linear = '["ACOPY_x", "ACOPY_y", "SCR", "VEC1", "VEC2", "T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
+    arg dlmt_quadratic = '["T1_I", "T1_J", "T1_K", "T2_I", "T2_J", "T2_K", "U1_I", "U_I", "U_J", "U_K", "RT_I", "RT_J", "RT_K"]';
   }
 
   def performance_params
@@ -49,8 +56,8 @@
     param VEC2[] = [False,True];
 
     # Parallelization
-    #openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
-    #param OMP[] = [False,True];
+    # param OMP[] = [False,True];
+    # openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
 
     # Constraints
     constraint tileI = ((T2_I == 1) or (T2_I % T1_I == 0));
@@ -64,7 +71,7 @@
 
   def input_params
   {
-  param N[] = [10000];
+  param N[] = [40000];
   }
 
   def input_vars
@@ -75,7 +82,7 @@
 
   def validation
   {
-  arg validation_file = 'validation.c';
+  arg validation_file = 'validation_4x.c';
   }
 ) @*/
 

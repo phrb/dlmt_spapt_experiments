@@ -7,13 +7,13 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 10;
   }
 
   def search
   {
-    arg algorithm = 'Simplex';
-    arg total_runs = 150;
+    arg algorithm = 'Randomlocal';
+    arg total_runs = 100;
   }
 
   def performance_params
@@ -64,7 +64,7 @@
 
   def input_params
   {
-  param N[] = [10000];
+  param N[] = [40000];
   }
 
   def input_vars
