@@ -12,15 +12,15 @@
 
   def performance_params
   {
-    param T1_I1[] = [1,16,32,64,128,256,512];
-    param T1_I2[] = [1,16,32,64,128,256,512];
-    param T1_I1a[] = [1,64,128,256,512,1024,2048];
-    param T1_I2a[] = [1,64,128,256,512,1024,2048];
+    param T1_I1[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_I2[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_I1a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_I2a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-    param T2_I1[] = [1,16,32,64,128,256,512];
-    param T2_I2[] = [1,16,32,64,128,256,512];
-    param T2_I1a[] = [1,64,128,256,512,1024,2048];
-    param T2_I2a[] = [1,64,128,256,512,1024,2048];
+    param T2_I1[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_I2[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_I1a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_I2a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
     # Unroll-jam
     param U1_I1[] = range(1,31);
@@ -28,13 +28,11 @@
     param U2_I1[] = range(1,31);
     param U2_I2[] = range(1,31);
 
-
     # Register tiling
-    param RT1_I1[] = [1,8,32];
-    param RT1_I2[] = [1,8,32];
-    param RT2_I1[] = [1,8,32];
-    param RT2_I2[] = [1,8,32];
-
+    param RT1_I1[] = [1,2,4,8,16,32];
+    param RT1_I2[] = [1,2,4,8,16,32];
+    param RT2_I1[] = [1,2,4,8,16,32];
+    param RT2_I2[] = [1,2,4,8,16,32];
 
     # Scalar replacement
     param SCR1[]  = [False,True];
@@ -60,7 +58,16 @@
 
   def search
   {
-    arg algorithm = 'Baseline';
+    arg algorithm = 'DLMT';
+    arg total_runs = 1;
+    arg dlmt_federov_sampling = 20;
+    arg dlmt_extra_experiments = 4;
+    arg dlmt_design_multiplier = 3;
+    arg dlmt_steps = 4;
+    arg dlmt_aov_threshold = 0.05;
+    arg dlmt_linear = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2", "SCR1", "SCR2", "VEC1", "VEC2"]';
+    arg dlmt_quadratic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
+    arg dlmt_cubic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
   }
 
   def validation {
@@ -69,8 +76,8 @@
 
   def input_params
   {
-  param T[] = [64];
-  param N[] = [512];
+  param T[] = [256];
+  param N[] = [1024];
   }
 
   def input_vars {

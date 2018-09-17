@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 10;
   }
 
   def performance_params
@@ -28,11 +28,13 @@
     param U2_I1[] = range(1,31);
     param U2_I2[] = range(1,31);
 
+
     # Register tiling
     param RT1_I1[] = [1,2,4,8,16,32];
     param RT1_I2[] = [1,2,4,8,16,32];
     param RT2_I1[] = [1,2,4,8,16,32];
     param RT2_I2[] = [1,2,4,8,16,32];
+
 
     # Scalar replacement
     param SCR1[]  = [False,True];
@@ -58,26 +60,18 @@
 
   def search
   {
-    arg algorithm = 'DLMT';
-    arg total_runs = 1;
-    arg dlmt_federov_sampling = 20;
-    arg dlmt_extra_experiments = 4;
-    arg dlmt_design_multiplier = 3;
-    arg dlmt_steps = 4;
-    arg dlmt_aov_threshold = 0.05;
-    arg dlmt_linear = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2", "SCR1", "SCR2", "VEC1", "VEC2"]';
-    arg dlmt_quadratic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
-    arg dlmt_cubic = '["T1_I1", "T1_I2", "T1_I1a", "T1_I2a", "T2_I1", "T2_I2", "T2_I1a", "T2_I2a", "U1_I1", "U1_I2", "U2_I1", "U2_I2", "RT1_I1", "RT1_I2", "RT2_I1", "RT2_I2"]';
+  arg algorithm = 'Randomsearch';
+  arg total_runs = 200;
   }
 
   def validation {
-    arg validation_file = 'validation_1.c';
+    arg validation_file = 'validation_3x.c';
   }
 
   def input_params
   {
-  param T[] = [64];
-  param N[] = [512];
+  param T[] = [256];
+  param N[] = [1024];
   }
 
   def input_vars {

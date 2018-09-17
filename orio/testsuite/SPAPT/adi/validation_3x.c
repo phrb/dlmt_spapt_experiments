@@ -1,6 +1,6 @@
 
 int isValid() {
-  
+
   double actual = -29488901894.314121;
   double x_sum = 0.0;
   double b_sum = 0.0;

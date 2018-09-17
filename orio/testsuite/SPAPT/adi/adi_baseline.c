@@ -7,20 +7,20 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 2;
   }
 
   def performance_params
   {
-    param T1_I1[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T1_I2[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T1_I1a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T1_I2a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_I1[] = [1,16,32,64,128,256,512];
+    param T1_I2[] = [1,16,32,64,128,256,512];
+    param T1_I1a[] = [1,64,128,256,512,1024,2048];
+    param T1_I2a[] = [1,64,128,256,512,1024,2048];
 
-    param T2_I1[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T2_I2[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T2_I1a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-    param T2_I2a[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_I1[] = [1,16,32,64,128,256,512];
+    param T2_I2[] = [1,16,32,64,128,256,512];
+    param T2_I1a[] = [1,64,128,256,512,1024,2048];
+    param T2_I2a[] = [1,64,128,256,512,1024,2048];
 
     # Unroll-jam
     param U1_I1[] = range(1,31);
@@ -30,10 +30,10 @@
 
 
     # Register tiling
-    param RT1_I1[] = [1,2,4,8,16,32];
-    param RT1_I2[] = [1,2,4,8,16,32];
-    param RT2_I1[] = [1,2,4,8,16,32];
-    param RT2_I2[] = [1,2,4,8,16,32];
+    param RT1_I1[] = [1,8,32];
+    param RT1_I2[] = [1,8,32];
+    param RT2_I1[] = [1,8,32];
+    param RT2_I2[] = [1,8,32];
 
 
     # Scalar replacement
@@ -60,18 +60,17 @@
 
   def search
   {
-  arg algorithm = 'Randomsearch';
-  arg total_runs = 200;
+    arg algorithm = 'Baseline';
   }
 
   def validation {
-    arg validation_file = 'validation_1.c';
+    arg validation_file = 'validation_3x.c';
   }
 
   def input_params
   {
-  param T[] = [64];
-  param N[] = [512];
+  param T[] = [256];
+  param N[] = [1024];
   }
 
   def input_vars {
