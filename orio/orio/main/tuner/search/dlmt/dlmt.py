@@ -204,7 +204,7 @@ class DLMT(orio.main.tuner.search.search.Search):
                         candidate_value = self.parameter_values[n].index(perf_params[n])
                         search_space_dataframe[n].append(candidate_value)
 
-                    if len(search_space) % int(sample_size / 5) == 0:
+                    if len(search_space) % int(sample_size / 10) == 0:
                         info("Valid coordinates: " + str(len(search_space)) + "/" + str(sample_size))
                         info("Tested coordinates: " + str(evaluated))
 

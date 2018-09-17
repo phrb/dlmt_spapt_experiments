@@ -17,17 +17,14 @@
     param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T2_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T2_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-
     param T3_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T3_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T3_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T3_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-
     param T4_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T4_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T4_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T4_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-
     # Unroll-jam
     param U1_I[]  = range(1,31);
     param U2_I[]  = range(1,31);
@@ -36,7 +33,6 @@
     param U3_J[]  = range(1,31);
     param U4_I[]  = range(1,31);
     param U4_J[]  = range(1,31);
-
     # Register tiling
     param RT2_I[] = [1,2,4,8,16,32];
     param RT2_J[] = [1,2,4,8,16,32];
@@ -78,9 +74,9 @@
   {
    arg algorithm = 'DLMT';
    arg total_runs = 75;
-   arg dlmt_federov_sampling = 30;
+   arg dlmt_federov_sampling = 2;
    arg dlmt_extra_experiments = 2;
-   arg dlmt_design_multiplier = 1.5;
+   arg dlmt_design_multiplier = 1.2;
    arg dlmt_steps = 4;
    arg dlmt_aov_threshold = 0.05;
    arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U3_J", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT3_I", "RT3_J", "RT4_I", "RT4_J", "SCR", "VEC1", "VEC2", "VEC3", "VEC4"]';
