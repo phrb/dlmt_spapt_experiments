@@ -1,45 +1,40 @@
-/*@ begin PerfTuning (         
-  def build 
-  { 
-    arg build_command = 'gcc -O3 -fopenmp ';
+/*@ begin PerfTuning (
+  def build
+  {
+    arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
     arg libs = '-lm -lrt';
-  } 
-    
-  def performance_counter          
-  { 
-    arg repetitions = 35; 
   }
 
-  def performance_params 
+  def performance_counter
+  {
+    arg repetitions = 2;
+  }
+
+  def performance_params
   {
   #  param PERM[] = [
   #   ['i','j'],
   #   ['j','i'],
   #  ];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-    param T2_I[] = [1,16,32,64,128,256,512];
-    param T2_J[] = [1,16,32,64,128,256,512];
-    param T2_Ia[] = [1,64,128,256,512,1024,2048];
-    param T2_Ja[] = [1,64,128,256,512,1024,2048];
+    param U2_I[]  = range(1,31);
+    param U2_J[]  = range(1,31);
 
-    param U2_I[]  = range(1,31); 
-    param U2_J[]  = range(1,31); 
-
-    param RT2_I[] = [1,8,32];
-    param RT2_J[] = [1,8,32];
+    param RT2_I[] = [1,2,4,8,16,32];
+    param RT2_J[] = [1,2,4,8,16,32];
 
     param SCR[]  = [False,True];
     param VEC2[] = [False,True];
     param OMP[] = [False,True];
 
-
-        
-    param U1_K[]  = [1];
-    param U1_J[]  = range(1,31); 
+    param U1_K[]  = range(1,31);
+    param U1_J[]  = range(1,31);
     param VEC1[] = [False,True];
-    
 
-    
     constraint tileI2 = ((T2_Ia == 1) or (T2_Ia % T2_I == 0));
     constraint tileJ2 = ((T2_Ja == 1) or (T2_Ja % T2_J == 0));
     constraint reg_capacity = (RT2_I*RT2_J <= 150);
@@ -47,15 +42,15 @@
 
   }
 
-  def search 
-  { 
-    arg algorithm = 'Randomsearch'; 
-    arg total_runs = 10000;
-  } 
-   
-  def input_params 
+  def search
   {
-    param N[] = [500];
+    arg algorithm = 'Baseline';
+    arg total_runs = 1;
+  }
+
+  def input_params
+  {
+    param N[] = [2000];
   }
 
   def input_vars
@@ -63,8 +58,11 @@
     arg decl_file = 'decl_code.h';
     arg init_file = 'init_code.c';
  }
-) @*/ 
 
+  def validation {
+    arg validation_file = 'validation_3x.c';
+  }
+) @*/
 
 int i,j, k,t;
 int it, jt, kt;
@@ -104,4 +102,3 @@ int iii, jjj, kkk;
 /*@ end @*/
 
 /*@ end @*/
-
