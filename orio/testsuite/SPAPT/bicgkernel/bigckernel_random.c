@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 10;
   }
 
   def performance_params
@@ -58,7 +58,7 @@
 
   def input_params
   {
-  param N[] = [10000];
+  param N[] = [40000];
   }
 
   def input_vars
@@ -68,7 +68,7 @@
   }
 
   def validation {
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_3x.c';
   }
 ) @*/
 

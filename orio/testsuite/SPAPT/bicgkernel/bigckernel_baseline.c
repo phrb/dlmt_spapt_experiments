@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 2;
   }
 
   def performance_params
@@ -15,7 +15,6 @@
     # Cache tiling
     param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-
     param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
@@ -52,17 +51,13 @@
 
   def search
   {
-    arg algorithm = 'DLMT';
-    arg total_runs = 75;
-    arg dlmt_federov_sampling = 30;
-    arg dlmt_extra_experiments = 10;
-    arg dlmt_steps = 3;
-    arg dlmt_linear = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J", "SCR", "VEC1", "VEC2", "OMP"]';
+    arg algorithm = 'Baseline';
+    arg total_runs = 1;
   }
 
   def input_params
   {
-  param N[] = [10000];
+  param N[] = [40000];
   }
 
   def input_vars
@@ -72,7 +67,7 @@
   }
 
   def validation {
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_3x.c';
   }
 ) @*/
 
