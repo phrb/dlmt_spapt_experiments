@@ -284,6 +284,9 @@ class DLMT(orio.main.tuner.search.search.Search):
         # Checking for errors in R
         # TODO: Deal better with this, catch actual exceptions
         try:
+            info("Anova Formula in Python: " + str(formula))
+            info("Anova Formula in R: " + str(Formula(formula)))
+
             regression = self.stats.lm(Formula(formula), data = design)
             heteroscedasticity_test = self.car.ncvTest(regression)
             info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
@@ -577,10 +580,12 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         design = self.base.cbind(design, DataFrame({self.model["response"]: FloatVector(measurements)}))
 
-        # To remove NAs manually:
-        # design = design.rx(self.base.is_finite(design.rx2(self.model["response"])), True)
-
         info("Complete design, with measurements:")
+        info(str(design))
+
+        design = design.rx(self.stats.complete_cases(design), True)
+
+        info("Clean design, with measurements:")
         info(str(design))
 
         return design
