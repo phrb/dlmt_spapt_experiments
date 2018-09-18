@@ -13,7 +13,7 @@
   def search
   {
     arg algorithm = 'Randomsearch';
-    arg total_runs = 21;
+    arg total_runs = 32;
   }
 
   def performance_params
