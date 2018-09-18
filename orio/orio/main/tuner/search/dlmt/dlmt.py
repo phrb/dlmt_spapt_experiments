@@ -573,10 +573,12 @@ class DLMT(orio.main.tuner.search.search.Search):
             if measurement != {}:
                 measurements.append(float(numpy.mean(measurement[str(candidate)][0])))
             else:
-                measurements.append(float('inf'))
+                measurements.append(robjects.NA_Real)
 
         design = self.base.cbind(design, DataFrame({self.model["response"]: FloatVector(measurements)}))
-        design = design.rx(self.base.is_finite(design.rx2(self.model["response"])), True)
+
+        # To remove NAs manually:
+        # design = design.rx(self.base.is_finite(design.rx2(self.model["response"])), True)
 
         info("Complete design, with measurements:")
         info(str(design))
