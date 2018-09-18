@@ -62,12 +62,12 @@
     # openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,ii,jj,kk,i,j,k,y_copy,x_copy)')
 
     # Constraints
-    constraint tileI = ((T2_I == 1) or (T2_I % T1_I == 0));
-    constraint tileJ = ((T2_J == 1) or (T2_J % T1_J == 0));
-    constraint tileK = ((T2_K == 1) or (T2_K % T1_K == 0));
-
-    constraint reg_capacity = (RT_I*RT_J + RT_I*RT_K + RT_J*RT_K <= 150);
-    constraint unroll_limit = ((U_I == 1) or (U_J == 1) or (U_K == 1));
+#    constraint tileI = ((T2_I == 1) or (T2_I % T1_I == 0));
+#    constraint tileJ = ((T2_J == 1) or (T2_J % T1_J == 0));
+#    constraint tileK = ((T2_K == 1) or (T2_K % T1_K == 0));
+#
+#    constraint reg_capacity = (RT_I*RT_J + RT_I*RT_K + RT_J*RT_K <= 150);
+#    constraint unroll_limit = ((U_I == 1) or (U_J == 1) or (U_K == 1));
 
   }
 
