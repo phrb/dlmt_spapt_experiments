@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 10;
   }
 
   def performance_params
@@ -65,13 +65,21 @@
 
   def search
   {
-    arg algorithm = 'Randomsearch';
-    arg total_runs = 80;
+    arg algorithm = 'DLMT';
+    arg total_runs = 1;
+    arg dlmt_federov_sampling = 30;
+    arg dlmt_extra_experiments = 1;
+    arg dlmt_design_multiplier = 1.2;
+    arg dlmt_steps = 4;
+    arg dlmt_aov_threshold = 0.05;
+    arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT4_I", "RT4_J", "SCR", "VEC1", "VEC2", "VEC3", "VEC4", "OMP"]';
+    arg dlmt_quadratic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT4_I", "RT4_J"]';
+    arg dlmt_cubic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT4_I", "RT4_J"]';
   }
 
   def input_params
   {
-  param N[] = [10000];
+  param N[] = [40000];
   }
 
   def input_vars
@@ -81,7 +89,7 @@
   }
   def validation {
 
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_3x.c';
 
   }
 ) @*/
