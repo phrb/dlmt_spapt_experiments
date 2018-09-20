@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-  arg repetitions = 35;
+  arg repetitions = 10;
   }
 
   def performance_params
@@ -61,7 +61,7 @@
     arg algorithm = 'DLMT';
     arg total_runs = 1;
     arg dlmt_federov_sampling = 20;
-    arg dlmt_extra_experiments = 4;
+    arg dlmt_extra_experiments = 1;
     arg dlmt_design_multiplier = 3;
     arg dlmt_steps = 4;
     arg dlmt_aov_threshold = 0.05;
@@ -71,7 +71,7 @@
   }
 
   def validation {
-    arg validation_file = 'validation_1.c';
+    arg validation_file = 'validation_3x.c';
   }
 
   def input_params

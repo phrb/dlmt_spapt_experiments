@@ -11,8 +11,8 @@ int isValid() {
 
   for (i1=0; i1<N; i1++)
     for (i2=0; i2<N +20; i2++){
-	x_sum+=X[i1][i2]*rand1*rand2;
-	b_sum+=B[i1][i2]*rand1*rand2;
+    x_sum+=X[i1][i2]*rand1*rand2;
+    b_sum+=B[i1][i2]*rand1*rand2;
     }
 
   expected = x_sum/b_sum;
