@@ -2,48 +2,40 @@
 
  def build
   {
-    arg build_command = 'gcc -O3 -fopenmp ';
+    arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
     arg libs = '-lm -lrt';
   }
 
   def performance_counter
   {
-  arg repetitions = 35;
-  }  
+  arg repetitions = 2;
+  }
 
- 
+
   def performance_params
-  {  
-
-    param T1_I[] = [1,16,32,64,128,256,512];
-    param T1_J[] = [1,16,32,64,128,256,512];
-    param T1_Ia[] = [1,64,128,256,512,1024,2048];
-    param T1_Ja[] = [1,64,128,256,512,1024,2048];
-
-
-    param T2_I[] = [1,16,32,64,128,256,512];
-    param T2_J[] = [1,16,32,64,128,256,512];
-    param T2_K[] = [1,16,32,64,128,256,512];
-
-    param T2_Ia[] = [1,64,128,256,512,1024,2048];
-    param T2_Ja[] = [1,64,128,256,512,1024,2048];
-    param T2_Ka[] = [1,64,128,256,512,1024,2048];
-
-
+  {
+    param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_K[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ka[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
     param U1_I[] = range(1,31);
     param U1_J[] = range(1,31);
     param U2_I[] = range(1,31);
     param U2_J[] = range(1,31);
     param U2_K[] = range(1,31);
-    
 
-
-    param RT1_I[] = [1,8,32];
-    param RT1_J[] = [1,8,32];
-    param RT2_I[] = [1,8,32];
-    param RT2_J[] = [1,8,32];
-    param RT2_K[] = [1,8,32];
+    param RT1_I[] = [1,2,4,8,16,32];
+    param RT1_J[] = [1,2,4,8,16,32];
+    param RT2_I[] = [1,2,4,8,16,32];
+    param RT2_J[] = [1,2,4,8,16,32];
+    param RT2_K[] = [1,2,4,8,16,32];
 
     param SCREP[] = [False,True];
     param VEC1[] = [False,True];
@@ -51,33 +43,27 @@
     param VEC2[] = [False,True];
     param OMP2[] = [False,True];
 
-
-
     constraint tileI1 = ((T1_Ia == 1) or (T1_Ia % T1_I == 0));
     constraint tileJ1 = ((T1_Ja == 1) or (T1_Ja % T1_J == 0));
     constraint tileI2 = ((T2_Ia == 1) or (T2_Ia % T2_I == 0));
     constraint tileJ2 = ((T2_Ja == 1) or (T2_Ja % T2_J == 0));
     constraint tileK2 = ((T2_Ka == 1) or (T2_Ka % T2_K == 0));
-    
-    
+
     constraint reg_capacity_1 = (U1_I*U1_J <= 150);
     constraint unroll_limit_1 = ((U1_I == 1) or (U1_J == 1) );
 
     constraint reg_capacity_2 = (U2_I*U2_J + U2_I*U2_K + U2_J*U2_K <= 150);
     constraint unroll_limit_2 = ((U2_I == 1) or (U2_J == 1) or (U2_K == 1));
-
-
 }
-  
+
   def search
   {
-  arg algorithm = 'Doptanova';
-  arg total_runs = 120;
+    arg algorithm = 'Baseline';
   }
 
   def input_params
   {
-  param N[] = [512]; 
+  param N[] = [1000];
   param alpha = 1;
   }
 
@@ -86,12 +72,12 @@
   decl static double A[N][N+20] = random;
   decl static double B[N][N+20] = random;
   }
-  
+
   def validation {
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_3x.c';
   }
 
-) @*/   
+) @*/
 
 
 int i, j, k;
@@ -118,8 +104,8 @@ for (i=0; i<=N-1; i++)
     {
       B[i][j] = alpha*A[i][i]*B[i][j];
       for (k=i+1; k<=N-1; k++)
-	B[i][j] = B[i][j] + alpha*A[i][k]*B[k][j];
-	}
+    B[i][j] = B[i][j] + alpha*A[i][k]*B[k][j];
+    }
 
 
 transform Composite(
