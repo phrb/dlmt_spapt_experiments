@@ -106,7 +106,7 @@
   def search
   {
     arg algorithm = 'Randomsearch';
-    arg total_runs = 200;
+    arg total_runs = 400;
   }
 
   def input_params
