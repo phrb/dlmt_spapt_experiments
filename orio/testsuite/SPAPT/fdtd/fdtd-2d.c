@@ -1,7 +1,7 @@
 /*@ begin PerfTuning (
   def build
   {
-    arg build_command = 'gcc -O3 -openmp ';
+    arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
     arg libs = '-lm -lrt';
   }
 
@@ -75,8 +75,8 @@
    arg algorithm = 'DLMT';
    arg total_runs = 75;
    arg dlmt_federov_sampling = 2;
-   arg dlmt_extra_experiments = 2;
-   arg dlmt_design_multiplier = 1.2;
+   arg dlmt_extra_experiments = 1;
+   arg dlmt_design_multiplier = 1.1;
    arg dlmt_steps = 4;
    arg dlmt_aov_threshold = 0.05;
    arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T4_I", "T4_J", "T4_Ia", "T4_Ja", "U1_I", "U2_I", "U2_J", "U3_I", "U3_J", "U4_I", "U4_J", "RT2_I", "RT2_J", "RT3_I", "RT3_J", "RT4_I", "RT4_J", "SCR", "VEC1", "VEC2", "VEC3", "VEC4"]';
