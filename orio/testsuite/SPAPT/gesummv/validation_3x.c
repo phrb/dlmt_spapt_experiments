@@ -1,6 +1,6 @@
 int isValid() {
 
-  double actual = 2637569.602778;
+  double actual = 42216944.602778;
   double w_sum = 0.0;
   double rand1=0.1, rand2=0.5, rand3=0.9;
   double expected=0.0;
@@ -8,7 +8,7 @@ int isValid() {
   double diff=0.0;
 
   for (ii=0; ii<n-1; ii++) {
-	w_sum+=y[ii]*rand1;
+    w_sum+=y[ii]*rand1;
     }
 
   expected = w_sum;

@@ -1,43 +1,39 @@
-/*@ begin PerfTuning (  
+/*@ begin PerfTuning (
   def build
   {
-    
-    arg build_command = 'gcc -O3 -fopenmp -DDYNAMIC'; 
+
+    arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
     arg libs = '-lm -lrt';
 
   }
-  
-  def performance_counter  
-  { 
-  arg repetitions = 35;
+
+  def performance_counter
+  {
+  arg repetitions = 10;
   }
-  
-  def performance_params 
+
+  def performance_params
   {
 
     # Cache tiling
-    param T1_I[] = [1,16,32,64,128,256,512];
-    param T1_J[] = [1,16,32,64,128,256,512];
-    param T1_Ia[] = [1,64,128,256,512,1024,2048];
-    param T1_Ja[] = [1,64,128,256,512,1024,2048];
+    param T1_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T1_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-
-    # Unroll-jam 
+    # Unroll-jam
     param U1_I[]  = range(1,31);
     param U1_J[]  = range(1,31);
 
-
     # Register tiling
-    param RT1_I[] = [1,8,32];
-    param RT1_J[] = [1,8,32];
-
+    param RT1_I[] = [1,2,4,8,16,32];
+    param RT1_J[] = [1,2,4,8,16,32];
 
     # Scalar replacement
     param SCR[]  = [False,True];
 
     # Vectorization
     param VEC1[] = [False,True];
-
 
     # Parallelization
     param OMP[] = [False,True];
@@ -48,27 +44,30 @@
 
     constraint reg_capacity = (RT1_I*RT1_J  <= 150);
     constraint unroll_limit = ((U1_I == 1) or (U1_J == 1) );
+  }
 
-  }
-			 
-  def search 
-  { 
-    arg algorithm = 'Randomsearch'; 
-    arg total_runs = 10000;
-  } 
-  
-  def input_params 
+  def search
   {
-  param N[] = [10000];
+    arg algorithm = 'Randomsearch';
+    arg total_runs = 300;
   }
-  
+
+  def input_params
+  {
+  param N[] = [40000];
+  }
+
   def input_vars
   {
   arg decl_file = 'decl.h';
   arg init_file = 'init.c';
   }
-) @*/
 
+  def validation
+  {
+  arg validation_file = 'validation_3x.c';
+  }
+) @*/
 
 int i,j,t;
 int it, jt, kt;
@@ -78,7 +77,6 @@ double* tmp=(double*)malloc(n*sizeof(double));
 
 #define max(x,y)    ((x) > (y)? (x) : (y))
 #define min(x,y)    ((x) < (y)? (x) : (y))
-
 
 /*@ begin Loop (
 
@@ -106,10 +104,3 @@ double* tmp=(double*)malloc(n*sizeof(double));
 /*@ end @*/
 
 /*@ end @*/
-
-
-
-
-  
-
-
