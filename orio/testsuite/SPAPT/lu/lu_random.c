@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-    arg repetitions = 10;
+    arg repetitions = 2;
   }
 
   def performance_params
@@ -44,16 +44,8 @@
 
   def search
   {
-    arg algorithm = 'DLMT';
-    arg total_runs = 1;
-    arg dlmt_federov_sampling = 30;
-    arg dlmt_extra_experiments = 1;
-    arg dlmt_design_multiplier = 1.2;
-    arg dlmt_steps = 1;
-    arg dlmt_aov_threshold = 0.05;
-    arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "U2_I", "U2_J", "RT2_I", "RT2_J", "SCR", "VEC2", "OMP", "U1_K", "U1_J", "VEC1"]';
-    arg dlmt_quadratic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "U2_I", "U2_J", "RT2_I", "RT2_J","U1_K", "U1_J"]';
-    arg dlmt_cubic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "U2_I", "U2_J", "RT2_I", "RT2_J", "U1_K", "U1_J"]';
+    arg algorithm = 'Randomsearch';
+    arg total_runs = 300;
   }
 
   def input_params
