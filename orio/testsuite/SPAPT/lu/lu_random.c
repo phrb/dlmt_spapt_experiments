@@ -7,7 +7,7 @@
 
   def performance_counter
   {
-    arg repetitions = 2;
+    arg repetitions = 10;
   }
 
   def performance_params
