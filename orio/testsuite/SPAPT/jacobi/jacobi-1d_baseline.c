@@ -1,43 +1,39 @@
-/*@ begin PerfTuning (          
-  def build  
-  {  
-    arg build_command = 'gcc -O3 -fopenmp ';
+/*@ begin PerfTuning (
+  def build
+  {
+    arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp ';
     arg libs = '-lm -lrt';
-  }  
-     
-  def performance_counter           
-  {  
-    arg repetitions = 35;  
-  } 
- 
-  def performance_params  
-  { 
+  }
 
-    param T2_I[] = [1,16,32,64,128,256,512];
-    param T2_J[] = [1,16,32,64,128,256,512];
-    param T2_Ia[] = [1,64,128,256,512,1024,2048];
-    param T2_Ja[] = [1,64,128,256,512,1024,2048];
+  def performance_counter
+  {
+    arg repetitions = 2;
+  }
 
-    param U2_I[]  = range(1,31); 
-    param U2_J[]  = range(1,31); 
+  def performance_params
+  {
 
-    param RT2_I[] = [1,8,32];
-    param RT2_J[] = [1,8,32];
+    param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T2_Ja[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+
+    param U2_I[]  = range(1,31);
+    param U2_J[]  = range(1,31);
+
+    param RT2_I[] = [1,2,4,8,16,32];
+    param RT2_J[] = [1,2,4,8,16,32];
 
     param SCR[]  = [False,True];
     param VEC2[] = [False,True];
     param OMP[] = [False,True];
 
-
     constraint tileI2 = ((T2_Ia == 1) or (T2_Ia % T2_I == 0));
     constraint tileJ2 = ((T2_Ja == 1) or (T2_Ja % T2_J == 0));
     constraint reg_capacity = (RT2_I*RT2_J <= 150);
     constraint unroll_limit = ((U2_I == 1) or (U2_J == 1));
+  }
 
-
-
-  } 
- 
   def input_params
   {
     param T[] = [10000];
@@ -45,23 +41,23 @@
   }
 
   def input_vars
-  { 
+  {
    arg decl_file = 'jacobi-1d_decl_code.h';
    arg init_file = 'jacobi-1d_init_code.c';
-  } 
+  }
 
-  def search  
+  def search
   {
-    arg algorithm = 'Randomsearch';  
-    arg total_runs = 10000; 
+    arg algorithm = 'Baseline';
+    arg total_runs = 1;
   }
 
   def validation {
-    arg validation_file = 'validation.c';
+    arg validation_file = 'validation_3x.c';
   }
 
 
-) @*/  
+) @*/
 
 
 int i,j, k,t;
@@ -81,16 +77,11 @@ transform Composite(
       vector = (VEC2, ['ivdep','vector always']),
       openmp = (OMP, 'omp parallel for private(iii,jjj,ii,jj,i,j)')
 )
-for (i=1; i<=T-1; i++) 
-  for (j=1; j<=N-2; j++) 
+for (i=1; i<=T-1; i++)
+  for (j=1; j<=N-2; j++)
     a[i][j] = 0.333 * (a[i-1][j-1] + a[i-1][j] + a[i-1][j+1]);
 
 ) @*/
 
 /*@ end @*/
 /*@ end @*/
-
-
-
-
-

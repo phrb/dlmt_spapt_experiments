@@ -12,6 +12,7 @@
 
   def performance_params
   {
+
     param T2_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T2_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
     param T2_Ia[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
@@ -47,16 +48,8 @@
 
   def search
   {
-    arg algorithm = 'DLMT';
-    arg total_runs = 1;
-    arg dlmt_federov_sampling = 30;
-    arg dlmt_extra_experiments = 1;
-    arg dlmt_design_multiplier = 1.2;
-    arg dlmt_steps = 4;
-    arg dlmt_aov_threshold = 0.05;
-    arg dlmt_linear = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "U2_I", "U2_J", "RT2_I", "RT2_J", "SCR", "VEC2", "OMP"]';
-    arg dlmt_quadratic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "U2_I", "U2_J", "RT2_I", "RT2_J"]';
-    arg dlmt_cubic = '["T2_I", "T2_J", "T2_Ia", "T2_Ja", "U2_I", "U2_J", "RT2_I", "RT2_J"]';
+    arg algorithm = 'Randomsearch';
+    arg total_runs = 300;
   }
 
   def validation {
