@@ -1,23 +1,23 @@
 
-/*@ begin PerfTuning (        
+/*@ begin PerfTuning (
   def build
   {
-  arg build_command = 'gcc -O3 -fopenmp '; 
+  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
   arg libs = '-lm -lrt';
   }
-   
-  def performance_counter         
+
+  def performance_counter
   {
-    arg repetitions = 35;
+    arg repetitions = 2;
   }
-  
-  let VR = 500;
-  let OR = 10;
 
   def performance_params
   {
+    let VR = 500;
+    let OR = 10;
     param VRANGE = VR;
     param ORANGE = OR;
+
     param T1_I[] = [1,16,32,64,128,256,512];
     param T1_J[] = [1,16,32,64,128,256,512];
     param T1_K[] = [1,16,32,64,128,256,512];
@@ -51,25 +51,30 @@
 
   def search
   {
-    arg algorithm = 'Randomsearch';
-    arg total_runs = 10000;
+    arg algorithm = 'Baseline';
+    arg total_runs = 1;
   }
 
   def input_params
   {
     param VSIZE = 500;
-    param OSIZE = 10;
+    param OSIZE = 25;
     param V = 500;
-    param O = 10;
-    
+    param O = 25;
+
     }
 
   def input_vars
   {
-   
+
     decl dynamic double A2[V][O] = random;
     decl dynamic double T[V][O][O][O] = random;
     decl dynamic double R[V][V][O][O] = 0;
+  }
+
+  def validation
+  {
+  arg validation_file = 'validation_3x.c';
   }
 ) @*/
 
@@ -90,15 +95,14 @@ int iii, jjj, kkk,lll,mmm;
     vector = (VEC, ['ivdep','vector always']),
     openmp = (OMP, 'omp parallel for private(iii,jjj,kkk,lll,mmm,ii,jj,kk,ll,mm,i,j,k,l,m)')
   )
-  for(i=0; i<=V-1; i++) 
-    for(j=0; j<=V-1; j++) 
-      for(k=0; k<=O-1; k++) 
-        for(l=0; l<=O-1; l++) 
-	  for(m=0; m<=O-1; m++) 
-	    R[i][j][k][l] = R[i][j][k][l] + T[i][m][k][l] * A2[j][m];
+  for(i=0; i<=V-1; i++)
+    for(j=0; j<=V-1; j++)
+      for(k=0; k<=O-1; k++)
+        for(l=0; l<=O-1; l++)
+      for(m=0; m<=O-1; m++)
+        R[i][j][k][l] = R[i][j][k][l] + T[i][m][k][l] * A2[j][m];
 
 ) @*/
 
 /*@ end @*/
 /*@ end @*/
-
