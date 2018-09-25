@@ -1,0 +1,59 @@
+
+__orio_perftest1.c: In function ‘main’:
+__orio_perftest1.c:151:23: warning: iteration 509 invokes undefined behavior [-Waggressive-loop-optimizations]
+     data[i][j]=data[i][j]-mean[j];
+                ~~~~~~~^~~
+__orio_perftest1.c:150:3: note: within this loop
+   for (j=1; j<=m; j++ )
+   ^~~
+__orio_perftest1.c:157:41: warning: iteration 509 invokes undefined behavior [-Waggressive-loop-optimizations]
+       symmat[k][j]=symmat[k][j]+(data[i][k]*data[i][j]);
+                                  ~~~~~~~^~~
+__orio_perftest1.c:152:1: note: within this loop
+ for (k=1; k<=m-1; k=k+1) {
+ ^~~
+__orio_perftest1.c:146:28: warning: iteration 509 invokes undefined behavior [-Waggressive-loop-optimizations]
+     mean[j]=mean[j]+data[i][j];
+                     ~~~~~~~^~~
+__orio_perftest1.c:143:1: note: within this loop
+ for (j=1; j<=m; j=j+1) {
+ ^~~
+__orio_perftest1.c: In function ‘main’:
+__orio_perftest1.c:151:23: warning: iteration 509 invokes undefined behavior [-Waggressive-loop-optimizations]
+     data[i][j]=data[i][j]-mean[j];
+                ~~~~~~~^~~
+__orio_perftest1.c:150:3: note: within this loop
+   for (j=1; j<=m; j++ )
+   ^~~
+__orio_perftest1.c:157:41: warning: iteration 509 invokes undefined behavior [-Waggressive-loop-optimizations]
+       symmat[k][j]=symmat[k][j]+(data[i][k]*data[i][j]);
+                                  ~~~~~~~^~~
+__orio_perftest1.c:152:1: note: within this loop
+ for (k=1; k<=m-1; k=k+1) {
+ ^~~
+__orio_perftest1.c:146:28: warning: iteration 509 invokes undefined behavior [-Waggressive-loop-optimizations]
+     mean[j]=mean[j]+data[i][j];
+                     ~~~~~~~^~~
+__orio_perftest1.c:143:1: note: within this loop
+ for (j=1; j<=m; j=j+1) {
+ ^~~
+timeout: the monitored command dumped core
+[00;31mERROR: orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  ' returned non-zero exit status -11[00m
+[00;31mERROR: orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  "[00m
+Traceback (most recent call last):
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+  File "/home/phrb/code/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+  File "/home/phrb/code/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+  File "/home/phrb/code/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+  File "/home/phrb/code/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+  File "/home/phrb/code/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 132, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+  File "/home/phrb/code/dlmt_spapt_experiments/orio/orio/main/tuner/search/baseline/baseline.py", line 14, in searchBestCoord
+    starting_point = numpy.mean((self.getPerfCosts([[0] * self.total_dims]).values()[0])[0])
+IndexError: list index out of range
