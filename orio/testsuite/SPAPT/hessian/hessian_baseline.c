@@ -1,61 +1,51 @@
 
-/*@ begin PerfTuning (        
+/*@ begin PerfTuning (
   def build
   {
-    arg build_command = 'gcc -O3 -fopenmp ';
+    arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
     arg libs = '-lm -lrt';
   }
 
-  def performance_counter         
+  def performance_counter
   {
-    arg repetitions = 35;
+    arg repetitions = 10;
   }
-  
-  let RANGE = 2000;
-  let BSIZE = 512*32;
-
 
   def performance_params
   {
+    param T_I[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+    param T_J[] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 
-    # Cache tiling
-    param T_I[] = [1,16,32,64,128,256,512];
-    param T_J[] = [1,16,32,64,128,256,512];
-
-
-    param RT_I[] = [1,8,32];
-    param RT_J[] = [1,8,32];
-
+    param RT_I[] = [1,2,4,8,16,32];
+    param RT_J[] = [1,2,4,8,16,32];
 
     param U_I[] = range(1,31);
     param U_J[] = range(1,31);
-
 
     param SCREP[] = [False,True];
     param VEC[] = [False,True];
     param OMP[] = [False,True];
 
-
     #constraint reg_capacity = (4*U_I*U_J + 3*U_I + 3*U_J <= 128);
-
     constraint unroll_limit = ((U_I == 1) or (U_J == 1));
-
   }
 
   def search
   {
-    arg algorithm = 'Randomsearch';
-    arg total_runs = 10000;
+    arg algorithm = 'Baseline';
+    arg total_runs = 1;
   }
-  
+
   def input_params
   {
+    let RANGE = 8000;
+    let BSIZE = 512*32;
     param SIZE = RANGE;
     param N = RANGE;
-  }            
+  }
 
   def input_vars
-  { 
+  {
     decl static double X0[N][N] = random;
     decl static double X1[N][N] = random;
     decl static double X2[N][N] = random;
@@ -72,9 +62,11 @@
     decl double b11 = 1210.313;
     decl double b12 = 9.373;
     decl double b22 = 1992.31221;
-  }            
+  }
 
-
+  def validation {
+    arg validation_file = 'validation_3x.c';
+  }
 ) @*/
 
 int i,j,ii,jj,iii,jjj,it,jt;
@@ -94,29 +86,29 @@ int i,j,ii,jj,iii,jjj,it,jt;
   )
 
 for (i=0; i<=N-1; i++)
-  for (j=0; j<=N-1; j++) 
+  for (j=0; j<=N-1; j++)
     {
       Y[i][j]=a0*X0[i][j] + a1*X1[i][j] + a2*X2[i][j]
-	+ 2.0*b00*u0[i]*u0[j]
-	+ 2.0*b11*u1[i]*u1[j]
-	+ 2.0*b22*u2[i]*u2[j]
-	+ b01*u0[i]*u1[j] + b01*u1[i]*u0[j] 
-	+ b02*u0[i]*u2[j] + b02*u2[i]*u0[j]
-	+ b12*u1[i]*u2[j] + b12*u2[i]*u1[j];
+    + 2.0*b00*u0[i]*u0[j]
+    + 2.0*b11*u1[i]*u1[j]
+    + 2.0*b22*u2[i]*u2[j]
+    + b01*u0[i]*u1[j] + b01*u1[i]*u0[j]
+    + b02*u0[i]*u2[j] + b02*u2[i]*u0[j]
+    + b12*u1[i]*u2[j] + b12*u2[i]*u1[j];
     }
 
 ) @*/
 
 for (i=0; i<=N-1; i++)
-  for (j=0; j<=N-1; j++) 
+  for (j=0; j<=N-1; j++)
     {
       Y[i][j]=a0*X0[i][j] + a1*X1[i][j] + a2*X2[i][j]
-	+ 2.0*b00*u0[i]*u0[j]
-	+ 2.0*b11*u1[i]*u1[j]
-	+ 2.0*b22*u2[i]*u2[j]
-	+ b01*(u0[i]*u1[j] + u1[i]*u0[j])
-	+ b02*(u0[i]*u2[j] + u2[i]*u0[j])
-	+ b12*(u1[i]*u2[j] + u2[i]*u1[j]);
+    + 2.0*b00*u0[i]*u0[j]
+    + 2.0*b11*u1[i]*u1[j]
+    + 2.0*b22*u2[i]*u2[j]
+    + b01*(u0[i]*u1[j] + u1[i]*u0[j])
+    + b02*(u0[i]*u2[j] + u2[i]*u0[j])
+    + b12*(u1[i]*u2[j] + u2[i]*u1[j]);
     }
 
 /*@ end @*/
