@@ -60,7 +60,7 @@
     arg dlmt_aov_threshold = 0.05;
 
     arg dlmt_linear = '["T1_I", "T1_J", "T1_K", "T1_L", "T1_M", "T1_Ia", "T1_Ja", "T1_Ka", "T1_La", "T1_Ma", "U1_I", "U1_J", "U1_K", "U1_L", "U1_M", "SCREP", "VEC", "OMP"]';
-    arg dlmt_quadraic = '["T1_I", "T1_J", "T1_K", "T1_L", "T1_M", "T1_Ia", "T1_Ja", "T1_Ka", "T1_La", "T1_Ma", "U1_I", "U1_J", "U1_K", "U1_L", "U1_M"]';
+    arg dlmt_quadratic = '["T1_I", "T1_J", "T1_K", "T1_L", "T1_M", "T1_Ia", "T1_Ja", "T1_Ka", "T1_La", "T1_Ma", "U1_I", "U1_J", "U1_K", "U1_L", "U1_M"]';
     arg dlmt_cubic = '["T1_I", "T1_J", "T1_K", "T1_L", "T1_M", "T1_Ia", "T1_Ja", "T1_Ka", "T1_La", "T1_Ma", "U1_I", "U1_J", "U1_K", "U1_L", "U1_M"]';
   }
 
