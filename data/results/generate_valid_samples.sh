@@ -1,0 +1,1 @@
+echo "application,valid,sampled" > valid_samples.csv && find */*  | grep -v "random" | grep "log" | xargs grep -n "Valid/Tested" | cut -d: -f1,4 | sed "s/[:/]/,/g" | cut -d, -f1,4,5 >> valid_samples.csv
