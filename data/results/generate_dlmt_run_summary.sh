@@ -9,66 +9,68 @@ TABLE=$'kernel,run_id,de_step_1,de_step_2,de_step_3,de_step_4,removed_step_1,rem
 for f in $DLMT_FILES; do
     RUN_ID="$(echo "$f" | cut -d_ -f6 | cut -d/ -f1),"
     KERNEL="$(echo "$f" | cut -d_ -f6 | cut -d/ -f2 | cut -d. -f1)"
-    TABLE+="$KERNEL,$RUN_ID"
+    LINE="$KERNEL,$RUN_ID"
 
     ITEMS=$(grep "D-Eff" $f | wc -l)
     if [[ "$ITEMS" -gt 0 ]]
     then
-        TABLE+="$(grep "D-Eff" $f | cut -d" " -f4 | tr $'\n' ',')"
+        LINE+="$(grep "D-Eff" $f | cut -d" " -f4 | tr $'\n' ',')"
     fi
 
     MISSING=$(expr $ITERATIONS - $ITEMS)
     if [[ $MISSING -gt 0 ]]
     then
         for (( i=1; i<=$MISSING; i++ )); do
-            TABLE+=","
+            LINE+=","
         done
     fi
 
     ITEMS=$(grep "Predicting Best Values for:" $f | wc -l)
     if [[ "$ITEMS" -gt 0 ]]
     then
-        TABLE+="$(grep "Predicting Best Values for:" $f | cut -d"[" -f2 | cut -d"]" -f1 | sed "s/^/\"/" | sed "s/\$/\"/" | sed "s/,/:/g" | tr $'\n' ',')"
+        LINE+="$(grep "Predicting Best Values for:" $f | cut -d"[" -f2 | cut -d"]" -f1 | sed "s/^/\"/" | sed "s/\$/\"/" | sed "s/,/:/g" | tr $'\n' ',')"
     fi
 
     MISSING=$(expr $ITERATIONS - $ITEMS)
     if [[ $MISSING -gt 0 ]]
     then
         for (( i=1; i<=$MISSING; i++ )); do
-            TABLE+=","
+            LINE+=","
         done
     fi
 
     ITEMS=$(grep "Slowdown (Design Best):" $f | uniq | wc -l)
     if [[ "$ITEMS" -gt 0 ]]
     then
-        TABLE+="$(grep "Slowdown (Design Best):" $f | cut -d" " -f4 | uniq | tr $'\n' ',')"
+        LINE+="$(grep "Slowdown (Design Best):" $f | cut -d" " -f4 | uniq | tr $'\n' ',')"
     fi
 
     MISSING=$(expr $ITERATIONS - $ITEMS)
     if [[ $MISSING -gt 0 ]]
     then
         for (( i=1; i<=$MISSING; i++ )); do
-            TABLE+=","
+            LINE+=","
         done
     fi
 
     ITEMS=$(grep "Slowdown (Predicted Best):" $f | uniq | wc -l)
     if [[ "$ITEMS" -gt 0 ]]
     then
-        TABLE+="$(grep "Slowdown (Predicted Best):" $f | cut -d" " -f4 | uniq | tr $'\n' ',')"
+        LINE+="$(grep "Slowdown (Predicted Best):" $f | cut -d" " -f4 | uniq | tr $'\n' ',')"
     fi
 
     MISSING=$(expr $ITERATIONS - $ITEMS)
     if [[ $MISSING -gt 0 ]]
     then
         for (( i=1; i<=$MISSING; i++ )); do
-            TABLE+=","
+            LINE+=","
         done
     fi
 
-    TABLE=$(sed '$s/,$//' <<< "$TABLE")
-    TABLE+=$'\n'
+    LINE=$(sed 's/,$//' <<< "$LINE")
+    LINE+=$'\n'
+
+    TABLE+=$LINE
 done
 
 #TABLE=$(sed '$s/\\n$//' <<< "$TABLE")
