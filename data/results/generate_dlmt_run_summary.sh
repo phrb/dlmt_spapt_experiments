@@ -67,9 +67,9 @@ for f in $DLMT_FILES; do
         done
     fi
 
-    TABLE=$(sed '$s/,//' <<< "$TABLE")
+    TABLE=$(sed '$s/,$//' <<< "$TABLE")
     TABLE+=$'\n'
 done
 
-#TABLE=$(sed '$s/\\n//' <<< "$TABLE")
+#TABLE=$(sed '$s/\\n$//' <<< "$TABLE")
 echo "$TABLE"
