@@ -59,12 +59,17 @@ for f in $DLMT_FILES; do
         TABLE+="$(grep "Slowdown (Predicted Best):" $f | cut -d" " -f4 | uniq | tr $'\n' ',' | sed "s/,\$//")"
     fi
 
-    MISSING=$(expr $ITERATIONS - $ITEMS - 1)
+    MISSING=$(expr $ITERATIONS - $ITEMS)
     if [[ $MISSING -gt 0 ]]
     then
         for (( i=1; i<=$MISSING; i++ )); do
             TABLE+=","
         done
+    fi
+
+    if [[ "$MISSING" -eq "$ITERATIONS" ]]
+    then
+        TABLE=${TABLE/,\$//}
     fi
 
     TABLE+=$'\n'
