@@ -39,6 +39,11 @@ for f in $DLMT_FILES; do
         done
     fi
 
+    if [[ $MISSING == $ITERATIONS ]]
+    then
+        TABLE=${TABLE/,\$//}
+    fi
+
     ITEMS=$(grep "Slowdown (Design Best):" $f | uniq | wc -l)
     if [[ "$ITEMS" -gt 0 ]]
     then
@@ -53,10 +58,15 @@ for f in $DLMT_FILES; do
         done
     fi
 
+    if [[ $MISSING == $ITERATIONS ]]
+    then
+        TABLE=${TABLE/,\$//}
+    fi
+
     ITEMS=$(grep "Slowdown (Predicted Best):" $f | uniq | wc -l)
     if [[ "$ITEMS" -gt 0 ]]
     then
-        TABLE+="$(grep "Slowdown (Predicted Best):" $f | cut -d" " -f4 | uniq | tr $'\n' ',' | sed "s/,\$//")"
+        TABLE+="$(grep "Slowdown (Predicted Best):" $f | cut -d" " -f4 | uniq | tr $'\n' ',')"
     fi
 
     MISSING=$(expr $ITERATIONS - $ITEMS)
@@ -67,11 +77,7 @@ for f in $DLMT_FILES; do
         done
     fi
 
-    if [[ "$MISSING" -eq "$ITERATIONS" ]]
-    then
-        TABLE=${TABLE/,\$//}
-    fi
-
+    TABLE=${TABLE/,\$//}
     TABLE+=$'\n'
 done
 
