@@ -11,7 +11,7 @@ for f in $DLMT_FILES; do
     KERNEL="$(echo "$f" | cut -d_ -f6 | cut -d/ -f2 | cut -d. -f1)"
     LINE="$KERNEL,$RUN_ID"
 
-    LINE+="$(grep "best coordinate" $f | cut -d "=" -f2 | cut -d "}" -f1 | xargs -I{} echo {}"}" | tr $'\n' ',')"
+    LINE+="$(grep "best coordinate" $f | cut -d "=" -f2 | cut -d "}" -f1 | xargs -I{} echo {}"}" | sed "s/^/\"/" | sed "s/\$/\"/" | tr $'\n' ',')"
 
     ITEMS=$(grep "D-Eff" $f | wc -l)
     if [[ "$ITEMS" -gt 0 ]]
