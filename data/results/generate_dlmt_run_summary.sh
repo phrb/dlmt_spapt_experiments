@@ -4,7 +4,7 @@ DLMT_FILES=$(find . | grep -v "random" | grep "log")
 
 ITERATIONS=4
 
-TABLE=$'kernel,run_id,de_step_1,de_step_2,de_step_3,de_step_4,removed_step_1,removed_step_2,removed_step_3,removed_step_4,design_best_step_1,design_best_step_2,design_best_step_3,design_best_step_4,predicted_best_step_1,predicted_best_step_2,predicted_best_step_3,predicted_best_step_4\n'
+TABLE=$'kernel,run_id,fixed_factors,de_step_1,de_step_2,de_step_3,de_step_4,removed_step_1,removed_step_2,removed_step_3,removed_step_4,design_best_step_1,design_best_step_2,design_best_step_3,design_best_step_4,predicted_best_step_1,predicted_best_step_2,predicted_best_step_3,predicted_best_step_4\n'
 
 for f in $DLMT_FILES; do
     RUN_ID="$(echo "$f" | cut -d_ -f6 | cut -d/ -f1),"
