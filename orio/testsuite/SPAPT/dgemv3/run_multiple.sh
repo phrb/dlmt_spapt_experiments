@@ -10,4 +10,4 @@ done
 mkdir -p $NODE_NAME
 
 ./db2csv.py
-mv results.* search_space.* *.stderr *.log $NODE_NAME
+mv run_summary.* results.* search_space.* *.stderr *.log $NODE_NAME
