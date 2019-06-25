@@ -806,7 +806,7 @@ class DLMT(orio.main.tuner.search.search.Search):
             info(str(best_point))
 
             self.iteration_data["current_best"] = best_value
-            self.iteration_data["current_best_coordinate"] = str(self.coordToPerfParams(current_best))
+            self.iteration_data["current_best_coordinate"] = str(self.coordToPerfParams(best_point))
 
             self.summary.insert(self.iteration_data)
 
