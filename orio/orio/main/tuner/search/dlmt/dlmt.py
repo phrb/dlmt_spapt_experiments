@@ -78,6 +78,9 @@ class DLMT(orio.main.tuner.search.search.Search):
                 + 'total number of search runs to be defined') %
                 self.__class__.__name__)
 
+        self.run_summary_database = dataset.connect("sqlite:///" + 'run_summary.db')
+        self.summary = self.run_summary_database["dlmt_run_summary"]
+
         info("Federov Sampling Multiplier: " + str(self.federov_sampling))
         info("ANOVA Steps: " + str(self.steps))
         info("Extra Experiments in Designs: " + str(self.extra_experiments))
@@ -325,6 +328,8 @@ class DLMT(orio.main.tuner.search.search.Search):
         else:
             model = ". ~ " + " + ".join(unique_variables)
 
+        self.iteration_data["removed_variables"] = str(unique_variables)
+
         info("Using Model: " + str(model))
         regression = self.stats.update(regression, Formula(model))
 
@@ -346,7 +351,6 @@ class DLMT(orio.main.tuner.search.search.Search):
         predicted     = self.stats.predict(regression, data)
         predicted_min = min(predicted)
         return data.rx(predicted.ro == self.base.min(predicted), True)
-
 
     def predict_best(self, regression, size):
         info("Predicting Best")
@@ -634,6 +638,8 @@ class DLMT(orio.main.tuner.search.search.Search):
         design_formula = full_model
         lm_formula     = self.model["response"] + " " + full_model
 
+        self.iteration_data["model"] = str(full_model)
+
         info("Current Model: " + str(self.model))
         info("Computing D-Optimal Design")
 
@@ -644,7 +650,9 @@ class DLMT(orio.main.tuner.search.search.Search):
         design = output.rx("design")[0]
 
         info(str(design))
-        info("D-Efficiency Approximation: " + str(output.rx("Dea")[0]))
+        info("D-Efficiency Approximation: " + str(output.rx("D")[0]))
+
+        self.iteration_data["model"] = str(output.rx("D")[0])
 
         design                 = self.measure_design(design)
         used_experiments       = len(design[0])
@@ -686,6 +694,8 @@ class DLMT(orio.main.tuner.search.search.Search):
             info("Best From Design: " + str(design_best))
             info("Current Model: " + str(self.model))
 
+            self.iteration_data["fixed_factors"] = str(self.model["fixed_factors"])
+
             return {
                         "prf_values": prf_values,
                         "ordered_prf_keys": ordered_prf_keys,
@@ -707,15 +717,24 @@ class DLMT(orio.main.tuner.search.search.Search):
                 info("Stopping: Used budget")
                 break
 
+            self.iteration_data = {"step": i,
+                                   "used_budget": used_experiments,
+                                   "total_budget": initial_budget}
+
             model_size = len(self.model["interactions"]) + len(self.model["quadratic"]) + len(self.model["linear"]) + len(self.model["inverse"]) + len(self.model["cubic"])
 
+            self.iteration_data["model_size"] = model_size
+
             if model_size == 0:
+                # TODO: Write self.iteration_data to database with empty values?
                 info("Stopping: No more variables in model")
                 break
 
             info("Step {0}".format(i))
 
             trials = int(round(self.design_multiplier * (len(self.model["interactions"]) + len(self.model["quadratic"]) + len(self.model["linear"]) + len(self.model["inverse"]) + len(self.model["cubic"]))) + self.extra_experiments)
+
+            self.iteration_data["trials"] = trials
 
             step_data = self.dopt_anova_step(budget, trials, i)
 
@@ -764,7 +783,10 @@ class DLMT(orio.main.tuner.search.search.Search):
                 predicted_best_slowdown = predicted_best_value / starting_point
 
                 info("Slowdown (Design Best): " + str(design_best_value / starting_point))
+                self.iteration_data["design_best"] = design_best_value / starting_point
+
                 info("Slowdown (Predicted Best): " + str(predicted_best_value / starting_point))
+                self.iteration_data["predicted_best"] = predicted_best_value / starting_point
                 info("Budget: {0}/{1}".format(used_experiments, initial_budget))
 
                 if design_best_slowdown < predicted_best_slowdown:
@@ -779,9 +801,14 @@ class DLMT(orio.main.tuner.search.search.Search):
                 info("Updating Global Best: " + str(current_best_value))
                 best_point = current_best
                 best_value = current_best_value
-
+)
             info("Current Best Point: ")
             info(str(best_point))
+
+            self.iteration_data["current_best"] = best_value
+            self.iteration_data["current_best_coordinate"] = str(self.coordToPerfParams(current_best))
+
+            self.summary.insert(self.iteration_data)
 
         info("Final Best Point: ")
         info(str(best_point))
@@ -840,8 +867,6 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         # return the best coordinate
         return best_point, predicted_best_value, search_time, speedup
-
-    # Private methods
 
     def __readAlgoArgs(self):
         for vname, rhs in self.search_opts.iteritems():
