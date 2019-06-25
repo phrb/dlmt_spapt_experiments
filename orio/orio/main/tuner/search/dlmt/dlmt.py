@@ -801,7 +801,7 @@ class DLMT(orio.main.tuner.search.search.Search):
                 info("Updating Global Best: " + str(current_best_value))
                 best_point = current_best
                 best_value = current_best_value
-)
+
             info("Current Best Point: ")
             info(str(best_point))
 
