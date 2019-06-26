@@ -217,6 +217,9 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Valid/Tested configurations: " + str(len(search_space)) + "/" +
              str(evaluated))
 
+        self.iteration_data["valid_configurations"] = len(search_space)
+        self.iteration_data["tested_configurations"] = evaluated
+
         for k in search_space_dataframe:
             search_space_dataframe[k] = IntVector(search_space_dataframe[k])
 
@@ -652,7 +655,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info(str(design))
         info("D-Efficiency Approximation: " + str(output.rx("D")[0]))
 
-        self.iteration_data["model"] = str(output.rx("D")[0])
+        self.iteration_data["D"] = float(str(output.rx("D")[0]).split(" ")[1])
 
         design                 = self.measure_design(design)
         used_experiments       = len(design[0])
@@ -717,7 +720,7 @@ class DLMT(orio.main.tuner.search.search.Search):
                 info("Stopping: Used budget")
                 break
 
-            self.iteration_data = {"step": i,
+            self.iteration_data = {"step": i + 1,
                                    "used_budget": used_experiments,
                                    "total_budget": initial_budget}
 
@@ -783,10 +786,11 @@ class DLMT(orio.main.tuner.search.search.Search):
                 predicted_best_slowdown = predicted_best_value / starting_point
 
                 info("Slowdown (Design Best): " + str(design_best_value / starting_point))
-                self.iteration_data["design_best"] = design_best_value / starting_point
+                self.iteration_data["design_best"] = design_best_value
 
                 info("Slowdown (Predicted Best): " + str(predicted_best_value / starting_point))
-                self.iteration_data["predicted_best"] = predicted_best_value / starting_point
+                self.iteration_data["predicted_best"] = predicted_best_value
+
                 info("Budget: {0}/{1}".format(used_experiments, initial_budget))
 
                 if design_best_slowdown < predicted_best_slowdown:
