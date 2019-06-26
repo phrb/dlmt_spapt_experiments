@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -f *.log temp.dot timer_cpu.o _*
+rm -f *.log temp.dot timer_cpu.o _* *.db *.csv

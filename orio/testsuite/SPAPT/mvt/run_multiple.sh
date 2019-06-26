@@ -11,3 +11,7 @@ mkdir -p $NODE_NAME
 
 ./db2csv.py
 mv run_summary.* results.* search_space.* *.stderr *.log $NODE_NAME
+
+sleep 30
+
+./clean.sh
