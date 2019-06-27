@@ -34,6 +34,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         self.stats     = importr("stats")
         self.algdesign = importr("AlgDesign")
         self.car       = importr("car")
+        self.rsm       = importr("rsm")
 
         #numpy.random.seed(11221)
         #self.base.set_seed(11221)
@@ -252,10 +253,21 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Using Search Space:")
         info(str(self.utils.str(data)))
 
+        formulas = {}
+
+        for parameter in self.parameter_ranges.keys():
+            formulas["{0}e".format(parameter)] = Formula("{0}e ~ ({0} - {1}) / {1}".format(parameter, self.parameter_ranges[parameter][1] / 2))
+
+
+        info("Encoding formulas: " + str(self.utils.str(ListVector(formulas))))
         info("Data Dimensions: " + str(self.base.dim(data)))
 
+        coded_data = self.rsm.coded_data(data, formulas = ListVector(formulas))
+
+        info("Coded data: " + str(self.utils.str(coded_data)))
+
         output = self.algdesign.optFederov(frml         = Formula(design_formula),
-                                           data         = data,
+                                           data         = coded_data,
                                            nTrials      = trials,
                                            nullify      = nullify,
                                            nRepeats     = 10,
@@ -649,8 +661,25 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Computing D-Optimal Design with " + str(trials) + " experiments")
         info("Design Formula: " + str(design_formula))
 
-        output = self.opt_federov(design_formula, trials, federov_search_space)
-        design = output.rx("design")[0]
+        encoded_full_model = "~ "
+
+        if len(self.model["interactions"]) > 0:
+            encoded_full_model += " + ".join(["{0}e".format(f) for f in self.model["interactions"]]) + " + "
+        if len(self.model["quadratic"]) > 0:
+            encoded_full_model += " + ".join(["I({0}e ^ 2)".format(f) for f in self.model["quadratic"]]) + " + "
+        if len(self.model["linear"]) > 0:
+            encoded_full_model += " + ".join(["{0}e".format(f) for f in self.model["linear"]]) + " + "
+        if len(self.model["inverse"]) > 0:
+            encoded_full_model += " + ".join(["I(1 / (1e-06 + {0}e))".format(f) for f in self.model["inverse"]]) + " + "
+        if len(self.model["cubic"]) > 0:
+            encoded_full_model += " + ".join(["I({0}e ^ 3)".format(f) for f in self.model["cubic"]])
+
+        encoded_full_model = encoded_full_model.strip(" + ")
+
+        info("Encoded model used in optFederov: " + str(encoded_full_model))
+
+        output = self.opt_federov(encoded_full_model, trials, federov_search_space)
+        design = self.rsm.decode_data(output.rx("design")[0])
 
         info(str(design))
         info("D-Efficiency Approximation: " + str(output.rx("D")[0]))
