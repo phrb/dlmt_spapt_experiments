@@ -13,7 +13,7 @@ import os
 import rpy2.rinterface as ri
 import rpy2.robjects as robjects
 from rpy2.robjects.packages import importr
-from rpy2.robjects import DataFrame, IntVector, FloatVector, StrVector, BoolVector, Formula, NULL, r
+from rpy2.robjects import DataFrame, ListVector, IntVector, FloatVector, StrVector, BoolVector, Formula, NULL, r
 
 class DLMT(orio.main.tuner.search.search.Search):
     __INTERACTIONS       = "interactions"
