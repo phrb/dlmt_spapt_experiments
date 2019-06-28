@@ -53,7 +53,7 @@
   {
     arg algorithm = 'DLMT';
     arg total_runs = 75;
-    arg dlmt_federov_sampling = 120;
+    arg dlmt_federov_sampling = 480;
     arg dlmt_extra_experiments = 1;
     arg dlmt_steps = 4;
     arg dlmt_aov_threshold = 0.01;
