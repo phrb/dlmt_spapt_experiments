@@ -1,7 +1,7 @@
 /*@ begin PerfTuning (
   def build
   {
-  arg build_command = 'timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC';
+  arg build_command = 'timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC';
   arg libs = '-lm -lrt';
   }
 
@@ -53,14 +53,14 @@
   {
     arg algorithm = 'DLMT';
     arg total_runs = 75;
-    arg dlmt_federov_sampling = 30;
+    arg dlmt_federov_sampling = 60;
     arg dlmt_extra_experiments = 1;
     arg dlmt_steps = 4;
     arg dlmt_aov_threshold = 0.01;
     arg dlmt_design_multiplier = 1.2;
     arg dlmt_linear = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J", "SCR", "VEC1", "VEC2", "OMP"]';
     arg dlmt_quadratic = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
-    arg dlmt_cubic = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
+    # arg dlmt_cubic = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
   }
 
   def input_params
