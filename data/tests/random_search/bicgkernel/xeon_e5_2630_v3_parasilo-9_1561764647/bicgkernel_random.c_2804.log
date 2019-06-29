@@ -1,0 +1,1837 @@
+
+====== START ORIO ======
+
+----- begin reading the source file: bicgkernel_random.c -----
+----- finished reading the source file -----
+
+----- begin parsing annotations -----
+----- finished parsing annotations -----
+
+----- begin optimizations -----
+Search_Space         = 3.225e+11
+Number_of_Parameters = 13
+Numeric_Parameters   = 09
+Binary_Parameters    = 04
+['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+[[1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], [1, 2, 4, 8, 16, 32], [1, 2, 4, 8, 16, 32], [False, True], [False, True], [False, True], [False, True]]
+
+----- begin empirical tuning for problem size -----
+ N = 40000
+
+----- begin random search -----
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		907
+        Multiplications: 	495
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2696
+        Writes: 		683
+        Comparisons:		16
+        Gotos: 			0
+        
+ compiling timer:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC -O0 -c -o timer_cpu.o timer_cpu.c
+ building the original code:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -DORIGINAL -o __orio_perftest_original.exe __orio_perftest1.c timer_cpu.o -lm -lrt
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest1.exe __orio_perftest1.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.440829
+(run 1) | {"compile_time": 0.83821702003479, "run": 1, "cost": [3.36973, 3.36971, 3.36953, 3.37008, 3.36978, 3.36984, 3.51677, 3.73774, 3.46947, 3.46564], "coordinate": [2, 1, 5, 8, 17, 0, 1, 5, 1, 1, 1, 1, 0], "perf_params": {"T1_I": 4, "T1_J": 2, "U_J": 2, "U_I": 1, "T2_I": 32, "T2_J": 256, "U1_I": 18, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 32, "SCR": true, "RT_J": 2}, "transform_time": 1.4002161026000977}
+>>>> best coordinate found: [2, 1, 5, 8, 17, 0, 1, 5, 1, 1, 1, 1, 0], cost: 3.440829e+00
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 128 must be greater than the stride value 128; tile index = jjj
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		1725
+        Multiplications: 	891
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4889
+        Writes: 		1226
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest2.exe __orio_perftest2.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest2.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.749225
+(run 2) | {"compile_time": 1.0936279296875, "run": 2, "cost": [0.89129, 0.783435, 0.816912, 0.423443, 0.46351, 0.769859, 0.859759, 0.854229, 0.792792, 0.837021], "coordinate": [4, 7, 7, 7, 1, 5, 0, 1, 5, 1, 0, 0, 1], "perf_params": {"T1_I": 16, "T1_J": 128, "U_J": 1, "U_I": 6, "T2_I": 128, "T2_J": 128, "U1_I": 2, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 2, "SCR": true, "RT_J": 32}, "transform_time": 2.0435221195220947}
+>>>> best coordinate found: [4, 7, 7, 7, 1, 5, 0, 1, 5, 1, 0, 0, 1], cost: 7.492250e-01
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		171
+        Multiplications: 	60
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			502
+        Writes: 		139
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest3.exe __orio_perftest3.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest3.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8555853
+(run 3) | {"compile_time": 0.16355109214782715, "run": 3, "cost": [0.953036, 0.815224, 0.856787, 0.83965, 0.84743, 0.868603, 0.826018, 0.841074, 0.845345, 0.862686], "coordinate": [0, 11, 8, 0, 9, 0, 10, 0, 3, 1, 1, 1, 1], "perf_params": {"T1_I": 1, "T1_J": 2048, "U_J": 11, "U_I": 1, "T2_I": 256, "T2_J": 1, "U1_I": 10, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 8}, "transform_time": 0.2042379379272461}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		1815
+        Multiplications: 	600
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3188
+        Writes: 		370
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest4.exe __orio_perftest4.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest4.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7187066
+(run 4) | {"compile_time": 0.9968760013580322, "run": 4, "cost": [1.23458, 0.872423, 0.526429, 0.706221, 0.605756, 0.703668, 0.635688, 0.673864, 0.622387, 0.60605], "coordinate": [11, 3, 0, 8, 1, 24, 0, 2, 2, 0, 1, 0, 1], "perf_params": {"T1_I": 2048, "T1_J": 8, "U_J": 1, "U_I": 25, "T2_I": 1, "T2_J": 256, "U1_I": 2, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 4, "SCR": false, "RT_J": 4}, "transform_time": 0.5626661777496338}
+>>>> best coordinate found: [11, 3, 0, 8, 1, 24, 0, 2, 2, 0, 1, 0, 1], cost: 7.187066e-01
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		275
+        Multiplications: 	117
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			858
+        Writes: 		237
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest5.exe __orio_perftest5.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest5.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.142793
+(run 5) | {"compile_time": 0.23796987533569336, "run": 5, "cost": [1.1429, 1.14276, 1.14269, 1.14283, 1.14258, 1.14286, 1.14287, 1.14279, 1.14293, 1.14272], "coordinate": [4, 9, 7, 10, 8, 3, 0, 3, 1, 1, 1, 0, 0], "perf_params": {"T1_I": 16, "T1_J": 512, "U_J": 1, "U_I": 4, "T2_I": 128, "T2_J": 1024, "U1_I": 9, "OMP": false, "VEC2": false, "VEC1": true, "RT_I": 8, "SCR": true, "RT_J": 2}, "transform_time": 0.39516377449035645}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		372
+        Multiplications: 	138
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1060
+        Writes: 		288
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest6.exe __orio_perftest6.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest6.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9453458
+(run 6) | {"compile_time": 0.21936488151550293, "run": 6, "cost": [1.08594, 0.930379, 0.92994, 0.93561, 0.92251, 0.938834, 0.921046, 0.918595, 0.936589, 0.934015], "coordinate": [0, 0, 1, 2, 28, 0, 12, 0, 5, 1, 1, 1, 1], "perf_params": {"T1_I": 1, "T1_J": 1, "U_J": 13, "U_I": 1, "T2_I": 2, "T2_J": 4, "U1_I": 29, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 32}, "transform_time": 0.3686988353729248}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	6
+        Additions: 		5172
+        Multiplications: 	1584
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			8076
+        Writes: 		851
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest7.exe __orio_perftest7.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest7.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9599193
+(run 7) | {"compile_time": 3.9388091564178467, "run": 7, "cost": [1.04199, 0.959686, 0.958198, 0.946803, 0.953872, 0.934222, 0.959362, 0.950133, 0.943998, 0.950929], "coordinate": [2, 10, 4, 11, 16, 10, 0, 0, 5, 0, 0, 0, 1], "perf_params": {"T1_I": 4, "T1_J": 1024, "U_J": 1, "U_I": 11, "T2_I": 16, "T2_J": 2048, "U1_I": 17, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 1, "SCR": false, "RT_J": 32}, "transform_time": 1.6032061576843262}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	5
+        Additions: 		211
+        Multiplications: 	75
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			596
+        Writes: 		161
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest8.exe __orio_perftest8.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest8.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 2.39183
+(run 8) | {"compile_time": 0.18227100372314453, "run": 8, "cost": [2.39192, 2.39182, 2.39185, 2.39191, 2.39172, 2.39165, 2.39184, 2.3917, 2.39197, 2.39192], "coordinate": [1, 2, 0, 11, 11, 0, 23, 0, 0, 1, 1, 0, 0], "perf_params": {"T1_I": 2, "T1_J": 4, "U_J": 24, "U_I": 1, "T2_I": 1, "T2_J": 2048, "U1_I": 12, "OMP": false, "VEC2": false, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 1}, "transform_time": 0.22256708145141602}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	6
+        Additions: 		2418
+        Multiplications: 	756
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3922
+        Writes: 		428
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest9.exe __orio_perftest9.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest9.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.740352
+(run 9) | {"compile_time": 0.9418878555297852, "run": 9, "cost": [0.81282, 0.751468, 0.693803, 0.730696, 0.845064, 0.78297, 0.761985, 0.757077, 0.582143, 0.685494], "coordinate": [7, 2, 10, 4, 11, 0, 19, 3, 0, 0, 0, 1, 1], "perf_params": {"T1_I": 128, "T1_J": 4, "U_J": 20, "U_I": 1, "T2_I": 1024, "T2_J": 16, "U1_I": 12, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 8, "SCR": false, "RT_J": 1}, "transform_time": 0.917945146560669}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		1087
+        Multiplications: 	396
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2113
+        Writes: 		242
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest10.exe __orio_perftest10.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest10.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.731868
+(run 10) | {"compile_time": 0.5022158622741699, "run": 10, "cost": [3.73136, 3.73179, 3.73202, 3.73191, 3.73325, 3.73164, 3.73155, 3.73201, 3.73163, 3.73152], "coordinate": [0, 4, 11, 6, 10, 0, 23, 1, 3, 0, 0, 0, 0], "perf_params": {"T1_I": 1, "T1_J": 16, "U_J": 24, "U_I": 1, "T2_I": 2048, "T2_J": 64, "U1_I": 11, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 2, "SCR": false, "RT_J": 8}, "transform_time": 0.42863893508911133}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		480
+        Multiplications: 	176
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1082
+        Writes: 		168
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest11.exe __orio_perftest11.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest11.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.582769
+(run 11) | {"compile_time": 0.34235405921936035, "run": 11, "cost": [4.58297, 4.58257, 4.58293, 4.58273, 4.58267, 4.58265, 4.58267, 4.58258, 4.58285, 4.58307], "coordinate": [1, 3, 11, 11, 17, 26, 0, 4, 0, 0, 0, 0, 0], "perf_params": {"T1_I": 2, "T1_J": 8, "U_J": 1, "U_I": 27, "T2_I": 2048, "T2_J": 2048, "U1_I": 18, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 16, "SCR": false, "RT_J": 1}, "transform_time": 0.2461709976196289}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	6
+        Additions: 		233
+        Multiplications: 	80
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			532
+        Writes: 		90
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest12.exe __orio_perftest12.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest12.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7712522
+(run 12) | {"compile_time": 0.2151029109954834, "run": 12, "cost": [1.30816, 0.948256, 0.906774, 0.702555, 0.642126, 0.647792, 0.644751, 0.635702, 0.65225, 0.624156], "coordinate": [9, 6, 11, 10, 1, 18, 0, 0, 0, 0, 0, 1, 1], "perf_params": {"T1_I": 512, "T1_J": 64, "U_J": 1, "U_I": 19, "T2_I": 2048, "T2_J": 1024, "U1_I": 2, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 1, "SCR": false, "RT_J": 1}, "transform_time": 0.19277215003967285}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		380
+        Multiplications: 	132
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			868
+        Writes: 		149
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest13.exe __orio_perftest13.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest13.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8254339
+(run 13) | {"compile_time": 0.3037838935852051, "run": 13, "cost": [1.04153, 0.79142, 0.788379, 0.778941, 0.863273, 0.772659, 0.787295, 0.811025, 0.836716, 0.783101], "coordinate": [6, 4, 10, 6, 15, 27, 0, 2, 0, 0, 0, 1, 1], "perf_params": {"T1_I": 64, "T1_J": 16, "U_J": 1, "U_I": 28, "T2_I": 1024, "T2_J": 64, "U1_I": 16, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 4, "SCR": false, "RT_J": 1}, "transform_time": 0.22260093688964844}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = iii
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		243
+        Multiplications: 	81
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			712
+        Writes: 		203
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest14.exe __orio_perftest14.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest14.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.569861
+(run 14) | {"compile_time": 0.21355915069580078, "run": 14, "cost": [1.57191, 1.57046, 1.5694, 1.56914, 1.56945, 1.56953, 1.56965, 1.5694, 1.56954, 1.57013], "coordinate": [8, 3, 8, 9, 13, 9, 0, 4, 0, 1, 0, 1, 0], "perf_params": {"T1_I": 256, "T1_J": 8, "U_J": 1, "U_I": 10, "T2_I": 256, "T2_J": 512, "U1_I": 14, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 16, "SCR": true, "RT_J": 1}, "transform_time": 0.2819340229034424}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		333
+        Multiplications: 	116
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			766
+        Writes: 		130
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest15.exe __orio_perftest15.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest15.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8400271
+(run 15) | {"compile_time": 0.27889084815979004, "run": 15, "cost": [0.922664, 0.818292, 0.813426, 0.850557, 0.847294, 0.818826, 0.846021, 0.827522, 0.854616, 0.801053], "coordinate": [3, 8, 8, 10, 8, 23, 0, 2, 0, 0, 0, 1, 1], "perf_params": {"T1_I": 8, "T1_J": 256, "U_J": 1, "U_I": 24, "T2_I": 256, "T2_J": 1024, "U1_I": 9, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 4, "SCR": false, "RT_J": 1}, "transform_time": 0.20596790313720703}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		5391
+        Multiplications: 	3069
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			14573
+        Writes: 		3505
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest16.exe __orio_perftest16.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest16.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.881661
+(run 16) | {"compile_time": 14.176416158676147, "run": 16, "cost": [1.88131, 1.88182, 1.88156, 1.88159, 1.88134, 1.8818, 1.88164, 1.88181, 1.882, 1.88174], "coordinate": [5, 8, 9, 0, 15, 27, 0, 1, 5, 1, 0, 0, 0], "perf_params": {"T1_I": 32, "T1_J": 256, "U_J": 1, "U_I": 28, "T2_I": 512, "T2_J": 1, "U1_I": 16, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 2, "SCR": true, "RT_J": 32}, "transform_time": 7.67143988609314}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 16 must be greater than the stride value 16; tile index = iii
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		312
+        Multiplications: 	114
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			941
+        Writes: 		272
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest17.exe __orio_perftest17.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest17.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.206463
+(run 17) | {"compile_time": 0.25690698623657227, "run": 17, "cost": [1.20633, 1.20642, 1.20637, 1.20654, 1.20638, 1.20651, 1.20643, 1.20661, 1.20657, 1.20647], "coordinate": [4, 1, 4, 4, 5, 28, 0, 3, 0, 1, 1, 1, 0], "perf_params": {"T1_I": 16, "T1_J": 2, "U_J": 1, "U_I": 29, "T2_I": 16, "T2_J": 16, "U1_I": 6, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 8, "SCR": true, "RT_J": 1}, "transform_time": 0.28899312019348145}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		1512
+        Multiplications: 	837
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4216
+        Writes: 		1059
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest18.exe __orio_perftest18.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest18.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8717605
+(run 18) | {"compile_time": 0.9204549789428711, "run": 18, "cost": [0.960108, 0.851746, 0.867215, 0.865784, 0.878509, 0.873465, 0.874003, 0.849601, 0.817594, 0.87958], "coordinate": [3, 0, 0, 7, 25, 29, 0, 0, 3, 1, 1, 0, 1], "perf_params": {"T1_I": 8, "T1_J": 1, "U_J": 1, "U_I": 30, "T2_I": 1, "T2_J": 128, "U1_I": 26, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 8}, "transform_time": 1.600188970565796}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		1157
+        Multiplications: 	621
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3287
+        Writes: 		827
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest19.exe __orio_perftest19.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest19.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8231958
+(run 19) | {"compile_time": 0.6777701377868652, "run": 19, "cost": [1.02688, 0.802934, 0.782238, 0.752579, 0.800097, 0.872745, 0.796325, 0.792168, 0.830562, 0.77543], "coordinate": [2, 0, 10, 5, 13, 5, 0, 4, 3, 1, 1, 1, 1], "perf_params": {"T1_I": 4, "T1_J": 1, "U_J": 1, "U_I": 6, "T2_I": 1024, "T2_J": 32, "U1_I": 14, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 16, "SCR": true, "RT_J": 8}, "transform_time": 1.8810789585113525}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		3423
+        Multiplications: 	1080
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			5558
+        Writes: 		598
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest20.exe __orio_perftest20.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest20.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 6.902221
+(run 20) | {"compile_time": 2.0495150089263916, "run": 20, "cost": [6.85147, 6.85115, 6.85107, 6.85107, 7.30464, 6.90777, 6.85112, 6.85183, 6.85104, 6.85105], "coordinate": [1, 0, 6, 1, 15, 0, 24, 3, 2, 0, 1, 1, 0], "perf_params": {"T1_I": 2, "T1_J": 1, "U_J": 25, "U_I": 1, "T2_I": 64, "T2_J": 2, "U1_I": 16, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 8, "SCR": false, "RT_J": 4}, "transform_time": 1.193741798400879}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		9980
+        Multiplications: 	3036
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			15342
+        Writes: 		1575
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest21.exe __orio_perftest21.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest21.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 7.182532
+(run 21) | {"compile_time": 9.1151762008667, "run": 21, "cost": [7.18386, 7.18514, 7.18384, 7.18439, 7.18498, 7.18342, 7.18507, 7.18389, 7.17749, 7.17324], "coordinate": [5, 4, 11, 9, 10, 0, 17, 5, 2, 0, 1, 1, 0], "perf_params": {"T1_I": 32, "T1_J": 16, "U_J": 18, "U_I": 1, "T2_I": 2048, "T2_J": 512, "U1_I": 11, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 32, "SCR": false, "RT_J": 4}, "transform_time": 4.384718894958496}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 4 must be greater than the stride value 4; tile index = iii
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		577
+        Multiplications: 	285
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1698
+        Writes: 		454
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest22.exe __orio_perftest22.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest22.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.127202
+(run 22) | {"compile_time": 0.30353307723999023, "run": 22, "cost": [1.12726, 1.1273, 1.12723, 1.12718, 1.12713, 1.12706, 1.12725, 1.1271, 1.12734, 1.12717], "coordinate": [2, 11, 2, 11, 24, 13, 0, 2, 2, 1, 0, 0, 0], "perf_params": {"T1_I": 4, "T1_J": 2048, "U_J": 1, "U_I": 14, "T2_I": 4, "T2_J": 2048, "U1_I": 25, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": true, "RT_J": 4}, "transform_time": 0.5189940929412842}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		678
+        Multiplications: 	342
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2090
+        Writes: 		567
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest23.exe __orio_perftest23.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest23.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6931254
+(run 23) | {"compile_time": 0.5050218105316162, "run": 23, "cost": [0.90538, 0.663182, 0.641282, 0.593607, 0.714317, 0.676335, 0.739714, 0.653787, 0.679013, 0.664637], "coordinate": [10, 2, 0, 6, 14, 28, 0, 3, 1, 1, 1, 0, 1], "perf_params": {"T1_I": 1024, "T1_J": 4, "U_J": 1, "U_I": 29, "T2_I": 1, "T2_J": 64, "U1_I": 15, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 8, "SCR": true, "RT_J": 2}, "transform_time": 0.71909499168396}
+>>>> best coordinate found: [10, 2, 0, 6, 14, 28, 0, 3, 1, 1, 1, 0, 1], cost: 6.931254e-01
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 1024 must be greater than the stride value 1024; tile index = jjj
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		494
+        Multiplications: 	184
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1117
+        Writes: 		174
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest24.exe __orio_perftest24.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest24.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.420932
+(run 24) | {"compile_time": 0.3370349407196045, "run": 24, "cost": [3.42108, 3.42089, 3.42102, 3.42097, 3.42096, 3.42076, 3.42101, 3.42087, 3.42098, 3.42078], "coordinate": [4, 10, 6, 10, 20, 28, 0, 4, 0, 0, 0, 1, 0], "perf_params": {"T1_I": 16, "T1_J": 1024, "U_J": 1, "U_I": 29, "T2_I": 64, "T2_J": 1024, "U1_I": 21, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 16, "SCR": false, "RT_J": 1}, "transform_time": 0.26458120346069336}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	6
+        Additions: 		461
+        Multiplications: 	204
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1338
+        Writes: 		357
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest25.exe __orio_perftest25.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest25.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.938389
+(run 25) | {"compile_time": 0.2648019790649414, "run": 25, "cost": [1.93832, 1.93848, 1.93834, 1.93847, 1.93839, 1.93843, 1.93837, 1.9383, 1.93826, 1.93853], "coordinate": [4, 1, 8, 2, 15, 2, 0, 0, 4, 1, 1, 1, 0], "perf_params": {"T1_I": 16, "T1_J": 2, "U_J": 1, "U_I": 3, "T2_I": 256, "T2_J": 4, "U1_I": 16, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 16}, "transform_time": 0.4965250492095947}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 4 must be greater than the stride value 4; tile index = jjj
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		1265
+        Multiplications: 	420
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2240
+        Writes: 		259
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest26.exe __orio_perftest26.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest26.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.827614
+(run 26) | {"compile_time": 0.5675599575042725, "run": 26, "cost": [3.82758, 3.82788, 3.82753, 3.82779, 3.82756, 3.82733, 3.82742, 3.82769, 3.82762, 3.82774], "coordinate": [5, 2, 9, 2, 17, 0, 17, 2, 1, 0, 0, 0, 0], "perf_params": {"T1_I": 32, "T1_J": 4, "U_J": 18, "U_I": 1, "T2_I": 512, "T2_J": 4, "U1_I": 18, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": false, "RT_J": 2}, "transform_time": 0.3978300094604492}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 32 must be greater than the stride value 32; tile index = iii
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		870
+        Multiplications: 	420
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2470
+        Writes: 		635
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest27.exe __orio_perftest27.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest27.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.420242
+(run 27) | {"compile_time": 0.46924400329589844, "run": 27, "cost": [1.42055, 1.42031, 1.42038, 1.42018, 1.42019, 1.42003, 1.42015, 1.42024, 1.4203, 1.42009], "coordinate": [5, 0, 5, 3, 22, 0, 24, 2, 1, 1, 0, 1, 0], "perf_params": {"T1_I": 32, "T1_J": 1, "U_J": 25, "U_I": 1, "T2_I": 32, "T2_J": 8, "U1_I": 23, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 4, "SCR": true, "RT_J": 2}, "transform_time": 0.7342700958251953}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		4952
+        Multiplications: 	2871
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			13347
+        Writes: 		3166
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest28.exe __orio_perftest28.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest28.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.389133
+(run 28) | {"compile_time": 8.844167947769165, "run": 28, "cost": [4.39024, 4.389, 4.3888, 4.38927, 4.38913, 4.38898, 4.3892, 4.38895, 4.38894, 4.38882], "coordinate": [3, 1, 0, 7, 9, 0, 25, 5, 1, 1, 0, 1, 0], "perf_params": {"T1_I": 8, "T1_J": 2, "U_J": 26, "U_I": 1, "T2_I": 1, "T2_J": 128, "U1_I": 10, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 32, "SCR": true, "RT_J": 2}, "transform_time": 8.254722118377686}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	6
+        Additions: 		152
+        Multiplications: 	45
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			440
+        Writes: 		128
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest29.exe __orio_perftest29.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest29.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.381551
+(run 29) | {"compile_time": 0.172515869140625, "run": 29, "cost": [1.38161, 1.38127, 1.38119, 1.38121, 1.38132, 1.38123, 1.38132, 1.3814, 1.38204, 1.38292], "coordinate": [5, 8, 9, 11, 11, 0, 3, 1, 0, 1, 0, 1, 0], "perf_params": {"T1_I": 32, "T1_J": 256, "U_J": 4, "U_I": 1, "T2_I": 512, "T2_J": 2048, "U1_I": 12, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 2, "SCR": true, "RT_J": 1}, "transform_time": 0.18705511093139648}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 16 must be greater than the stride value 16; tile index = iii
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		309
+        Multiplications: 	135
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			955
+        Writes: 		263
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest30.exe __orio_perftest30.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest30.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7779987
+(run 30) | {"compile_time": 0.19610190391540527, "run": 30, "cost": [0.744025, 0.766288, 0.74671, 0.782113, 0.765844, 0.817536, 0.790519, 0.81131, 0.785036, 0.770606], "coordinate": [4, 3, 4, 7, 7, 3, 0, 2, 2, 1, 1, 1, 1], "perf_params": {"T1_I": 16, "T1_J": 8, "U_J": 1, "U_I": 4, "T2_I": 16, "T2_J": 128, "U1_I": 8, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 4, "SCR": true, "RT_J": 4}, "transform_time": 0.40770721435546875}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	9
+        Max loop nest depth: 	6
+        Additions: 		164
+        Multiplications: 	56
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			383
+        Writes: 		67
+        Comparisons:		9
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest31.exe __orio_perftest31.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest31.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.581907
+(run 31) | {"compile_time": 0.1540670394897461, "run": 31, "cost": [4.5821, 4.58181, 4.58209, 4.58169, 4.5822, 4.58193, 4.58172, 4.58184, 4.58173, 4.58196], "coordinate": [3, 1, 8, 9, 12, 0, 12, 0, 0, 0, 1, 1, 0], "perf_params": {"T1_I": 8, "T1_J": 2, "U_J": 13, "U_I": 1, "T2_I": 256, "T2_J": 512, "U1_I": 13, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 1, "SCR": false, "RT_J": 1}, "transform_time": 0.1263720989227295}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	6
+        Additions: 		83
+        Multiplications: 	9
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			223
+        Writes: 		79
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest32.exe __orio_perftest32.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest32.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7074612
+(run 32) | {"compile_time": 0.14360594749450684, "run": 32, "cost": [1.03116, 0.783277, 0.800673, 0.687189, 0.362176, 0.468756, 0.680208, 0.714245, 0.814683, 0.732245], "coordinate": [7, 1, 10, 10, 26, 1, 0, 0, 0, 1, 1, 0, 1], "perf_params": {"T1_I": 128, "T1_J": 2, "U_J": 1, "U_I": 2, "T2_I": 1024, "T2_J": 1024, "U1_I": 27, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 1}, "transform_time": 0.12222003936767578}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	9
+        Max loop nest depth: 	5
+        Additions: 		562
+        Multiplications: 	236
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1271
+        Writes: 		151
+        Comparisons:		9
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest33.exe __orio_perftest33.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest33.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 5.127931
+(run 33) | {"compile_time": 0.37108898162841797, "run": 33, "cost": [5.13115, 5.13076, 5.13011, 5.13086, 5.12838, 5.12786, 5.12164, 5.11734, 5.13019, 5.13102], "coordinate": [4, 3, 11, 0, 9, 0, 25, 0, 5, 0, 1, 0, 0], "perf_params": {"T1_I": 16, "T1_J": 8, "U_J": 26, "U_I": 1, "T2_I": 2048, "T2_J": 1, "U1_I": 10, "OMP": false, "VEC2": false, "VEC1": true, "RT_I": 1, "SCR": false, "RT_J": 32}, "transform_time": 0.3035311698913574}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		4346
+        Multiplications: 	1368
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			6970
+        Writes: 		725
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest34.exe __orio_perftest34.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest34.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9837425
+(run 34) | {"compile_time": 2.214677095413208, "run": 34, "cost": [1.10832, 0.970712, 0.965253, 0.969928, 1.00105, 0.963838, 0.961978, 0.969506, 0.968873, 0.957967], "coordinate": [2, 4, 5, 7, 4, 0, 20, 3, 4, 0, 0, 0, 1], "perf_params": {"T1_I": 4, "T1_J": 16, "U_J": 21, "U_I": 1, "T2_I": 32, "T2_J": 128, "U1_I": 5, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 8, "SCR": false, "RT_J": 16}, "transform_time": 2.121335029602051}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		277
+        Multiplications: 	88
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			633
+        Writes: 		121
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest35.exe __orio_perftest35.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest35.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8113325
+(run 35) | {"compile_time": 0.22417616844177246, "run": 35, "cost": [0.952913, 0.870692, 0.808721, 0.683293, 0.780678, 0.841142, 0.812458, 0.825524, 0.747577, 0.790327], "coordinate": [8, 4, 0, 10, 25, 16, 0, 2, 0, 0, 0, 0, 1], "perf_params": {"T1_I": 256, "T1_J": 16, "U_J": 1, "U_I": 17, "T2_I": 1, "T2_J": 1024, "U1_I": 26, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": false, "RT_J": 1}, "transform_time": 0.18603301048278809}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		4456
+        Multiplications: 	2574
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			12017
+        Writes: 		2858
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest36.exe __orio_perftest36.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest36.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.349134
+(run 36) | {"compile_time": 6.948499917984009, "run": 36, "cost": [3.3572, 3.34368, 3.34326, 3.35625, 3.35609, 3.35729, 3.35575, 3.34048, 3.34068, 3.34066], "coordinate": [5, 0, 6, 2, 23, 0, 22, 5, 1, 1, 0, 0, 0], "perf_params": {"T1_I": 32, "T1_J": 1, "U_J": 23, "U_I": 1, "T2_I": 64, "T2_J": 4, "U1_I": 24, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 32, "SCR": true, "RT_J": 2}, "transform_time": 6.660351037979126}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		888
+        Multiplications: 	288
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1548
+        Writes: 		182
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest37.exe __orio_perftest37.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest37.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.853129
+(run 37) | {"compile_time": 0.4237492084503174, "run": 37, "cost": [0.963141, 0.846824, 0.819456, 0.831207, 0.84251, 0.837291, 0.835083, 0.835121, 0.884698, 0.835959], "coordinate": [0, 3, 5, 6, 0, 6, 0, 0, 3, 0, 0, 1, 1], "perf_params": {"T1_I": 1, "T1_J": 8, "U_J": 1, "U_I": 7, "T2_I": 32, "T2_J": 64, "U1_I": 1, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 1, "SCR": false, "RT_J": 8}, "transform_time": 0.3253800868988037}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		7122
+        Multiplications: 	2176
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			11046
+        Writes: 		1147
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest38.exe __orio_perftest38.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest38.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.308557
+(run 38) | {"compile_time": 6.789132833480835, "run": 38, "cost": [3.30873, 3.30855, 3.30838, 3.30839, 3.30862, 3.30909, 3.30842, 3.30835, 3.30839, 3.30865], "coordinate": [8, 3, 10, 9, 12, 0, 26, 4, 2, 0, 1, 1, 0], "perf_params": {"T1_I": 256, "T1_J": 8, "U_J": 27, "U_I": 1, "T2_I": 1024, "T2_J": 512, "U1_I": 13, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 16, "SCR": false, "RT_J": 4}, "transform_time": 2.9219810962677}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = iii
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 4 must be greater than the stride value 4; tile index = jjj
+Code stats:
+        Number of loops: 	7
+        Max loop nest depth: 	4
+        Additions: 		122
+        Multiplications: 	39
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			347
+        Writes: 		98
+        Comparisons:		7
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest39.exe __orio_perftest39.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest39.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8823358
+(run 39) | {"compile_time": 0.13761115074157715, "run": 39, "cost": [0.908713, 0.868178, 0.870197, 0.885966, 0.886742, 0.86317, 0.891518, 0.856569, 0.905201, 0.887104], "coordinate": [8, 2, 8, 2, 9, 0, 11, 0, 0, 1, 0, 1, 1], "perf_params": {"T1_I": 256, "T1_J": 4, "U_J": 12, "U_I": 1, "T2_I": 256, "T2_J": 4, "U1_I": 10, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 1, "SCR": true, "RT_J": 1}, "transform_time": 0.14301776885986328}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		764
+        Multiplications: 	378
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2181
+        Writes: 		568
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest40.exe __orio_perftest40.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest40.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.49229
+(run 40) | {"compile_time": 0.43040895462036133, "run": 40, "cost": [1.49307, 1.4948, 1.49335, 1.493, 1.49131, 1.49002, 1.49102, 1.49161, 1.49239, 1.49233], "coordinate": [8, 2, 10, 11, 25, 8, 0, 2, 3, 1, 0, 0, 0], "perf_params": {"T1_I": 256, "T1_J": 4, "U_J": 1, "U_I": 9, "T2_I": 1024, "T2_J": 2048, "U1_I": 26, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": true, "RT_J": 8}, "transform_time": 0.9478650093078613}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		278
+        Multiplications: 	108
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			859
+        Writes: 		252
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest41.exe __orio_perftest41.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest41.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.374121
+(run 41) | {"compile_time": 0.24641108512878418, "run": 41, "cost": [1.37654, 1.37445, 1.37432, 1.37387, 1.37364, 1.37357, 1.37373, 1.37369, 1.37355, 1.37385], "coordinate": [4, 5, 10, 10, 27, 8, 0, 1, 1, 1, 0, 1, 0], "perf_params": {"T1_I": 16, "T1_J": 32, "U_J": 1, "U_I": 9, "T2_I": 1024, "T2_J": 1024, "U1_I": 28, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 2, "SCR": true, "RT_J": 2}, "transform_time": 0.3379969596862793}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		977
+        Multiplications: 	513
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2776
+        Writes: 		697
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest42.exe __orio_perftest42.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest42.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.543739
+(run 42) | {"compile_time": 0.6762731075286865, "run": 42, "cost": [1.54728, 1.54689, 1.54664, 1.54683, 1.54659, 1.54655, 1.53991, 1.53891, 1.53893, 1.53886], "coordinate": [1, 3, 11, 10, 8, 1, 0, 4, 3, 1, 1, 0, 0], "perf_params": {"T1_I": 2, "T1_J": 8, "U_J": 1, "U_I": 2, "T2_I": 2048, "T2_J": 1024, "U1_I": 9, "OMP": false, "VEC2": false, "VEC1": true, "RT_I": 16, "SCR": true, "RT_J": 8}, "transform_time": 1.7192668914794922}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		6232
+        Multiplications: 	1904
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			9735
+        Writes: 		1034
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest43.exe __orio_perftest43.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest43.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9094321
+(run 43) | {"compile_time": 4.8924949169158936, "run": 43, "cost": [0.989767, 0.907659, 0.889671, 0.950446, 0.911893, 0.886323, 0.890412, 0.900323, 0.886658, 0.881169], "coordinate": [1, 1, 8, 5, 11, 24, 0, 1, 4, 0, 1, 0, 1], "perf_params": {"T1_I": 2, "T1_J": 2, "U_J": 1, "U_I": 25, "T2_I": 256, "T2_J": 32, "U1_I": 12, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 2, "SCR": false, "RT_J": 16}, "transform_time": 2.246379852294922}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		4240
+        Multiplications: 	2376
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			11525
+        Writes: 		2791
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest44.exe __orio_perftest44.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest44.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7830087
+(run 44) | {"compile_time": 5.583889961242676, "run": 44, "cost": [0.882437, 0.746748, 0.752234, 0.741241, 0.818634, 0.781893, 0.783009, 0.780118, 0.795082, 0.748691], "coordinate": [5, 3, 6, 5, 17, 18, 0, 2, 5, 1, 0, 0, 1], "perf_params": {"T1_I": 32, "T1_J": 8, "U_J": 1, "U_I": 19, "T2_I": 64, "T2_J": 32, "U1_I": 18, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": true, "RT_J": 32}, "transform_time": 7.066656112670898}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		1088
+        Multiplications: 	360
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1965
+        Writes: 		243
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest45.exe __orio_perftest45.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest45.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.841525
+(run 45) | {"compile_time": 0.44611310958862305, "run": 45, "cost": [0.95214, 0.831732, 0.844284, 0.827067, 0.817328, 0.849893, 0.835234, 0.8174, 0.809682, 0.83049], "coordinate": [0, 3, 5, 0, 15, 12, 0, 2, 2, 0, 0, 0, 1], "perf_params": {"T1_I": 1, "T1_J": 8, "U_J": 1, "U_I": 13, "T2_I": 32, "T2_J": 1, "U1_I": 16, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": false, "RT_J": 4}, "transform_time": 0.40312695503234863}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 512 must be greater than the stride value 512; tile index = iii
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		1568
+        Multiplications: 	837
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4351
+        Writes: 		1071
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest46.exe __orio_perftest46.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest46.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.679251
+(run 46) | {"compile_time": 0.9092140197753906, "run": 46, "cost": [1.67933, 1.67919, 1.67925, 1.67932, 1.6793, 1.67919, 1.6793, 1.67931, 1.67919, 1.67913], "coordinate": [9, 2, 9, 9, 7, 0, 13, 3, 4, 1, 1, 1, 0], "perf_params": {"T1_I": 512, "T1_J": 4, "U_J": 14, "U_I": 1, "T2_I": 512, "T2_J": 512, "U1_I": 8, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 8, "SCR": true, "RT_J": 16}, "transform_time": 2.326153039932251}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = jjj
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		1325
+        Multiplications: 	440
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2364
+        Writes: 		281
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest47.exe __orio_perftest47.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest47.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.580852
+(run 47) | {"compile_time": 0.5931899547576904, "run": 47, "cost": [4.58078, 4.58073, 4.58083, 4.58086, 4.58073, 4.5808, 4.58079, 4.58135, 4.58083, 4.58082], "coordinate": [1, 8, 10, 8, 9, 12, 0, 3, 2, 0, 1, 0, 0], "perf_params": {"T1_I": 2, "T1_J": 256, "U_J": 1, "U_I": 13, "T2_I": 1024, "T2_J": 256, "U1_I": 10, "OMP": false, "VEC2": false, "VEC1": true, "RT_I": 8, "SCR": false, "RT_J": 4}, "transform_time": 0.5099871158599854}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 128 must be greater than the stride value 128; tile index = iii
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		4580
+        Multiplications: 	2574
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			12438
+        Writes: 		3017
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest48.exe __orio_perftest48.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest48.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8512572
+(run 48) | {"compile_time": 6.914921998977661, "run": 48, "cost": [0.931545, 0.839516, 0.832081, 0.824836, 0.831305, 0.849902, 0.86695, 0.834754, 0.854041, 0.847642], "coordinate": [7, 5, 7, 10, 28, 22, 0, 1, 5, 1, 1, 1, 1], "perf_params": {"T1_I": 128, "T1_J": 32, "U_J": 1, "U_I": 23, "T2_I": 128, "T2_J": 1024, "U1_I": 29, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 2, "SCR": true, "RT_J": 32}, "transform_time": 6.66723895072937}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		1009
+        Multiplications: 	540
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2973
+        Writes: 		769
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest49.exe __orio_perftest49.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest49.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7138698
+(run 49) | {"compile_time": 0.6411299705505371, "run": 49, "cost": [0.989641, 0.798153, 0.663195, 0.645014, 0.702147, 0.639884, 0.664213, 0.656954, 0.695547, 0.68395], "coordinate": [3, 2, 9, 4, 2, 26, 0, 3, 2, 1, 1, 1, 1], "perf_params": {"T1_I": 8, "T1_J": 4, "U_J": 1, "U_I": 27, "T2_I": 512, "T2_J": 16, "U1_I": 3, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 8, "SCR": true, "RT_J": 4}, "transform_time": 1.3299610614776611}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2 must be greater than the stride value 2; tile index = jjj
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		801
+        Multiplications: 	276
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1580
+        Writes: 		222
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest50.exe __orio_perftest50.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest50.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.776941
+(run 50) | {"compile_time": 0.4796462059020996, "run": 50, "cost": [4.77727, 4.77706, 4.77679, 4.7751, 4.77704, 4.77711, 4.77696, 4.77776, 4.77718, 4.77714], "coordinate": [4, 1, 7, 1, 28, 21, 0, 0, 1, 0, 1, 1, 0], "perf_params": {"T1_I": 16, "T1_J": 2, "U_J": 1, "U_I": 22, "T2_I": 128, "T2_J": 2, "U1_I": 29, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 1, "SCR": false, "RT_J": 2}, "transform_time": 0.294497013092041}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		605
+        Multiplications: 	204
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1233
+        Writes: 		183
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest51.exe __orio_perftest51.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest51.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.520199
+(run 51) | {"compile_time": 0.3563389778137207, "run": 51, "cost": [3.52018, 3.52015, 3.52026, 3.52014, 3.52023, 3.52029, 3.52023, 3.52019, 3.52017, 3.52015], "coordinate": [2, 3, 3, 4, 27, 11, 0, 2, 1, 0, 0, 0, 0], "perf_params": {"T1_I": 4, "T1_J": 8, "U_J": 1, "U_I": 12, "T2_I": 8, "T2_J": 16, "U1_I": 28, "OMP": false, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": false, "RT_J": 2}, "transform_time": 0.3006570339202881}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	6
+        Additions: 		3986
+        Multiplications: 	2277
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			10741
+        Writes: 		2573
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest52.exe __orio_perftest52.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest52.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 2.12748
+(run 52) | {"compile_time": 7.36772894859314, "run": 52, "cost": [2.12913, 2.12721, 2.12734, 2.12738, 2.12738, 2.1275, 2.12732, 2.12715, 2.1271, 2.12729], "coordinate": [2, 2, 11, 9, 2, 21, 0, 0, 5, 1, 1, 1, 0], "perf_params": {"T1_I": 4, "T1_J": 4, "U_J": 1, "U_I": 22, "T2_I": 2048, "T2_J": 512, "U1_I": 3, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 32}, "transform_time": 5.842571973800659}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	3
+        Additions: 		9354
+        Multiplications: 	2824
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			14277
+        Writes: 		1479
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest53.exe __orio_perftest53.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest53.exe  
+orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest53.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest53.exe  ' returned non-zero exit status 1
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 132, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/randomsearch/randomsearch.py", line 162, in searchBestCoord
+    perf_costs = self.getPerfCosts([coord])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 345, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 368, in __execute
+    % (cmd,e.__class__.__name__, e),doexit = False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest53.exe  "
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 132, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/randomsearch/randomsearch.py", line 162, in searchBestCoord
+    perf_costs = self.getPerfCosts([coord])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 345, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 427, in __execute
+    err('orio.main.tuner.ptest_driver:  performance testing failed: "%s"' % cmd, doexit=False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+Stored as a failed configuration
+Configuration failed
+(run 53) | {"compile_time": 5.677602052688599, "run": 53, "cost": [2.12913, 2.12721, 2.12734, 2.12738, 2.12738, 2.1275, 2.12732, 2.12715, 2.1271, 2.12729], "coordinate": [2, 0, 0, 0, 19, 18, 0, 1, 5, 0, 1, 0, 1], "perf_params": {"T1_I": 4, "T1_J": 1, "U_J": 1, "U_I": 19, "T2_I": 1, "T2_J": 1, "U1_I": 20, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 2, "SCR": false, "RT_J": 32}, "transform_time": 2.8992159366607666}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 1024 must be greater than the stride value 1024; tile index = iii
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		471
+        Multiplications: 	168
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			977
+        Writes: 		133
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest54.exe __orio_perftest54.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest54.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.3672
+(run 54) | {"compile_time": 0.26491403579711914, "run": 54, "cost": [3.36746, 3.36731, 3.3671, 3.36726, 3.36719, 3.36725, 3.36723, 3.3671, 3.36703, 3.36707], "coordinate": [10, 0, 10, 10, 8, 0, 4, 1, 3, 0, 1, 1, 0], "perf_params": {"T1_I": 1024, "T1_J": 1, "U_J": 5, "U_I": 1, "T2_I": 1024, "T2_J": 1024, "U1_I": 9, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 2, "SCR": false, "RT_J": 8}, "transform_time": 0.24848103523254395}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 16 must be greater than the stride value 16; tile index = iii
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	3
+        Additions: 		2024
+        Multiplications: 	648
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3363
+        Writes: 		374
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest55.exe __orio_perftest55.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest55.exe  
+orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest55.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest55.exe  ' returned non-zero exit status 1
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 132, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/randomsearch/randomsearch.py", line 162, in searchBestCoord
+    perf_costs = self.getPerfCosts([coord])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 345, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 368, in __execute
+    % (cmd,e.__class__.__name__, e),doexit = False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest55.exe  "
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 132, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/randomsearch/randomsearch.py", line 162, in searchBestCoord
+    perf_costs = self.getPerfCosts([coord])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 345, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 427, in __execute
+    err('orio.main.tuner.ptest_driver:  performance testing failed: "%s"' % cmd, doexit=False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+Stored as a failed configuration
+Configuration failed
+(run 55) | {"compile_time": 0.7911081314086914, "run": 55, "cost": [3.36746, 3.36731, 3.3671, 3.36726, 3.36719, 3.36725, 3.36723, 3.3671, 3.36703, 3.36707], "coordinate": [4, 0, 4, 0, 17, 6, 0, 1, 4, 0, 0, 0, 1], "perf_params": {"T1_I": 16, "T1_J": 1, "U_J": 1, "U_I": 7, "T2_I": 16, "T2_J": 1, "U1_I": 18, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 2, "SCR": false, "RT_J": 16}, "transform_time": 0.5755760669708252}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	6
+        Additions: 		167
+        Multiplications: 	52
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			390
+        Writes: 		77
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest56.exe __orio_perftest56.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest56.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.770656
+(run 56) | {"compile_time": 0.16975188255310059, "run": 56, "cost": [4.76984, 4.76948, 4.78092, 4.76945, 4.76935, 4.76915, 4.76971, 4.76949, 4.76951, 4.76966], "coordinate": [5, 9, 6, 11, 25, 0, 7, 0, 2, 0, 1, 0, 0], "perf_params": {"T1_I": 32, "T1_J": 512, "U_J": 8, "U_I": 1, "T2_I": 64, "T2_J": 2048, "U1_I": 26, "OMP": false, "VEC2": false, "VEC1": true, "RT_I": 1, "SCR": false, "RT_J": 4}, "transform_time": 0.16471195220947266}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	6
+        Additions: 		168
+        Multiplications: 	48
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			472
+        Writes: 		141
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest57.exe __orio_perftest57.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest57.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.909487
+(run 57) | {"compile_time": 0.17210721969604492, "run": 57, "cost": [1.91193, 1.90962, 1.90898, 1.9089, 1.90909, 1.90926, 1.90915, 1.90921, 1.90943, 1.9093], "coordinate": [3, 6, 8, 11, 28, 0, 10, 0, 2, 1, 1, 1, 0], "perf_params": {"T1_I": 8, "T1_J": 64, "U_J": 11, "U_I": 1, "T2_I": 256, "T2_J": 2048, "U1_I": 29, "OMP": false, "VEC2": true, "VEC1": true, "RT_I": 1, "SCR": true, "RT_J": 4}, "transform_time": 0.19189715385437012}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		1201
+        Multiplications: 	585
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3396
+        Writes: 		868
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest58.exe __orio_perftest58.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest58.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8765704
+(run 58) | {"compile_time": 0.6681962013244629, "run": 58, "cost": [0.968463, 0.836804, 0.834058, 0.872432, 0.882887, 0.889686, 0.890983, 0.884257, 0.863065, 0.843069], "coordinate": [1, 4, 3, 9, 25, 0, 5, 2, 5, 1, 1, 1, 1], "perf_params": {"T1_I": 2, "T1_J": 16, "U_J": 6, "U_I": 1, "T2_I": 8, "T2_J": 512, "U1_I": 26, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 4, "SCR": true, "RT_J": 32}, "transform_time": 2.0351829528808594}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		1493
+        Multiplications: 	500
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2625
+        Writes: 		290
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest59.exe __orio_perftest59.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest59.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7465006
+(run 59) | {"compile_time": 0.7134199142456055, "run": 59, "cost": [0.925432, 0.777542, 0.791798, 0.777845, 0.55201, 0.732421, 0.785585, 0.670951, 0.689092, 0.76233], "coordinate": [0, 3, 10, 10, 2, 0, 21, 2, 1, 0, 1, 0, 1], "perf_params": {"T1_I": 1, "T1_J": 8, "U_J": 22, "U_I": 1, "T2_I": 1024, "T2_J": 1024, "U1_I": 3, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 4, "SCR": false, "RT_J": 2}, "transform_time": 0.5280311107635498}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 1024 must be greater than the stride value 1024; tile index = iii
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		512
+        Multiplications: 	261
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1592
+        Writes: 		422
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest60.exe __orio_perftest60.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest60.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.289485
+(run 60) | {"compile_time": 0.31349992752075195, "run": 60, "cost": [1.29257, 1.2907, 1.29041, 1.29029, 1.2906, 1.29063, 1.28929, 1.28928, 1.28582, 1.28526], "coordinate": [10, 0, 10, 5, 1, 11, 0, 4, 1, 1, 1, 0, 0], "perf_params": {"T1_I": 1024, "T1_J": 1, "U_J": 1, "U_I": 12, "T2_I": 1024, "T2_J": 32, "U1_I": 2, "OMP": false, "VEC2": false, "VEC1": true, "RT_I": 16, "SCR": true, "RT_J": 2}, "transform_time": 0.5342719554901123}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		4627
+        Multiplications: 	1428
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			7336
+        Writes: 		788
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest61.exe __orio_perftest61.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest61.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9012625
+(run 61) | {"compile_time": 2.1013360023498535, "run": 61, "cost": [1.07674, 0.960195, 0.891425, 0.908068, 0.883415, 0.85471, 0.877771, 0.84479, 0.83641, 0.879101], "coordinate": [9, 4, 0, 10, 12, 17, 0, 1, 4, 0, 1, 0, 1], "perf_params": {"T1_I": 512, "T1_J": 16, "U_J": 1, "U_I": 18, "T2_I": 1, "T2_J": 1024, "U1_I": 13, "OMP": true, "VEC2": false, "VEC1": true, "RT_I": 2, "SCR": false, "RT_J": 16}, "transform_time": 1.4778790473937988}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		864
+        Multiplications: 	312
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1712
+        Writes: 		208
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest62.exe __orio_perftest62.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest62.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.424151
+(run 62) | {"compile_time": 0.42835211753845215, "run": 62, "cost": [4.42453, 4.42426, 4.42448, 4.42415, 4.42421, 4.42298, 4.42419, 4.42417, 4.42421, 4.42433], "coordinate": [1, 2, 8, 10, 8, 0, 16, 1, 3, 0, 0, 1, 0], "perf_params": {"T1_I": 2, "T1_J": 4, "U_J": 17, "U_I": 1, "T2_I": 256, "T2_J": 1024, "U1_I": 9, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 2, "SCR": false, "RT_J": 8}, "transform_time": 0.411639928817749}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		3698
+        Multiplications: 	1156
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			5948
+        Writes: 		638
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest63.exe __orio_perftest63.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest63.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8575007
+(run 63) | {"compile_time": 1.7631680965423584, "run": 63, "cost": [0.931582, 0.893022, 0.855548, 0.838878, 0.840408, 0.867684, 0.814244, 0.829943, 0.850171, 0.853527], "coordinate": [0, 7, 5, 11, 1, 11, 0, 2, 4, 0, 0, 1, 1], "perf_params": {"T1_I": 1, "T1_J": 128, "U_J": 1, "U_I": 12, "T2_I": 32, "T2_J": 2048, "U1_I": 2, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 4, "SCR": false, "RT_J": 16}, "transform_time": 1.3516268730163574}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		327
+        Multiplications: 	126
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			938
+        Writes: 		247
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest64.exe __orio_perftest64.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest64.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.24559
+(run 64) | {"compile_time": 0.20608901977539062, "run": 64, "cost": [4.24583, 4.24565, 4.2456, 4.24588, 4.24531, 4.24538, 4.24567, 4.24569, 4.24536, 4.24553], "coordinate": [2, 1, 0, 0, 11, 0, 8, 0, 5, 1, 0, 1, 0], "perf_params": {"T1_I": 4, "T1_J": 2, "U_J": 9, "U_I": 1, "T2_I": 1, "T2_J": 1, "U1_I": 12, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 1, "SCR": true, "RT_J": 32}, "transform_time": 0.32370901107788086}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	4
+        Additions: 		407
+        Multiplications: 	152
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			934
+        Writes: 		148
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest65.exe __orio_perftest65.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest65.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9610352
+(run 65) | {"compile_time": 0.2810640335083008, "run": 65, "cost": [1.03064, 0.96547, 0.953347, 0.957752, 0.96497, 0.951537, 0.95096, 0.941282, 0.932331, 0.962063], "coordinate": [3, 0, 0, 5, 16, 20, 0, 4, 0, 0, 1, 1, 1], "perf_params": {"T1_I": 8, "T1_J": 1, "U_J": 1, "U_I": 21, "T2_I": 1, "T2_J": 32, "U1_I": 17, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 16, "SCR": false, "RT_J": 1}, "transform_time": 0.2119910717010498}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	5
+        Additions: 		91
+        Multiplications: 	18
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			238
+        Writes: 		77
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest66.exe __orio_perftest66.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest66.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8835513
+(run 66) | {"compile_time": 0.1379852294921875, "run": 66, "cost": [0.989798, 0.871345, 0.85714, 0.870755, 0.890556, 0.856605, 0.886794, 0.881117, 0.8653, 0.866103], "coordinate": [5, 0, 7, 3, 24, 0, 4, 0, 0, 1, 0, 0, 1], "perf_params": {"T1_I": 32, "T1_J": 1, "U_J": 5, "U_I": 1, "T2_I": 128, "T2_J": 8, "U1_I": 25, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 1, "SCR": true, "RT_J": 1}, "transform_time": 0.14467501640319824}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		769
+        Multiplications: 	276
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1501
+        Writes: 		179
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest67.exe __orio_perftest67.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest67.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.200781
+(run 67) | {"compile_time": 0.29041290283203125, "run": 67, "cost": [3.20086, 3.20055, 3.2007, 3.20077, 3.20071, 3.20061, 3.2006, 3.20176, 3.20056, 3.20069], "coordinate": [0, 2, 1, 6, 5, 0, 21, 1, 0, 0, 0, 1, 0], "perf_params": {"T1_I": 1, "T1_J": 4, "U_J": 22, "U_I": 1, "T2_I": 2, "T2_J": 64, "U1_I": 6, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 2, "SCR": false, "RT_J": 1}, "transform_time": 0.26257801055908203}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 4 must be greater than the stride value 4; tile index = jjj
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		515
+        Multiplications: 	243
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1507
+        Writes: 		398
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest68.exe __orio_perftest68.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest68.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7831387
+(run 68) | {"compile_time": 0.2347888946533203, "run": 68, "cost": [0.891887, 0.760787, 0.772496, 0.808388, 0.762598, 0.755783, 0.776402, 0.765311, 0.804837, 0.732898], "coordinate": [3, 2, 7, 2, 15, 3, 0, 2, 3, 1, 0, 0, 1], "perf_params": {"T1_I": 8, "T1_J": 4, "U_J": 1, "U_I": 4, "T2_I": 128, "T2_J": 4, "U1_I": 16, "OMP": true, "VEC2": false, "VEC1": false, "RT_I": 4, "SCR": true, "RT_J": 8}, "transform_time": 0.6455390453338623}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2 must be greater than the stride value 2; tile index = iii
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		466
+        Multiplications: 	216
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1426
+        Writes: 		392
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest69.exe __orio_perftest69.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest69.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8256766
+(run 69) | {"compile_time": 0.3533761501312256, "run": 69, "cost": [0.950433, 0.882751, 0.85164, 0.883839, 0.84349, 0.856164, 0.868179, 0.879311, 0.567823, 0.673136], "coordinate": [1, 9, 1, 11, 26, 6, 0, 4, 1, 1, 0, 1, 1], "perf_params": {"T1_I": 2, "T1_J": 512, "U_J": 1, "U_I": 7, "T2_I": 2, "T2_J": 2048, "U1_I": 27, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 16, "SCR": true, "RT_J": 2}, "transform_time": 0.5965321063995361}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		553
+        Multiplications: 	255
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1594
+        Writes: 		418
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest70.exe __orio_perftest70.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest70.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5583134
+(run 70) | {"compile_time": 0.2631227970123291, "run": 70, "cost": [1.21638, 0.84548, 0.490686, 0.444359, 0.368681, 0.444581, 0.425439, 0.458309, 0.444575, 0.444644], "coordinate": [6, 3, 11, 7, 15, 0, 7, 2, 3, 1, 1, 1, 1], "perf_params": {"T1_I": 64, "T1_J": 8, "U_J": 8, "U_I": 1, "T2_I": 2048, "T2_J": 128, "U1_I": 16, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 4, "SCR": true, "RT_J": 8}, "transform_time": 0.7957839965820312}
+>>>> best coordinate found: [6, 3, 11, 7, 15, 0, 7, 2, 3, 1, 1, 1, 1], cost: 5.583134e-01
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = jjj
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		474
+        Multiplications: 	198
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1391
+        Writes: 		374
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest71.exe __orio_perftest71.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest71.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.37998
+(run 71) | {"compile_time": 0.29897403717041016, "run": 71, "cost": [1.38031, 1.37999, 1.38, 1.38004, 1.37987, 1.37989, 1.37976, 1.37982, 1.38014, 1.37998], "coordinate": [9, 8, 11, 8, 17, 0, 18, 1, 1, 1, 0, 1, 0], "perf_params": {"T1_I": 512, "T1_J": 256, "U_J": 19, "U_I": 1, "T2_I": 2048, "T2_J": 256, "U1_I": 18, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 2, "SCR": true, "RT_J": 2}, "transform_time": 0.45375895500183105}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 128 must be greater than the stride value 128; tile index = iii
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		1046
+        Multiplications: 	510
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2964
+        Writes: 		756
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest72.exe __orio_perftest72.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest72.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.786372
+(run 72) | {"compile_time": 0.5048518180847168, "run": 72, "cost": [0.875105, 0.802834, 0.84813, 0.745374, 0.730703, 0.797075, 0.72788, 0.776313, 0.769948, 0.790358], "coordinate": [7, 2, 7, 9, 18, 0, 16, 2, 4, 1, 0, 1, 1], "perf_params": {"T1_I": 128, "T1_J": 4, "U_J": 17, "U_I": 1, "T2_I": 128, "T2_J": 512, "U1_I": 19, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 4, "SCR": true, "RT_J": 16}, "transform_time": 1.3751640319824219}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		2028
+        Multiplications: 	648
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3396
+        Writes: 		378
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest73.exe __orio_perftest73.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest73.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9623036
+(run 73) | {"compile_time": 1.2252471446990967, "run": 73, "cost": [1.04887, 0.960264, 0.956299, 0.950199, 0.962303, 0.966045, 0.944426, 0.933229, 0.94838, 0.953021], "coordinate": [1, 6, 3, 7, 6, 0, 14, 3, 1, 0, 1, 1, 1], "perf_params": {"T1_I": 2, "T1_J": 64, "U_J": 15, "U_I": 1, "T2_I": 8, "T2_J": 128, "U1_I": 7, "OMP": true, "VEC2": true, "VEC1": true, "RT_I": 8, "SCR": false, "RT_J": 2}, "transform_time": 0.8886470794677734}
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 128 must be greater than the stride value 128; tile index = jjj
+Code stats:
+        Number of loops: 	9
+        Max loop nest depth: 	5
+        Additions: 		134
+        Multiplications: 	45
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			393
+        Writes: 		108
+        Comparisons:		9
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest74.exe __orio_perftest74.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest74.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8803027
+(run 74) | {"compile_time": 0.15886998176574707, "run": 74, "cost": [1.00239, 0.863089, 0.867338, 0.858936, 0.895467, 0.862724, 0.863107, 0.864443, 0.864891, 0.860642], "coordinate": [5, 7, 7, 7, 4, 0, 11, 0, 1, 1, 0, 1, 1], "perf_params": {"T1_I": 32, "T1_J": 128, "U_J": 12, "U_I": 1, "T2_I": 128, "T2_J": 128, "U1_I": 5, "OMP": true, "VEC2": true, "VEC1": false, "RT_I": 1, "SCR": true, "RT_J": 2}, "transform_time": 0.16932082176208496}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		2187
+        Multiplications: 	684
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3570
+        Writes: 		401
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest75.exe __orio_perftest75.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest75.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.683735
+(run 75) | {"compile_time": 1.2588419914245605, "run": 75, "cost": [4.68372, 4.68353, 4.68313, 4.68355, 4.68324, 4.68555, 4.68389, 4.68346, 4.68353, 4.68375], "coordinate": [1, 4, 11, 0, 10, 17, 0, 0, 3, 0, 0, 1, 0], "perf_params": {"T1_I": 2, "T1_J": 16, "U_J": 1, "U_I": 18, "T2_I": 2048, "T2_J": 1, "U1_I": 11, "OMP": false, "VEC2": true, "VEC1": false, "RT_I": 1, "SCR": false, "RT_J": 8}, "transform_time": 0.6262950897216797}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	3
+        Max loop nest depth: 	2
+        Additions: 		10
+        Multiplications: 	4
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			39
+        Writes: 		10
+        Comparisons:		3
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 20m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest76.exe __orio_perftest76.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest76.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.753026
+----- end random search -----
+----- begin random search summary -----
+ total completed runs: 76
+ total successful runs: 75
+ total failed runs: 0
+ speedup: 8.51318632152
+ fount at: 70
+----- end random search summary -----
+----- begin summary -----
+ best coordinate: [6, 3, 11, 7, 15, 0, 7, 2, 3, 1, 1, 1, 1]={'T1_I': 64, 'T1_J': 8, 'U_J': 8, 'U_I': 1, 'T2_I': 2048, 'T2_J': 128, 'U1_I': 16, 'OMP': True, 'VEC2': True, 'VEC1': True, 'RT_I': 4, 'SCR': True, 'RT_J': 8}, cost=5.583134e-01, transfer_time=inf, inputs=[('N', 40000)], search_time=2294.29, runs=76
+----- end summary -----
+Length of requested configs: 1
+Result was on Database, Returning Now
+----- the obtained best performance parameters -----
+ OMP = True
+ RT_I = 4
+ RT_J = 8
+ SCR = True
+ T1_I = 64
+ T1_J = 8
+ T2_I = 2048
+ T2_J = 128
+ U1_I = 16
+ U_I = 1
+ U_J = 8
+ VEC1 = True
+ VEC2 = True
+ cost_mean = 0.5583134
+ points = 76
+ speedup = 8.51318632152
+ technique = RS
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	6
+        Additions: 		553
+        Multiplications: 	255
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1594
+        Writes: 		418
+        Comparisons:		16
+        Gotos: 			0
+        
+----- finish optimizations -----
+
+----- begin removing annotations from output-----
+----- finished removing annotations from output-----
+
+----- begin writing the output file(s) -----
+--> writing output to: _bicgkernel_random.c
+----- finished writing the output file(s) -----
+
+====== END ORIO ======
