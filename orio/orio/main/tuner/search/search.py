@@ -359,6 +359,7 @@ class Search:
 
         measurement["baseline"] = all(c == 0 for c in uneval_coords[0])
         measurement["technique"] = self.name
+        measurement["step"] = self.current_iteration_id
 
         if perf_costs.values() != []:
             runs = perf_costs.values()[0][0]
