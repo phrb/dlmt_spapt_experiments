@@ -745,6 +745,8 @@ class DLMT(orio.main.tuner.search.search.Search):
         best_point       = []
 
         for i in range(iterations):
+            self.current_iteration_id = i + 1
+
             if used_experiments >= initial_budget:
                 info("Stopping: Used budget")
                 break

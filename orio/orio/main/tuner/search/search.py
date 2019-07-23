@@ -23,6 +23,7 @@ class Search:
         #print params
         #print 'done'
 
+        self.current_iteration_id = 1
         self.params=params
         #info("[Search] performance parameters: " + str(params))
 
@@ -162,6 +163,7 @@ class Search:
         result["cost_mean"] = best_perf_cost
         result["speedup"]   = speedup
         result["points"]    = self.requested_runs
+        result["step"]      = self.current_iteration_id
 
         results.insert(result)
 
