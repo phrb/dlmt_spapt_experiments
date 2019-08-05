@@ -683,7 +683,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         info(str(design))
         info("D-Efficiency Approximation: " + str(output.rx("D")[0]))
-        self.utils.write_csv(design, "design_step_{0}".format(step_number), row_names = False)
+        self.utils.write_csv(design, "design_step_{0}".format(step_number))
 
         self.iteration_data["D"] = float(str(output.rx("D")[0]).split(" ")[1])
 
