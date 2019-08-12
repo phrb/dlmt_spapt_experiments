@@ -682,11 +682,11 @@ class DLMT(orio.main.tuner.search.search.Search):
             frml_file.write(str(encoded_full_model))
 
         output = self.opt_federov(encoded_full_model, trials, federov_search_space)
+        self.utils.write_csv(output.rx("design")[0], "design_step_{0}.csv".format(step_number))
         design = self.rsm.decode_data(output.rx("design")[0])
 
         info(str(design))
         info("D-Efficiency Approximation: " + str(output.rx("D")[0]))
-        self.utils.write_csv(design, "design_step_{0}.csv".format(step_number))
 
         self.iteration_data["D"] = float(str(output.rx("D")[0]).split(" ")[1])
 
