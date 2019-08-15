@@ -1,0 +1,3715 @@
+
+====== START ORIO ======
+
+----- begin reading the source file: bicgkernel.c -----
+----- finished reading the source file -----
+
+----- begin parsing annotations -----
+----- finished parsing annotations -----
+
+----- begin optimizations -----
+Search_Space         = 3.225e+11
+Number_of_Parameters = 13
+Numeric_Parameters   = 09
+Binary_Parameters    = 04
+['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+[[1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], [1, 2, 4, 8, 16, 32], [1, 2, 4, 8, 16, 32], [False, True], [False, True], [False, True], [False, True]]
+
+----- begin empirical tuning for problem size -----
+ N = 40000
+Parameters: {'T1_I': [0, 12], 'T1_J': [0, 12], 'U_J': [0, 30], 'U_I': [0, 30], 'T2_I': [0, 12], 'T2_J': [0, 12], 'U1_I': [0, 30], 'OMP': [0, 2], 'VEC2': [0, 2], 'VEC1': [0, 2], 'RT_I': [0, 6], 'SCR': [0, 2], 'RT_J': [0, 6]}
+Parameter Range Values: {'T1_I': [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], 'T1_J': [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], 'U_J': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], 'U_I': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], 'T2_I': [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], 'T2_J': [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048], 'U1_I': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], 'OMP': [False, True], 'VEC2': [False, True], 'VEC1': [False, True], 'RT_I': [1, 2, 4, 8, 16, 32], 'SCR': [False, True], 'RT_J': [1, 2, 4, 8, 16, 32]}
+Federov Sampling Multiplier: 480
+ANOVA Steps: 4
+Extra Experiments in Designs: 1
+Design Multiplier: 1.15
+AOV Threshold: 0.01
+Use all variables in prediction: False
+
+----- begin DLMT -----
+Initial Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP'], 'cubic': [], 'interactions': [], 'fixed_factors': {}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Starting DLMT
+Step 0
+Generating valid search space of size 12480 (does not spend evaluations)
+Valid coordinates: 1248/12480
+Tested coordinates: 63824
+Valid coordinates: 2496/12480
+Tested coordinates: 124139
+Valid coordinates: 3744/12480
+Tested coordinates: 181667
+Valid coordinates: 4992/12480
+Tested coordinates: 241637
+Valid coordinates: 6240/12480
+Tested coordinates: 302118
+Valid coordinates: 7488/12480
+Tested coordinates: 360571
+Valid coordinates: 8736/12480
+Tested coordinates: 420753
+Valid coordinates: 9984/12480
+Tested coordinates: 481447
+Valid coordinates: 11232/12480
+Tested coordinates: 538469
+Valid coordinates: 12480/12480
+Tested coordinates: 596075
+Valid/Tested configurations: 12480/596075
+Generated Search Space:
+NULL
+Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2 + OMP
+Clean Info:
+One-Level Factors: []
+Two-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+Three-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+One-Level Terms: ['(Intercept)']
+Two-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Three-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Model Quadratic: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J']
+Clean 2 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Model Cubic: []
+Clean 3 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Updated Model Info: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP'], 'cubic': [], 'interactions': [], 'fixed_factors': {}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Updated Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2 + OMP
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP'], 'cubic': [], 'interactions': [], 'fixed_factors': {}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Computing D-Optimal Design
+Computing D-Optimal Design with 26 experiments
+Design Formula: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2 + OMP
+Encoded model used in optFederov: ~ I(T1_Ie ^ 2) + I(T1_Je ^ 2) + I(T2_Ie ^ 2) + I(T2_Je ^ 2) + I(U1_Ie ^ 2) + I(U_Ie ^ 2) + I(U_Je ^ 2) + I(RT_Ie ^ 2) + I(RT_Je ^ 2) + T1_Ie + T1_Je + T2_Ie + T2_Je + U1_Ie + U_Ie + U_Je + RT_Ie + RT_Je + SCRe + VEC1e + VEC2e + OMPe
+Starting "optFederov" run
+Using Search Space:
+NULL
+Encoding formulas: NULL
+Data Dimensions: [1] 12480    13
+
+Coded data: NULL
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+955      3   11    0    0    8   0  11    0    5   1    0    1   1
+1213     2    5   11   11   20   2   0    2    5   1    1    1   1
+1350    11    3   11    0    4   0   9    2    4   0    1    1   0
+1698     5    5    0   11    0  14   0    5    2   1    1    0   1
+2698     5    2    9    9    0  29   0    5    1   1    0    1   1
+3118     2    1    0    0   29  29   0    0    1   0    1    1   0
+3779     0    6    0    6   17   0  13    3    2   0    0    0   0
+3954    11    7   11    9   18   0   3    5    0   0    1    0   1
+4103    11    0   11    3   29  19   0    2    0   1    1    0   1
+4497     0    0    4   11    2   0  16    0    0   1    1    0   1
+4698     6    0    8   11   21  12   0    5    0   0    0    1   0
+5148     0    0    2    2   14   0  29    0    3   0    1    1   1
+5928    11    0    0    7   21   0   1    2    2   1    0    1   1
+6379     0    4    6    7   21  29   0    0    5   1    1    0   0
+7372     0    4   11    7    1   0  28    5    0   1    0    1   0
+7470    11    8    0   11    3   0  29    1    2   1    0    0   0
+7743     0   11    8   11   29  25   0    3    3   0    0    0   1
+8102     6    6   11    0   14   0  29    3    3   1    0    0   0
+8308     0    0    3    1    1   0   0    5    2   1    1    0   0
+8739     7    4    0    6    7  29   0    3    0   0    1    0   1
+9896     0    1    2    4    1  12   0    1    5   0    0    0   1
+10307    0    5    7    0   12  18   0    0    2   1    0    1   1
+10585    7   10    7   10    4  10   0    3    2   1    1    1   0
+10835    1    1   11    3    3   0   1    0    0   0    0    0   0
+11426    4    6    7    0   28   0   0    3    0   0    0    1   1
+12154    8    4    9    6   29   0  11    0    3   0    1    0   1
+
+D-Efficiency Approximation: [1] 0.2013143
+
+Measuring design of size 26
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		345
+        Multiplications: 	135
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			994
+        Writes: 		260
+        Comparisons:		8
+        Gotos: 			0
+        
+ compiling timer:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC -O0 -c -o timer_cpu.o timer_cpu.c
+ building the original code:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -DORIGINAL -o __orio_perftest_original.exe __orio_perftest1.c timer_cpu.o -lm -lrt
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest1.exe __orio_perftest1.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest1.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9192775
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	19
+        Max loop nest depth: 	6
+        Additions: 		1587
+        Multiplications: 	792
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4525
+        Writes: 		1155
+        Comparisons:		19
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest2.exe __orio_perftest2.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest2.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6463854
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = iii
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		1609
+        Multiplications: 	540
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2829
+        Writes: 		315
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest3.exe __orio_perftest3.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest3.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.002953
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	17
+        Max loop nest depth: 	5
+        Additions: 		1311
+        Multiplications: 	720
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3813
+        Writes: 		958
+        Comparisons:		17
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest4.exe __orio_perftest4.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest4.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8492854
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	6
+        Additions: 		1062
+        Multiplications: 	567
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3267
+        Writes: 		856
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest5.exe __orio_perftest5.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest5.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7991883
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		1063
+        Multiplications: 	372
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2071
+        Writes: 		277
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest6.exe __orio_perftest6.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest6.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.882079
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 64 must be greater than the stride value 64; tile index = jjj
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	3
+        Additions: 		2141
+        Multiplications: 	684
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3545
+        Writes: 		387
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest7.exe __orio_perftest7.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest7.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.359785
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = iii
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		2006
+        Multiplications: 	660
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3443
+        Writes: 		382
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest8.exe __orio_perftest8.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest8.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8786353
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = iii
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	4
+        Additions: 		236
+        Multiplications: 	75
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			695
+        Writes: 		214
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest9.exe __orio_perftest9.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest9.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6187193
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	7
+        Max loop nest depth: 	4
+        Additions: 		150
+        Multiplications: 	54
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			433
+        Writes: 		116
+        Comparisons:		7
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest10.exe __orio_perftest10.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest10.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8881718
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		479
+        Multiplications: 	184
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1087
+        Writes: 		159
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest11.exe __orio_perftest11.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest11.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 5.534156
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		384
+        Multiplications: 	156
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			884
+        Writes: 		119
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest12.exe __orio_perftest12.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest12.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.034337
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		260
+        Multiplications: 	105
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			769
+        Writes: 		215
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest13.exe __orio_perftest13.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest13.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5898495
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		5330
+        Multiplications: 	3069
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			14276
+        Writes: 		3410
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest14.exe __orio_perftest14.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest14.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 2.06921
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		5144
+        Multiplications: 	2970
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			13758
+        Writes: 		3256
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest15.exe __orio_perftest15.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest15.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 3.227581
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		710
+        Multiplications: 	315
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2069
+        Writes: 		536
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest16.exe __orio_perftest16.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest16.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.364469
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		4035
+        Multiplications: 	1260
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			6519
+        Writes: 		720
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest17.exe __orio_perftest17.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest17.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8115702
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		1964
+        Multiplications: 	1053
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			5400
+        Writes: 		1321
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest18.exe __orio_perftest18.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest18.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.270993
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		895
+        Multiplications: 	495
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2605
+        Writes: 		649
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest19.exe __orio_perftest19.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest19.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 2.583293
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		425
+        Multiplications: 	156
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			969
+        Writes: 		153
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest20.exe __orio_perftest20.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest20.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8152776
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		6815
+        Multiplications: 	2112
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			10718
+        Writes: 		1111
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest21.exe __orio_perftest21.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest21.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.916685
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		577
+        Multiplications: 	300
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1691
+        Writes: 		446
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest22.exe __orio_perftest22.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest22.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.80853
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 128 must be greater than the stride value 128; tile index = iii
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 1024 must be greater than the stride value 1024; tile index = jjj
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		583
+        Multiplications: 	300
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1747
+        Writes: 		458
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest23.exe __orio_perftest23.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest23.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.082635
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	9
+        Max loop nest depth: 	6
+        Additions: 		56
+        Multiplications: 	12
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			133
+        Writes: 		30
+        Comparisons:		9
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest24.exe __orio_perftest24.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest24.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.704812
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	5
+        Additions: 		128
+        Multiplications: 	36
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			312
+        Writes: 		73
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest25.exe __orio_perftest25.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest25.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8055693
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	6
+        Additions: 		243
+        Multiplications: 	84
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			560
+        Writes: 		98
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest26.exe __orio_perftest26.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest26.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9993534
+Complete design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+955      3   11    0    0    8   0  11    0    5   1    0    1   1 0.9192775
+1213     2    5   11   11   20   2   0    2    5   1    1    1   1 0.6463854
+1350    11    3   11    0    4   0   9    2    4   0    1    1   0 4.0029530
+1698     5    5    0   11    0  14   0    5    2   1    1    0   1 0.8492854
+2698     5    2    9    9    0  29   0    5    1   1    0    1   1 0.7991883
+3118     2    1    0    0   29  29   0    0    1   0    1    1   0 4.8820790
+3779     0    6    0    6   17   0  13    3    2   0    0    0   0 3.3597850
+3954    11    7   11    9   18   0   3    5    0   0    1    0   1 0.8786353
+4103    11    0   11    3   29  19   0    2    0   1    1    0   1 0.6187193
+4497     0    0    4   11    2   0  16    0    0   1    1    0   1 0.8881718
+4698     6    0    8   11   21  12   0    5    0   0    0    1   0 5.5341560
+5148     0    0    2    2   14   0  29    0    3   0    1    1   1 1.0343370
+5928    11    0    0    7   21   0   1    2    2   1    0    1   1 0.5898495
+6379     0    4    6    7   21  29   0    0    5   1    1    0   0 2.0692100
+7372     0    4   11    7    1   0  28    5    0   1    0    1   0 3.2275810
+7470    11    8    0   11    3   0  29    1    2   1    0    0   0 1.3644690
+7743     0   11    8   11   29  25   0    3    3   0    0    0   1 0.8115702
+8102     6    6   11    0   14   0  29    3    3   1    0    0   0 1.2709930
+8308     0    0    3    1    1   0   0    5    2   1    1    0   0 2.5832930
+8739     7    4    0    6    7  29   0    3    0   0    1    0   1 0.8152776
+9896     0    1    2    4    1  12   0    1    5   0    0    0   1 0.9166850
+10307    0    5    7    0   12  18   0    0    2   1    0    1   1 0.8085300
+10585    7   10    7   10    4  10   0    3    2   1    1    1   0 1.0826350
+10835    1    1   11    3    3   0   1    0    0   0    0    0   0 4.7048120
+11426    4    6    7    0   28   0   0    3    0   0    0    1   1 0.8055693
+12154    8    4    9    6   29   0  11    0    3   0    1    0   1 0.9993534
+
+Clean design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+955      3   11    0    0    8   0  11    0    5   1    0    1   1 0.9192775
+1213     2    5   11   11   20   2   0    2    5   1    1    1   1 0.6463854
+1350    11    3   11    0    4   0   9    2    4   0    1    1   0 4.0029530
+1698     5    5    0   11    0  14   0    5    2   1    1    0   1 0.8492854
+2698     5    2    9    9    0  29   0    5    1   1    0    1   1 0.7991883
+3118     2    1    0    0   29  29   0    0    1   0    1    1   0 4.8820790
+3779     0    6    0    6   17   0  13    3    2   0    0    0   0 3.3597850
+3954    11    7   11    9   18   0   3    5    0   0    1    0   1 0.8786353
+4103    11    0   11    3   29  19   0    2    0   1    1    0   1 0.6187193
+4497     0    0    4   11    2   0  16    0    0   1    1    0   1 0.8881718
+4698     6    0    8   11   21  12   0    5    0   0    0    1   0 5.5341560
+5148     0    0    2    2   14   0  29    0    3   0    1    1   1 1.0343370
+5928    11    0    0    7   21   0   1    2    2   1    0    1   1 0.5898495
+6379     0    4    6    7   21  29   0    0    5   1    1    0   0 2.0692100
+7372     0    4   11    7    1   0  28    5    0   1    0    1   0 3.2275810
+7470    11    8    0   11    3   0  29    1    2   1    0    0   0 1.3644690
+7743     0   11    8   11   29  25   0    3    3   0    0    0   1 0.8115702
+8102     6    6   11    0   14   0  29    3    3   1    0    0   0 1.2709930
+8308     0    0    3    1    1   0   0    5    2   1    1    0   0 2.5832930
+8739     7    4    0    6    7  29   0    3    0   0    1    0   1 0.8152776
+9896     0    1    2    4    1  12   0    1    5   0    0    0   1 0.9166850
+10307    0    5    7    0   12  18   0    0    2   1    0    1   1 0.8085300
+10585    7   10    7   10    4  10   0    3    2   1    1    1   0 1.0826350
+10835    1    1   11    3    3   0   1    0    0   0    0    0   0 4.7048120
+11426    4    6    7    0   28   0   0    3    0   0    0    1   1 0.8055693
+12154    8    4    9    6   29   0  11    0    3   0    1    0   1 0.9993534
+
+Anova Formula in Python: cost_mean ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2 + OMP
+Anova Formula in R: cost_mean ~ I(T1_I^2) + I(T1_J^2) + I(T2_I^2) + I(T2_J^2) + I(U1_I^2) + 
+    I(U_I^2) + I(U_J^2) + I(RT_I^2) + I(RT_J^2) + T1_I + T1_J + 
+    T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + 
+    VEC2 + OMP
+
+Heteroscedasticity Test p-value: 0.547515727044
+Regression Step:            Df Sum Sq Mean Sq F value  Pr(>F)   
+I(T1_I^2)    1  1.227   1.227   5.377 0.10320   
+I(T1_J^2)    1  5.354   5.354  23.468 0.01678 * 
+I(T2_I^2)    1  1.241   1.241   5.439 0.10195   
+I(T2_J^2)    1  0.220   0.220   0.963 0.39877   
+I(U1_I^2)    1  0.003   0.003   0.011 0.92247   
+I(U_I^2)     1  0.022   0.022   0.095 0.77769   
+I(U_J^2)     1  0.054   0.054   0.236 0.66061   
+I(RT_I^2)    1  0.887   0.887   3.886 0.14325   
+I(RT_J^2)    1  1.023   1.023   4.484 0.12446   
+T1_I         1  0.078   0.078   0.344 0.59883   
+T1_J         1  0.839   0.839   3.676 0.15105   
+T2_I         1  3.018   3.018  13.230 0.03581 * 
+T2_J         1  1.611   1.611   7.064 0.07648 . 
+U1_I         1  0.387   0.387   1.697 0.28366   
+U_I          1  0.313   0.313   1.372 0.32599   
+U_J          1  1.397   1.397   6.125 0.08968 . 
+RT_I         1  0.370   0.370   1.622 0.29249   
+RT_J         1  0.008   0.008   0.035 0.86431   
+SCR          1  6.998   6.998  30.675 0.01160 * 
+VEC1         1  1.015   1.015   4.447 0.12550   
+VEC2         1  0.500   0.500   2.191 0.23541   
+OMP          1 30.102  30.102 131.954 0.00142 **
+Residuals    3  0.684   0.228                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Getting Best from Design
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP'], 'cubic': [], 'interactions': [], 'fixed_factors': {}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Design Names:  [1] "T1_I"      "T1_J"      "T2_I"      "T2_J"      "U1_I"      "U_I"      
+ [7] "U_J"       "RT_I"      "RT_J"      "SCR"       "VEC1"      "VEC2"     
+[13] "OMP"       "cost_mean"
+
+Design Response:       cost_mean
+955   0.9192775
+1213  0.6463854
+1350  4.0029530
+1698  0.8492854
+2698  0.7991883
+3118  4.8820790
+3779  3.3597850
+3954  0.8786353
+4103  0.6187193
+4497  0.8881718
+4698  5.5341560
+5148  1.0343370
+5928  0.5898495
+6379  2.0692100
+7372  3.2275810
+7470  1.3644690
+7743  0.8115702
+8102  1.2709930
+8308  2.5832930
+8739  0.8152776
+9896  0.9166850
+10307 0.8085300
+10585 1.0826350
+10835 4.7048120
+11426 0.8055693
+12154 0.9993534
+
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Initial Factors: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Getting fixed Model Terms
+Prf Values: 
+{'T2_J': 0.07648277793682608, 'T2_I': 0.0358077433399765, 'I(T2_J^2)': 0.39876561919392983, 'I(T1_I^2)': 0.10319830410547964, 'I(T1_J^2)': 0.016782526659445136, 'RT_J': 0.8643140587192558, 'T1_J': 0.15105431324728877, 'VEC2': 0.23541340829945118, 'I(RT_J^2)': 0.12446462882217948, 'VEC1': 0.12549883878632637, 'SCR': 0.011601971993163587, 'I(T2_I^2)': 0.1019468256227309, 'U1_I': 0.2836608654666992, 'I(RT_I^2)': 0.14325211777021127, 'I(U_J^2)': 0.6606124269765561, 'T1_I': 0.5988318643307377, 'RT_I': 0.29249111704412295, 'I(U_I^2)': 0.777694229852782, 'U_J': 0.08967641826172226, 'U_I': 0.3259942876278515, 'OMP': 0.0014161679843321244, 'I(U1_I^2)': 0.922471910854527}
+Ordered Keys: 
+['OMP', 'SCR', 'I(T1_J^2)', 'T2_I', 'T2_J', 'U_J', 'I(T2_I^2)', 'I(T1_I^2)', 'I(RT_J^2)', 'VEC1', 'I(RT_I^2)', 'T1_J', 'VEC2', 'U1_I', 'RT_I', 'U_I', 'I(T2_J^2)', 'T1_I', 'I(U_J^2)', 'I(U_I^2)', 'RT_J', 'I(U1_I^2)']
+Variables within threshold: ['OMP']
+Predicting Best Values for: ['OMP']
+Using Model: . ~ OMP
+Prediction Regression Step:            Df Sum Sq Mean Sq F value  Pr(>F)    
+OMP          1  32.79   32.79   32.04 7.9e-06 ***
+Residuals   24  24.56    1.02                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Generating valid search space of size 37440 (does not spend evaluations)
+Valid coordinates: 3744/37440
+Tested coordinates: 175476
+Valid coordinates: 7488/37440
+Tested coordinates: 355557
+Valid coordinates: 11232/37440
+Tested coordinates: 536543
+Valid coordinates: 14976/37440
+Tested coordinates: 717622
+Valid coordinates: 18720/37440
+Tested coordinates: 895596
+Tested coordinates: 1000000
+Valid coordinates: 22464/37440
+Tested coordinates: 1077297
+Valid coordinates: 26208/37440
+Tested coordinates: 1261136
+Valid coordinates: 29952/37440
+Tested coordinates: 1436844
+Valid coordinates: 33696/37440
+Tested coordinates: 1621251
+Valid coordinates: 37440/37440
+Tested coordinates: 1799648
+Valid/Tested configurations: 37440/1799648
+Generated Search Space:
+NULL
+Getting fixed variables
+Getting fixed variables
+Prf Values: 
+{'T2_J': 0.07648277793682608, 'T2_I': 0.0358077433399765, 'I(T2_J^2)': 0.39876561919392983, 'I(T1_I^2)': 0.10319830410547964, 'I(T1_J^2)': 0.016782526659445136, 'RT_J': 0.8643140587192558, 'T1_J': 0.15105431324728877, 'VEC2': 0.23541340829945118, 'I(RT_J^2)': 0.12446462882217948, 'VEC1': 0.12549883878632637, 'SCR': 0.011601971993163587, 'I(T2_I^2)': 0.1019468256227309, 'U1_I': 0.2836608654666992, 'I(RT_I^2)': 0.14325211777021127, 'I(U_J^2)': 0.6606124269765561, 'T1_I': 0.5988318643307377, 'RT_I': 0.29249111704412295, 'I(U_I^2)': 0.777694229852782, 'U_J': 0.08967641826172226, 'U_I': 0.3259942876278515, 'OMP': 0.0014161679843321244, 'I(U1_I^2)': 0.922471910854527}
+Ordered Keys: 
+['OMP', 'SCR', 'I(T1_J^2)', 'T2_I', 'T2_J', 'U_J', 'I(T2_I^2)', 'I(T1_I^2)', 'I(RT_J^2)', 'VEC1', 'I(RT_I^2)', 'T1_J', 'VEC2', 'U1_I', 'RT_I', 'U_I', 'I(T2_J^2)', 'T1_I', 'I(U_J^2)', 'I(U_I^2)', 'RT_J', 'I(U1_I^2)']
+Variables within threshold: ['OMP']
+Unique Variables: ['OMP']
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP'], 'cubic': [], 'interactions': [], 'fixed_factors': {}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Pruning Model
+Getting fixed variables
+Prf Values: 
+{'T2_J': 0.07648277793682608, 'T2_I': 0.0358077433399765, 'I(T2_J^2)': 0.39876561919392983, 'I(T1_I^2)': 0.10319830410547964, 'I(T1_J^2)': 0.016782526659445136, 'RT_J': 0.8643140587192558, 'T1_J': 0.15105431324728877, 'VEC2': 0.23541340829945118, 'I(RT_J^2)': 0.12446462882217948, 'VEC1': 0.12549883878632637, 'SCR': 0.011601971993163587, 'I(T2_I^2)': 0.1019468256227309, 'U1_I': 0.2836608654666992, 'I(RT_I^2)': 0.14325211777021127, 'I(U_J^2)': 0.6606124269765561, 'T1_I': 0.5988318643307377, 'RT_I': 0.29249111704412295, 'I(U_I^2)': 0.777694229852782, 'U_J': 0.08967641826172226, 'U_I': 0.3259942876278515, 'OMP': 0.0014161679843321244, 'I(U1_I^2)': 0.922471910854527}
+Ordered Keys: 
+['OMP', 'SCR', 'I(T1_J^2)', 'T2_I', 'T2_J', 'U_J', 'I(T2_I^2)', 'I(T1_I^2)', 'I(RT_J^2)', 'VEC1', 'I(RT_I^2)', 'T1_J', 'VEC2', 'U1_I', 'RT_I', 'U_I', 'I(T2_J^2)', 'T1_I', 'I(U_J^2)', 'I(U_I^2)', 'RT_J', 'I(U1_I^2)']
+Variables within threshold: ['OMP']
+Best Predicted:   T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+3    2    2    0    8    3   0   3    3    2   0    1    1   1
+
+Best From Design: [11, 0, 0, 7, 21, 0, 1, 2, 2, 1, 0, 1, 1]
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	3
+        Max loop nest depth: 	2
+        Additions: 		10
+        Multiplications: 	4
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			39
+        Writes: 		10
+        Comparisons:		3
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest27.exe __orio_perftest27.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest27.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 4.751035
+Baseline Point:
+4.751035
+Design Best Point:
+[11, 0, 0, 7, 21, 0, 1, 2, 2, 1, 0, 1, 1]
+Length of requested configs: 1
+Result was on Database, Returning Now
+Slowdown (Design Best): 0.124151790084
+Predicted Best Point:
+[2, 2, 0, 8, 3, 0, 3, 3, 2, 0, 1, 1, 1]
+Length of Predicted Best: 13
+Original Factor Length: 13
+Measuring Predicted Best:
+[2, 2, 0, 8, 3, 0, 3, 3, 2, 0, 1, 1, 1]
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		978
+        Multiplications: 	324
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1763
+        Writes: 		211
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest28.exe __orio_perftest28.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest28.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9844477
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Slowdown (Design Best): 0.124151790084
+Slowdown (Predicted Best): 0.207206998054
+Budget: 26/1000
+Best point from design was better than predicted point
+Updating Global Best: 0.5898495
+Current Best Point: 
+[11, 0, 0, 7, 21, 0, 1, 2, 2, 1, 0, 1, 1]
+Step 1
+Generating valid search space of size 12000 (does not spend evaluations)
+Valid coordinates: 1200/12000
+Tested coordinates: 59940
+Valid coordinates: 2400/12000
+Tested coordinates: 118665
+Valid coordinates: 3600/12000
+Tested coordinates: 173764
+Valid coordinates: 4800/12000
+Tested coordinates: 233063
+Valid coordinates: 6000/12000
+Tested coordinates: 290114
+Valid coordinates: 7200/12000
+Tested coordinates: 350016
+Valid coordinates: 8400/12000
+Tested coordinates: 407396
+Valid coordinates: 9600/12000
+Tested coordinates: 463597
+Valid coordinates: 10800/12000
+Tested coordinates: 520522
+Valid coordinates: 12000/12000
+Tested coordinates: 579688
+Valid/Tested configurations: 12000/579688
+Generated Search Space:
+NULL
+Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Clean Info:
+One-Level Factors: ['OMP']
+Two-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+Three-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+One-Level Terms: ['(Intercept)']
+Two-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Three-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Model Quadratic: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J']
+Clean 2 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Model Cubic: []
+Clean 3 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Updated Model Info: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Updated Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Computing D-Optimal Design
+Computing D-Optimal Design with 25 experiments
+Design Formula: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Encoded model used in optFederov: ~ I(T1_Ie ^ 2) + I(T1_Je ^ 2) + I(T2_Ie ^ 2) + I(T2_Je ^ 2) + I(U1_Ie ^ 2) + I(U_Ie ^ 2) + I(U_Je ^ 2) + I(RT_Ie ^ 2) + I(RT_Je ^ 2) + T1_Ie + T1_Je + T2_Ie + T2_Je + U1_Ie + U_Ie + U_Je + RT_Ie + RT_Je + SCRe + VEC1e + VEC2e
+Starting "optFederov" run
+Using Search Space:
+NULL
+Encoding formulas: NULL
+Data Dimensions: [1] 12000    13
+
+Coded data: NULL
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+860      0    4   10   11   19   0  14    5    2   0    0    0   1
+1650    11    7    0    0   14   0   2    2    5   1    0    1   1
+4568     0   11    2    0    5  29   0    3    4   1    1    1   1
+4637    10    0   10    6   28   0   3    2    5   0    1    0   1
+5299     0    6    7   11   27  15   0    0    2   1    1    1   1
+5755     6    0    7    0   16   0  29    4    1   1    1    1   1
+5858     0   11    5    0   27   6   0    2    0   0    0    0   1
+6078     0    1   11    0   20   0  22    2    0   1    0    0   1
+6124     4    8   11   11    0  18   0    3    2   0    0    0   1
+6581     1    9   11    9   29  29   0    5    0   1    0    1   1
+6644     3    4   11    4    7  15   0    0    5   0    1    0   1
+6673     6    2    6    0    0   0  15    0    1   0    1    1   1
+7634    11   11   11    0    5   0   0    0    2   1    1    0   1
+8189    11    0    0   11    7  28   0    0    0   0    0    0   1
+8273     7   11    8   11   27   0  15    1    5   1    1    0   1
+8806     0    7    2    7    0   0  25    5    0   1    1    0   1
+8848     5    2    0    0   29   0   7    0    2   1    1    0   1
+8934     1    0    4   11    0   0   1    2    5   1    0    1   1
+9198     6    5    6    7   17  29   0    1    2   1    0    0   1
+10130    3    8    0   10   11   0   0    3    0   0    1    1   1
+10354    0    0    0    7   15   0  15    1    3   0    0    1   1
+11214    2    0    0    1   19  14   0    5    2   1    1    0   1
+11307    6    0    9    7    3   0  10    5    0   1    0    1   1
+11891    5   10    0   10   19   0  29    0    5   0    0    1   1
+11964   11    3    0    5    1   0  26    4    2   0    0    1   1
+
+D-Efficiency Approximation: [1] 0.2061824
+
+Measuring design of size 25
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		8630
+        Multiplications: 	2640
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			13353
+        Writes: 		1374
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest29.exe __orio_perftest29.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest29.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.0187982
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		1094
+        Multiplications: 	540
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3104
+        Writes: 		788
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest30.exe __orio_perftest30.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest30.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7137884
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		3490
+        Multiplications: 	1989
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			9560
+        Writes: 		2321
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest31.exe __orio_perftest31.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest31.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8971128
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 1024 must be greater than the stride value 1024; tile index = iii
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		2233
+        Multiplications: 	740
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3863
+        Writes: 		432
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest32.exe __orio_perftest32.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest32.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7856621
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		520
+        Multiplications: 	255
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1516
+        Writes: 		411
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest33.exe __orio_perftest33.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest33.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8019833
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	4
+        Additions: 		2750
+        Multiplications: 	1590
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			7473
+        Writes: 		1794
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest34.exe __orio_perftest34.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest34.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7908332
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	4
+        Additions: 		170
+        Multiplications: 	48
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			396
+        Writes: 		87
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest35.exe __orio_perftest35.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest35.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7739966
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		755
+        Multiplications: 	360
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2114
+        Writes: 		542
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest36.exe __orio_perftest36.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest36.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6171946
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	6
+        Additions: 		1686
+        Multiplications: 	560
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2966
+        Writes: 		339
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest37.exe __orio_perftest37.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest37.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7377536
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 512 must be greater than the stride value 512; tile index = jjj
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		505
+        Multiplications: 	189
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1472
+        Writes: 		416
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest38.exe __orio_perftest38.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest38.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6517478
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 16 must be greater than the stride value 16; tile index = jjj
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		7422
+        Multiplications: 	2244
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			11360
+        Writes: 		1176
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest39.exe __orio_perftest39.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest39.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9631042
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 64 must be greater than the stride value 64; tile index = iii
+Code stats:
+        Number of loops: 	7
+        Max loop nest depth: 	4
+        Additions: 		185
+        Multiplications: 	76
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			443
+        Writes: 		60
+        Comparisons:		7
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest40.exe __orio_perftest40.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest40.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.0115418
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = iii
+Code stats:
+        Number of loops: 	7
+        Max loop nest depth: 	4
+        Additions: 		53
+        Multiplications: 	15
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			175
+        Writes: 		54
+        Comparisons:		7
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest41.exe __orio_perftest41.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest41.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7107885
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	9
+        Max loop nest depth: 	4
+        Additions: 		330
+        Multiplications: 	120
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			739
+        Writes: 		118
+        Comparisons:		9
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest42.exe __orio_perftest42.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest42.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8648901
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		997
+        Multiplications: 	441
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2888
+        Writes: 		758
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest43.exe __orio_perftest43.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest43.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8181132
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 128 must be greater than the stride value 128; tile index = jjj
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	4
+        Additions: 		4625
+        Multiplications: 	2673
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			12390
+        Writes: 		2932
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest44.exe __orio_perftest44.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest44.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8941323
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		142
+        Multiplications: 	39
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			394
+        Writes: 		120
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest45.exe __orio_perftest45.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest45.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9271591
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		1049
+        Multiplications: 	525
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2993
+        Writes: 		753
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest46.exe __orio_perftest46.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest46.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9111577
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 64 must be greater than the stride value 64; tile index = iii
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		943
+        Multiplications: 	495
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2759
+        Writes: 		722
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest47.exe __orio_perftest47.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest47.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8252808
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	5
+        Additions: 		114
+        Multiplications: 	36
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			291
+        Writes: 		61
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest48.exe __orio_perftest48.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest48.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7588045
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	3
+        Additions: 		825
+        Multiplications: 	300
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1641
+        Writes: 		203
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest49.exe __orio_perftest49.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest49.exe  
+orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest49.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest49.exe  ' returned non-zero exit status 1
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 133, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 884, in searchBestCoord
+    best_point, used_points = self.dopt_anova()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 777, in dopt_anova
+    step_data = self.dopt_anova_step(budget, trials, i)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 693, in dopt_anova_step
+    design                 = self.measure_design(design)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 594, in measure_design
+    measurement = self.getPerfCosts([candidate])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 347, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 368, in __execute
+    % (cmd,e.__class__.__name__, e),doexit = False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest49.exe  "
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 133, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 884, in searchBestCoord
+    best_point, used_points = self.dopt_anova()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 777, in dopt_anova
+    step_data = self.dopt_anova_step(budget, trials, i)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 693, in dopt_anova_step
+    design                 = self.measure_design(design)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 594, in measure_design
+    measurement = self.getPerfCosts([candidate])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 347, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 427, in __execute
+    err('orio.main.tuner.ptest_driver:  performance testing failed: "%s"' % cmd, doexit=False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+Stored as a failed configuration
+Configuration failed
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		1326
+        Multiplications: 	720
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3843
+        Writes: 		976
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest50.exe __orio_perftest50.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest50.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9378085
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		2101
+        Multiplications: 	1188
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			5747
+        Writes: 		1385
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest51.exe __orio_perftest51.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest51.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8327467
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 1024 must be greater than the stride value 1024; tile index = jjj
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		605
+        Multiplications: 	252
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1368
+        Writes: 		169
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest52.exe __orio_perftest52.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest52.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9643478
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		7108
+        Multiplications: 	2176
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			11013
+        Writes: 		1132
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest53.exe __orio_perftest53.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest53.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7065392
+Complete design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+860      0    4   10   11   19   0  14    5    2   0    0    0   1 1.0187982
+1650    11    7    0    0   14   0   2    2    5   1    0    1   1 0.7137884
+4568     0   11    2    0    5  29   0    3    4   1    1    1   1 0.8971128
+4637    10    0   10    6   28   0   3    2    5   0    1    0   1 0.7856621
+5299     0    6    7   11   27  15   0    0    2   1    1    1   1 0.8019833
+5755     6    0    7    0   16   0  29    4    1   1    1    1   1 0.7908332
+5858     0   11    5    0   27   6   0    2    0   0    0    0   1 0.7739966
+6078     0    1   11    0   20   0  22    2    0   1    0    0   1 0.6171946
+6124     4    8   11   11    0  18   0    3    2   0    0    0   1 0.7377536
+6581     1    9   11    9   29  29   0    5    0   1    0    1   1 0.6517478
+6644     3    4   11    4    7  15   0    0    5   0    1    0   1 0.9631042
+6673     6    2    6    0    0   0  15    0    1   0    1    1   1 1.0115418
+7634    11   11   11    0    5   0   0    0    2   1    1    0   1 0.7107885
+8189    11    0    0   11    7  28   0    0    0   0    0    0   1 0.8648901
+8273     7   11    8   11   27   0  15    1    5   1    1    0   1 0.8181132
+8806     0    7    2    7    0   0  25    5    0   1    1    0   1 0.8941323
+8848     5    2    0    0   29   0   7    0    2   1    1    0   1 0.9271591
+8934     1    0    4   11    0   0   1    2    5   1    0    1   1 0.9111577
+9198     6    5    6    7   17  29   0    1    2   1    0    0   1 0.8252808
+10130    3    8    0   10   11   0   0    3    0   0    1    1   1 0.7588045
+10354    0    0    0    7   15   0  15    1    3   0    0    1   1        NA
+11214    2    0    0    1   19  14   0    5    2   1    1    0   1 0.9378085
+11307    6    0    9    7    3   0  10    5    0   1    0    1   1 0.8327467
+11891    5   10    0   10   19   0  29    0    5   0    0    1   1 0.9643478
+11964   11    3    0    5    1   0  26    4    2   0    0    1   1 0.7065392
+
+Clean design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+860      0    4   10   11   19   0  14    5    2   0    0    0   1 1.0187982
+1650    11    7    0    0   14   0   2    2    5   1    0    1   1 0.7137884
+4568     0   11    2    0    5  29   0    3    4   1    1    1   1 0.8971128
+4637    10    0   10    6   28   0   3    2    5   0    1    0   1 0.7856621
+5299     0    6    7   11   27  15   0    0    2   1    1    1   1 0.8019833
+5755     6    0    7    0   16   0  29    4    1   1    1    1   1 0.7908332
+5858     0   11    5    0   27   6   0    2    0   0    0    0   1 0.7739966
+6078     0    1   11    0   20   0  22    2    0   1    0    0   1 0.6171946
+6124     4    8   11   11    0  18   0    3    2   0    0    0   1 0.7377536
+6581     1    9   11    9   29  29   0    5    0   1    0    1   1 0.6517478
+6644     3    4   11    4    7  15   0    0    5   0    1    0   1 0.9631042
+6673     6    2    6    0    0   0  15    0    1   0    1    1   1 1.0115418
+7634    11   11   11    0    5   0   0    0    2   1    1    0   1 0.7107885
+8189    11    0    0   11    7  28   0    0    0   0    0    0   1 0.8648901
+8273     7   11    8   11   27   0  15    1    5   1    1    0   1 0.8181132
+8806     0    7    2    7    0   0  25    5    0   1    1    0   1 0.8941323
+8848     5    2    0    0   29   0   7    0    2   1    1    0   1 0.9271591
+8934     1    0    4   11    0   0   1    2    5   1    0    1   1 0.9111577
+9198     6    5    6    7   17  29   0    1    2   1    0    0   1 0.8252808
+10130    3    8    0   10   11   0   0    3    0   0    1    1   1 0.7588045
+11214    2    0    0    1   19  14   0    5    2   1    1    0   1 0.9378085
+11307    6    0    9    7    3   0  10    5    0   1    0    1   1 0.8327467
+11891    5   10    0   10   19   0  29    0    5   0    0    1   1 0.9643478
+11964   11    3    0    5    1   0  26    4    2   0    0    1   1 0.7065392
+
+Anova Formula in Python: cost_mean ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Anova Formula in R: cost_mean ~ I(T1_I^2) + I(T1_J^2) + I(T2_I^2) + I(T2_J^2) + I(U1_I^2) + 
+    I(U_I^2) + I(U_J^2) + I(RT_I^2) + I(RT_J^2) + T1_I + T1_J + 
+    T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + 
+    VEC2
+
+Heteroscedasticity Test p-value: 0.754122121341
+Regression Step:            Df  Sum Sq Mean Sq F value Pr(>F)  
+I(T1_I^2)    1 0.02455 0.02455  24.389 0.0386 *
+I(T1_J^2)    1 0.01478 0.01478  14.681 0.0619 .
+I(T2_I^2)    1 0.03142 0.03142  31.220 0.0306 *
+I(T2_J^2)    1 0.00243 0.00243   2.416 0.2603  
+I(U1_I^2)    1 0.00706 0.00706   7.014 0.1179  
+I(U_I^2)     1 0.00170 0.00170   1.687 0.3236  
+I(U_J^2)     1 0.00276 0.00276   2.746 0.2393  
+I(RT_I^2)    1 0.00441 0.00441   4.383 0.1713  
+I(RT_J^2)    1 0.02028 0.02028  20.150 0.0462 *
+T1_I         1 0.00822 0.00822   8.166 0.1038  
+T1_J         1 0.00046 0.00046   0.461 0.5673  
+T2_I         1 0.00228 0.00228   2.264 0.2713  
+T2_J         1 0.00142 0.00142   1.410 0.3570  
+U1_I         1 0.00002 0.00002   0.020 0.8999  
+U_I          1 0.00047 0.00047   0.471 0.5634  
+U_J          1 0.02812 0.02812  27.933 0.0340 *
+RT_I         1 0.07020 0.07020  69.745 0.0140 *
+RT_J         1 0.00829 0.00829   8.234 0.1030  
+SCR          1 0.04019 0.04019  39.926 0.0241 *
+VEC1         1 0.00113 0.00113   1.121 0.4008  
+VEC2         1 0.01083 0.01083  10.764 0.0817 .
+Residuals    2 0.00201 0.00101                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Getting Best from Design
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Design Names:  [1] "T1_I"      "T1_J"      "T2_I"      "T2_J"      "U1_I"      "U_I"      
+ [7] "U_J"       "RT_I"      "RT_J"      "SCR"       "VEC1"      "VEC2"     
+[13] "OMP"       "cost_mean"
+
+Design Response:       cost_mean
+860   1.0187982
+1650  0.7137884
+4568  0.8971128
+4637  0.7856621
+5299  0.8019833
+5755  0.7908332
+5858  0.7739966
+6078  0.6171946
+6124  0.7377536
+6581  0.6517478
+6644  0.9631042
+6673  1.0115418
+7634  0.7107885
+8189  0.8648901
+8273  0.8181132
+8806  0.8941323
+8848  0.9271591
+8934  0.9111577
+9198  0.8252808
+10130 0.7588045
+11214 0.9378085
+11307 0.8327467
+11891 0.9643478
+11964 0.7065392
+
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Initial Factors: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Getting fixed Model Terms
+Prf Values: 
+{'VEC1': 0.4007674073322023, 'I(RT_J^2)': 0.046214209577622, 'T1_J': 0.5673216331956674, 'T2_J': 0.35699383054624356, 'SCR': 0.024142918875667104, 'U_J': 0.03398577769572264, 'U_I': 0.563398827026298, 'I(T2_I^2)': 0.03056987430901952, 'T2_I': 0.2713453033791793, 'U1_I': 0.8999367159432865, 'I(U_I^2)': 0.32358557802995624, 'I(RT_I^2)': 0.1713475537735967, 'VEC2': 0.08168015660890764, 'I(T2_J^2)': 0.26031483484713464, 'I(U1_I^2)': 0.11788145784658607, 'RT_I': 0.01403682896296072, 'I(T1_I^2)': 0.03864095144039855, 'I(T1_J^2)': 0.06186202344605533, 'I(U_J^2)': 0.2393226402221499, 'RT_J': 0.10301924875060273, 'T1_I': 0.10375200480993653}
+Ordered Keys: 
+['RT_I', 'SCR', 'I(T2_I^2)', 'U_J', 'I(T1_I^2)', 'I(RT_J^2)', 'I(T1_J^2)', 'VEC2', 'RT_J', 'T1_I', 'I(U1_I^2)', 'I(RT_I^2)', 'I(U_J^2)', 'I(T2_J^2)', 'T2_I', 'I(U_I^2)', 'T2_J', 'VEC1', 'U_I', 'T1_J', 'U1_I']
+No variables within acceptable threshold
+Predicting Best Values for: []
+No variables in threshold
+Using Model: . ~ .
+Prediction Regression Step:            Df  Sum Sq Mean Sq F value Pr(>F)  
+I(T1_I^2)    1 0.02455 0.02455  24.389 0.0386 *
+I(T1_J^2)    1 0.01478 0.01478  14.681 0.0619 .
+I(T2_I^2)    1 0.03142 0.03142  31.220 0.0306 *
+I(T2_J^2)    1 0.00243 0.00243   2.416 0.2603  
+I(U1_I^2)    1 0.00706 0.00706   7.014 0.1179  
+I(U_I^2)     1 0.00170 0.00170   1.687 0.3236  
+I(U_J^2)     1 0.00276 0.00276   2.746 0.2393  
+I(RT_I^2)    1 0.00441 0.00441   4.383 0.1713  
+I(RT_J^2)    1 0.02028 0.02028  20.150 0.0462 *
+T1_I         1 0.00822 0.00822   8.166 0.1038  
+T1_J         1 0.00046 0.00046   0.461 0.5673  
+T2_I         1 0.00228 0.00228   2.264 0.2713  
+T2_J         1 0.00142 0.00142   1.410 0.3570  
+U1_I         1 0.00002 0.00002   0.020 0.8999  
+U_I          1 0.00047 0.00047   0.471 0.5634  
+U_J          1 0.02812 0.02812  27.933 0.0340 *
+RT_I         1 0.07020 0.07020  69.745 0.0140 *
+RT_J         1 0.00829 0.00829   8.234 0.1030  
+SCR          1 0.04019 0.04019  39.926 0.0241 *
+VEC1         1 0.00113 0.00113   1.121 0.4008  
+VEC2         1 0.01083 0.01083  10.764 0.0817 .
+Residuals    2 0.00201 0.00101                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Generating valid search space of size 36000 (does not spend evaluations)
+Valid coordinates: 3600/36000
+Tested coordinates: 175692
+Valid coordinates: 7200/36000
+Tested coordinates: 344238
+Valid coordinates: 10800/36000
+Tested coordinates: 520290
+Valid coordinates: 14400/36000
+Tested coordinates: 693635
+Valid coordinates: 18000/36000
+Tested coordinates: 865970
+Tested coordinates: 1000000
+Valid coordinates: 21600/36000
+Tested coordinates: 1041379
+Valid coordinates: 25200/36000
+Tested coordinates: 1214807
+Valid coordinates: 28800/36000
+Tested coordinates: 1379304
+Valid coordinates: 32400/36000
+Tested coordinates: 1546982
+Valid coordinates: 36000/36000
+Tested coordinates: 1715135
+Valid/Tested configurations: 36000/1715135
+Generated Search Space:
+NULL
+Getting fixed variables
+Getting fixed variables
+Prf Values: 
+{'VEC1': 0.4007674073322023, 'I(RT_J^2)': 0.046214209577622, 'T1_J': 0.5673216331956674, 'T2_J': 0.35699383054624356, 'SCR': 0.024142918875667104, 'U_J': 0.03398577769572264, 'U_I': 0.563398827026298, 'I(T2_I^2)': 0.03056987430901952, 'T2_I': 0.2713453033791793, 'U1_I': 0.8999367159432865, 'I(U_I^2)': 0.32358557802995624, 'I(RT_I^2)': 0.1713475537735967, 'VEC2': 0.08168015660890764, 'I(T2_J^2)': 0.26031483484713464, 'I(U1_I^2)': 0.11788145784658607, 'RT_I': 0.01403682896296072, 'I(T1_I^2)': 0.03864095144039855, 'I(T1_J^2)': 0.06186202344605533, 'I(U_J^2)': 0.2393226402221499, 'RT_J': 0.10301924875060273, 'T1_I': 0.10375200480993653}
+Ordered Keys: 
+['RT_I', 'SCR', 'I(T2_I^2)', 'U_J', 'I(T1_I^2)', 'I(RT_J^2)', 'I(T1_J^2)', 'VEC2', 'RT_J', 'T1_I', 'I(U1_I^2)', 'I(RT_I^2)', 'I(U_J^2)', 'I(T2_J^2)', 'T2_I', 'I(U_I^2)', 'T2_J', 'VEC1', 'U_I', 'T1_J', 'U1_I']
+No variables within acceptable threshold
+Unique Variables: []
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Pruning Model
+Getting fixed variables
+Prf Values: 
+{'VEC1': 0.4007674073322023, 'I(RT_J^2)': 0.046214209577622, 'T1_J': 0.5673216331956674, 'T2_J': 0.35699383054624356, 'SCR': 0.024142918875667104, 'U_J': 0.03398577769572264, 'U_I': 0.563398827026298, 'I(T2_I^2)': 0.03056987430901952, 'T2_I': 0.2713453033791793, 'U1_I': 0.8999367159432865, 'I(U_I^2)': 0.32358557802995624, 'I(RT_I^2)': 0.1713475537735967, 'VEC2': 0.08168015660890764, 'I(T2_J^2)': 0.26031483484713464, 'I(U1_I^2)': 0.11788145784658607, 'RT_I': 0.01403682896296072, 'I(T1_I^2)': 0.03864095144039855, 'I(T1_J^2)': 0.06186202344605533, 'I(U_J^2)': 0.2393226402221499, 'RT_J': 0.10301924875060273, 'T1_I': 0.10375200480993653}
+Ordered Keys: 
+['RT_I', 'SCR', 'I(T2_I^2)', 'U_J', 'I(T1_I^2)', 'I(RT_J^2)', 'I(T1_J^2)', 'VEC2', 'RT_J', 'T1_I', 'I(U1_I^2)', 'I(RT_I^2)', 'I(U_J^2)', 'I(T2_J^2)', 'T2_I', 'I(U_I^2)', 'T2_J', 'VEC1', 'U_I', 'T1_J', 'U1_I']
+No variables within acceptable threshold
+Best Predicted:       T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+11351   10    8   11    9   22   0  27    2    0   1    0    1   1
+
+Best From Design: [0, 1, 11, 0, 20, 0, 22, 2, 0, 1, 0, 0, 1]
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Length of requested configs: 1
+Result was on Database, Returning Now
+Baseline Point:
+4.751035
+Design Best Point:
+[0, 1, 11, 0, 20, 0, 22, 2, 0, 1, 0, 0, 1]
+Length of requested configs: 1
+Result was on Database, Returning Now
+Slowdown (Design Best): 0.129907399125
+Predicted Best Point:
+[10, 8, 11, 9, 22, 0, 27, 2, 0, 1, 0, 1, 1]
+Length of Predicted Best: 13
+Original Factor Length: 13
+Measuring Predicted Best:
+[10, 8, 11, 9, 22, 0, 27, 2, 0, 1, 0, 1, 1]
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	6
+        Additions: 		911
+        Multiplications: 	435
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2556
+        Writes: 		656
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest54.exe __orio_perftest54.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest54.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5628774
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Slowdown (Design Best): 0.129907399125
+Slowdown (Predicted Best): 0.118474690252
+Budget: 50/1000
+Updating Global Best: 0.5628774
+Current Best Point: 
+[10, 8, 11, 9, 22, 0, 27, 2, 0, 1, 0, 1, 1]
+Step 2
+Generating valid search space of size 12000 (does not spend evaluations)
+Valid coordinates: 1200/12000
+Tested coordinates: 58135
+Valid coordinates: 2400/12000
+Tested coordinates: 115960
+Valid coordinates: 3600/12000
+Tested coordinates: 171854
+Valid coordinates: 4800/12000
+Tested coordinates: 229436
+Valid coordinates: 6000/12000
+Tested coordinates: 287285
+Valid coordinates: 7200/12000
+Tested coordinates: 347443
+Valid coordinates: 8400/12000
+Tested coordinates: 407126
+Valid coordinates: 9600/12000
+Tested coordinates: 465800
+Valid coordinates: 10800/12000
+Tested coordinates: 525152
+Valid coordinates: 12000/12000
+Tested coordinates: 582577
+Valid/Tested configurations: 12000/582577
+Generated Search Space:
+NULL
+Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Clean Info:
+One-Level Factors: ['OMP']
+Two-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+Three-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+One-Level Terms: ['(Intercept)']
+Two-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Three-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Model Quadratic: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J']
+Clean 2 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Model Cubic: []
+Clean 3 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Updated Model Info: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Updated Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Computing D-Optimal Design
+Computing D-Optimal Design with 25 experiments
+Design Formula: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Encoded model used in optFederov: ~ I(T1_Ie ^ 2) + I(T1_Je ^ 2) + I(T2_Ie ^ 2) + I(T2_Je ^ 2) + I(U1_Ie ^ 2) + I(U_Ie ^ 2) + I(U_Je ^ 2) + I(RT_Ie ^ 2) + I(RT_Je ^ 2) + T1_Ie + T1_Je + T2_Ie + T2_Je + U1_Ie + U_Ie + U_Je + RT_Ie + RT_Je + SCRe + VEC1e + VEC2e
+Starting "optFederov" run
+Using Search Space:
+NULL
+Encoding formulas: NULL
+Data Dimensions: [1] 12000    13
+
+Coded data: NULL
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+489     11    4    0    0   26   2   0    2    5   1    1    0   1
+1029     7    1    0    7   26   1   0    5    0   1    0    1   1
+2555     2    5    0   11   13   0  16    1    5   0    1    1   1
+2914     0    5    3    5    0  29   0    3    0   0    0    1   1
+3883     7    4   11    0   15  13   0    2    5   0    0    1   1
+3937     0    2    0    0   29   0   0    0    0   0    1    1   1
+4484     0    5   11    0   17  29   0    0    4   1    1    0   1
+5202    11    0    0   11    3  24   0    0    5   0    0    1   1
+5445     3   11   11   11    5   1   0    2    2   0    1    0   1
+5450     1   11    5    0   21   0  22    0    5   0    0    1   1
+5609     5    5    6    5    7  12   0    1    0   1    1    1   1
+6082     8    0    8   11   19  29   0    3    0   1    1    0   1
+6175    11    8    0   10   15   0  27    0    1   0    0    0   1
+6325    11    9   11   11   26   0  11    4    2   1    0    1   1
+6858     4    0    0    6    1   0  13    1    2   1    0    0   1
+7426     9    0   11    4   28   0  14    0    0   0    1    0   1
+7490     0    0    0    0    8   0  29    2    2   1    1    1   1
+7745     0   11    0   11    0  14   0    5    0   1    0    0   1
+8224     5    6    7    0    0   0  18    5    2   0    1    1   1
+8260     0    1    3    5   22  12   0    5    2   0    1    0   1
+9236     0    3    6   11   27  13   0    0    2   1    0    1   1
+9531     0    4    9    0   28   0  25    3    0   0    0    0   1
+10867    5    6    5   11   29   0  29    2    4   0    1    0   1
+10890    9    1   10    6    0   0  29    1    5   0    1    1   1
+11572    5   11    0    0   28  26   0    3    1   0    1    1   1
+
+D-Efficiency Approximation: [1] 0.2072806
+
+Measuring design of size 25
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		1581
+        Multiplications: 	792
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4497
+        Writes: 		1147
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest55.exe __orio_perftest55.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest55.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.593568
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		312
+        Multiplications: 	105
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			892
+        Writes: 		249
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest56.exe __orio_perftest56.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest56.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8298589
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		1634
+        Multiplications: 	600
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3163
+        Writes: 		359
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest57.exe __orio_perftest57.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest57.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8851576
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 32 must be greater than the stride value 32; tile index = jjj
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		404
+        Multiplications: 	156
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			925
+        Writes: 		137
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest58.exe __orio_perftest58.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest58.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8339871
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		8180
+        Multiplications: 	2508
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			12726
+        Writes: 		1326
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest59.exe __orio_perftest59.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest59.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5227826
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	5
+        Max loop nest depth: 	3
+        Additions: 		47
+        Multiplications: 	4
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			123
+        Writes: 		49
+        Comparisons:		5
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest60.exe __orio_perftest60.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest60.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9698542
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		2776
+        Multiplications: 	1581
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			7552
+        Writes: 		1835
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest61.exe __orio_perftest61.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest61.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8304518
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		11492
+        Multiplications: 	3432
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			17305
+        Writes: 		1774
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest62.exe __orio_perftest62.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest62.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8538898
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		410
+        Multiplications: 	140
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			836
+        Writes: 		117
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest63.exe __orio_perftest63.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest63.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6609024
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	9
+        Max loop nest depth: 	5
+        Additions: 		547
+        Multiplications: 	224
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1239
+        Writes: 		159
+        Comparisons:		9
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest64.exe __orio_perftest64.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest64.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9595448
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 32 must be greater than the stride value 32; tile index = jjj
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		154
+        Multiplications: 	48
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			477
+        Writes: 		145
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest65.exe __orio_perftest65.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest65.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7969514
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = iii
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	4
+        Additions: 		324
+        Multiplications: 	117
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			965
+        Writes: 		284
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest66.exe __orio_perftest66.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest66.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7472265
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	9
+        Max loop nest depth: 	5
+        Additions: 		316
+        Multiplications: 	124
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			719
+        Writes: 		99
+        Comparisons:		9
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest67.exe __orio_perftest67.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest67.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8888481
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = iii
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		1581
+        Multiplications: 	867
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4363
+        Writes: 		1072
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest68.exe __orio_perftest68.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest68.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5905427
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		398
+        Multiplications: 	171
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1173
+        Writes: 		307
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest69.exe __orio_perftest69.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest69.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8093102
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	5
+        Additions: 		195
+        Multiplications: 	64
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			444
+        Writes: 		83
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest70.exe __orio_perftest70.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest70.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8429766
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	2
+        Additions: 		812
+        Multiplications: 	432
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2350
+        Writes: 		599
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest71.exe __orio_perftest71.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest71.exe  
+orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest71.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest71.exe  ' returned non-zero exit status 1
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 133, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 884, in searchBestCoord
+    best_point, used_points = self.dopt_anova()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 777, in dopt_anova
+    step_data = self.dopt_anova_step(budget, trials, i)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 693, in dopt_anova_step
+    design                 = self.measure_design(design)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 594, in measure_design
+    measurement = self.getPerfCosts([candidate])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 347, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 368, in __execute
+    % (cmd,e.__class__.__name__, e),doexit = False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest71.exe  "
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 133, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 884, in searchBestCoord
+    best_point, used_points = self.dopt_anova()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 777, in dopt_anova
+    step_data = self.dopt_anova_step(budget, trials, i)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 693, in dopt_anova_step
+    design                 = self.measure_design(design)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 594, in measure_design
+    measurement = self.getPerfCosts([candidate])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 347, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 427, in __execute
+    err('orio.main.tuner.ptest_driver:  performance testing failed: "%s"' % cmd, doexit=False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+Stored as a failed configuration
+Configuration failed
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	10
+        Max loop nest depth: 	3
+        Additions: 		350
+        Multiplications: 	144
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1072
+        Writes: 		290
+        Comparisons:		10
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest72.exe __orio_perftest72.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest72.exe  
+orio.main.tuner.ptest_driver: failed to execute the test code: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest72.exe  "
+ --> CalledProcessError: Command 'timeout --kill-after=30s --signal=9 20m  ./__orio_perftest72.exe  ' returned non-zero exit status 1
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 133, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 884, in searchBestCoord
+    best_point, used_points = self.dopt_anova()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 777, in dopt_anova
+    step_data = self.dopt_anova_step(budget, trials, i)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 693, in dopt_anova_step
+    design                 = self.measure_design(design)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 594, in measure_design
+    measurement = self.getPerfCosts([candidate])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 347, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 368, in __execute
+    % (cmd,e.__class__.__name__, e),doexit = False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+orio.main.tuner.ptest_driver:  performance testing failed: "timeout --kill-after=30s --signal=9 20m  ./__orio_perftest72.exe  "
+  File "../../../orcc", line 27, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/orio_main.py", line 109, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 45, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    cfrag.cfrags)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/tuner.py", line 152, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 133, in search
+    best_coord,best_perf,search_time,speedup = self.searchBestCoord(startCoord)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 884, in searchBestCoord
+    best_point, used_points = self.dopt_anova()
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 777, in dopt_anova
+    step_data = self.dopt_anova_step(budget, trials, i)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 693, in dopt_anova_step
+    design                 = self.measure_design(design)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/dlmt/dlmt.py", line 594, in measure_design
+    measurement = self.getPerfCosts([candidate])
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/search/search.py", line 347, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 488, in run
+    perf_costs = self.__execute(perf_params)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/tuner/ptest_driver.py", line 427, in __execute
+    err('orio.main.tuner.ptest_driver:  performance testing failed: "%s"' % cmd, doexit=False)
+
+  File "/root/dlmt_spapt_experiments/orio/orio/main/util/globals.py", line 342, in err
+    errmsg + "\n" + "\n".join(traceback.format_stack())
+
+Stored as a failed configuration
+Configuration failed
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		10411
+        Multiplications: 	3168
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			15957
+        Writes: 		1623
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest73.exe __orio_perftest73.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest73.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9062884
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		2784
+        Multiplications: 	920
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4806
+        Writes: 		539
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest74.exe __orio_perftest74.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest74.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.016573
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		468
+        Multiplications: 	225
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1360
+        Writes: 		370
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest75.exe __orio_perftest75.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest75.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.786571
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		3122
+        Multiplications: 	972
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			5003
+        Writes: 		541
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest76.exe __orio_perftest76.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest76.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8149671
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 32 must be greater than the stride value 32; tile index = iii
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	5
+        Additions: 		2840
+        Multiplications: 	940
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4879
+        Writes: 		537
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest77.exe __orio_perftest77.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest77.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8431148
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	6
+        Additions: 		2035
+        Multiplications: 	756
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3911
+        Writes: 		421
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest78.exe __orio_perftest78.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest78.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9744704
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		1217
+        Multiplications: 	432
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2397
+        Writes: 		315
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest79.exe __orio_perftest79.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest79.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7370089
+Complete design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+489     11    4    0    0   26   2   0    2    5   1    1    0   1 0.5935680
+1029     7    1    0    7   26   1   0    5    0   1    0    1   1 0.8298589
+2555     2    5    0   11   13   0  16    1    5   0    1    1   1 0.8851576
+2914     0    5    3    5    0  29   0    3    0   0    0    1   1 0.8339871
+3883     7    4   11    0   15  13   0    2    5   0    0    1   1 0.5227826
+3937     0    2    0    0   29   0   0    0    0   0    1    1   1 0.9698542
+4484     0    5   11    0   17  29   0    0    4   1    1    0   1 0.8304518
+5202    11    0    0   11    3  24   0    0    5   0    0    1   1 0.8538898
+5445     3   11   11   11    5   1   0    2    2   0    1    0   1 0.6609024
+5450     1   11    5    0   21   0  22    0    5   0    0    1   1 0.9595448
+5609     5    5    6    5    7  12   0    1    0   1    1    1   1 0.7969514
+6082     8    0    8   11   19  29   0    3    0   1    1    0   1 0.7472265
+6175    11    8    0   10   15   0  27    0    1   0    0    0   1 0.8888481
+6325    11    9   11   11   26   0  11    4    2   1    0    1   1 0.5905427
+6858     4    0    0    6    1   0  13    1    2   1    0    0   1 0.8093102
+7426     9    0   11    4   28   0  14    0    0   0    1    0   1 0.8429766
+7490     0    0    0    0    8   0  29    2    2   1    1    1   1        NA
+7745     0   11    0   11    0  14   0    5    0   1    0    0   1        NA
+8224     5    6    7    0    0   0  18    5    2   0    1    1   1 0.9062884
+8260     0    1    3    5   22  12   0    5    2   0    1    0   1 1.0165730
+9236     0    3    6   11   27  13   0    0    2   1    0    1   1 0.7865710
+9531     0    4    9    0   28   0  25    3    0   0    0    0   1 0.8149671
+10867    5    6    5   11   29   0  29    2    4   0    1    0   1 0.8431148
+10890    9    1   10    6    0   0  29    1    5   0    1    1   1 0.9744704
+11572    5   11    0    0   28  26   0    3    1   0    1    1   1 0.7370089
+
+Clean design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+489     11    4    0    0   26   2   0    2    5   1    1    0   1 0.5935680
+1029     7    1    0    7   26   1   0    5    0   1    0    1   1 0.8298589
+2555     2    5    0   11   13   0  16    1    5   0    1    1   1 0.8851576
+2914     0    5    3    5    0  29   0    3    0   0    0    1   1 0.8339871
+3883     7    4   11    0   15  13   0    2    5   0    0    1   1 0.5227826
+3937     0    2    0    0   29   0   0    0    0   0    1    1   1 0.9698542
+4484     0    5   11    0   17  29   0    0    4   1    1    0   1 0.8304518
+5202    11    0    0   11    3  24   0    0    5   0    0    1   1 0.8538898
+5445     3   11   11   11    5   1   0    2    2   0    1    0   1 0.6609024
+5450     1   11    5    0   21   0  22    0    5   0    0    1   1 0.9595448
+5609     5    5    6    5    7  12   0    1    0   1    1    1   1 0.7969514
+6082     8    0    8   11   19  29   0    3    0   1    1    0   1 0.7472265
+6175    11    8    0   10   15   0  27    0    1   0    0    0   1 0.8888481
+6325    11    9   11   11   26   0  11    4    2   1    0    1   1 0.5905427
+6858     4    0    0    6    1   0  13    1    2   1    0    0   1 0.8093102
+7426     9    0   11    4   28   0  14    0    0   0    1    0   1 0.8429766
+8224     5    6    7    0    0   0  18    5    2   0    1    1   1 0.9062884
+8260     0    1    3    5   22  12   0    5    2   0    1    0   1 1.0165730
+9236     0    3    6   11   27  13   0    0    2   1    0    1   1 0.7865710
+9531     0    4    9    0   28   0  25    3    0   0    0    0   1 0.8149671
+10867    5    6    5   11   29   0  29    2    4   0    1    0   1 0.8431148
+10890    9    1   10    6    0   0  29    1    5   0    1    1   1 0.9744704
+11572    5   11    0    0   28  26   0    3    1   0    1    1   1 0.7370089
+
+Anova Formula in Python: cost_mean ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Anova Formula in R: cost_mean ~ I(T1_I^2) + I(T1_J^2) + I(T2_I^2) + I(T2_J^2) + I(U1_I^2) + 
+    I(U_I^2) + I(U_J^2) + I(RT_I^2) + I(RT_J^2) + T1_I + T1_J + 
+    T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + 
+    VEC2
+
+Heteroscedasticity Test p-value: 0.740095876527
+Regression Step:            Df  Sum Sq Mean Sq F value Pr(>F)
+I(T1_I^2)    1 0.03808 0.03808  20.768  0.138
+I(T1_J^2)    1 0.01918 0.01918  10.461  0.191
+I(T2_I^2)    1 0.04013 0.04013  21.887  0.134
+I(T2_J^2)    1 0.00055 0.00055   0.298  0.682
+I(U1_I^2)    1 0.00386 0.00386   2.107  0.384
+I(U_I^2)     1 0.00767 0.00767   4.182  0.290
+I(U_J^2)     1 0.07075 0.07075  38.589  0.102
+I(RT_I^2)    1 0.00206 0.00206   1.121  0.482
+I(RT_J^2)    1 0.00300 0.00300   1.636  0.422
+T1_I         1 0.01808 0.01808   9.859  0.196
+T1_J         1 0.04722 0.04722  25.751  0.124
+T2_I         1 0.00053 0.00053   0.287  0.687
+T2_J         1 0.00137 0.00137   0.745  0.547
+U1_I         1 0.00173 0.00173   0.941  0.510
+U_I          1 0.00147 0.00147   0.803  0.535
+U_J          1 0.00003 0.00003   0.017  0.918
+RT_I         1 0.05944 0.05944  32.419  0.111
+RT_J         1 0.00335 0.00335   1.827  0.405
+SCR          1 0.00607 0.00607   3.311  0.320
+VEC1         1 0.02538 0.02538  13.844  0.167
+VEC2         1 0.00206 0.00206   1.125  0.481
+Residuals    1 0.00183 0.00183               
+
+Getting Best from Design
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Design Names:  [1] "T1_I"      "T1_J"      "T2_I"      "T2_J"      "U1_I"      "U_I"      
+ [7] "U_J"       "RT_I"      "RT_J"      "SCR"       "VEC1"      "VEC2"     
+[13] "OMP"       "cost_mean"
+
+Design Response:       cost_mean
+489   0.5935680
+1029  0.8298589
+2555  0.8851576
+2914  0.8339871
+3883  0.5227826
+3937  0.9698542
+4484  0.8304518
+5202  0.8538898
+5445  0.6609024
+5450  0.9595448
+5609  0.7969514
+6082  0.7472265
+6175  0.8888481
+6325  0.5905427
+6858  0.8093102
+7426  0.8429766
+8224  0.9062884
+8260  1.0165730
+9236  0.7865710
+9531  0.8149671
+10867 0.8431148
+10890 0.9744704
+11572 0.7370089
+
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Initial Factors: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Getting fixed Model Terms
+Prf Values: 
+{'VEC1': 0.1671480939506792, 'I(RT_J^2)': 0.42247708878777995, 'T1_J': 0.1238657202435565, 'T2_J': 0.5466796336587338, 'SCR': 0.31992520736802077, 'U_J': 0.9177308140558373, 'U_I': 0.5347737912022468, 'I(T2_I^2)': 0.13406082968015248, 'T2_I': 0.6868774401882847, 'U1_I': 0.5096743518780174, 'I(U_I^2)': 0.28953314499965144, 'I(RT_I^2)': 0.4818061138411725, 'VEC2': 0.4813122512106781, 'I(T2_J^2)': 0.6818401786692021, 'I(U1_I^2)': 0.38403224045237205, 'RT_I': 0.1106814933748273, 'I(T1_I^2)': 0.13751633003480299, 'I(T1_J^2)': 0.19089244296398963, 'I(U_J^2)': 0.10161002458828486, 'RT_J': 0.4054682797586085, 'T1_I': 0.19628565563854328}
+Ordered Keys: 
+['I(U_J^2)', 'RT_I', 'T1_J', 'I(T2_I^2)', 'I(T1_I^2)', 'VEC1', 'I(T1_J^2)', 'T1_I', 'I(U_I^2)', 'SCR', 'I(U1_I^2)', 'RT_J', 'I(RT_J^2)', 'VEC2', 'I(RT_I^2)', 'U1_I', 'U_I', 'T2_J', 'I(T2_J^2)', 'T2_I', 'U_J']
+No variables within acceptable threshold
+Predicting Best Values for: []
+No variables in threshold
+Using Model: . ~ .
+Prediction Regression Step:            Df  Sum Sq Mean Sq F value Pr(>F)
+I(T1_I^2)    1 0.03808 0.03808  20.768  0.138
+I(T1_J^2)    1 0.01918 0.01918  10.461  0.191
+I(T2_I^2)    1 0.04013 0.04013  21.887  0.134
+I(T2_J^2)    1 0.00055 0.00055   0.298  0.682
+I(U1_I^2)    1 0.00386 0.00386   2.107  0.384
+I(U_I^2)     1 0.00767 0.00767   4.182  0.290
+I(U_J^2)     1 0.07075 0.07075  38.589  0.102
+I(RT_I^2)    1 0.00206 0.00206   1.121  0.482
+I(RT_J^2)    1 0.00300 0.00300   1.636  0.422
+T1_I         1 0.01808 0.01808   9.859  0.196
+T1_J         1 0.04722 0.04722  25.751  0.124
+T2_I         1 0.00053 0.00053   0.287  0.687
+T2_J         1 0.00137 0.00137   0.745  0.547
+U1_I         1 0.00173 0.00173   0.941  0.510
+U_I          1 0.00147 0.00147   0.803  0.535
+U_J          1 0.00003 0.00003   0.017  0.918
+RT_I         1 0.05944 0.05944  32.419  0.111
+RT_J         1 0.00335 0.00335   1.827  0.405
+SCR          1 0.00607 0.00607   3.311  0.320
+VEC1         1 0.02538 0.02538  13.844  0.167
+VEC2         1 0.00206 0.00206   1.125  0.481
+Residuals    1 0.00183 0.00183               
+
+Generating valid search space of size 36000 (does not spend evaluations)
+Valid coordinates: 3600/36000
+Tested coordinates: 172531
+Valid coordinates: 7200/36000
+Tested coordinates: 348422
+Valid coordinates: 10800/36000
+Tested coordinates: 523135
+Valid coordinates: 14400/36000
+Tested coordinates: 695064
+Valid coordinates: 18000/36000
+Tested coordinates: 868267
+Tested coordinates: 1000000
+Valid coordinates: 21600/36000
+Tested coordinates: 1043032
+Valid coordinates: 25200/36000
+Tested coordinates: 1216040
+Valid coordinates: 28800/36000
+Tested coordinates: 1391688
+Valid coordinates: 32400/36000
+Tested coordinates: 1566804
+Valid coordinates: 36000/36000
+Tested coordinates: 1739033
+Valid/Tested configurations: 36000/1739033
+Generated Search Space:
+NULL
+Getting fixed variables
+Getting fixed variables
+Prf Values: 
+{'VEC1': 0.1671480939506792, 'I(RT_J^2)': 0.42247708878777995, 'T1_J': 0.1238657202435565, 'T2_J': 0.5466796336587338, 'SCR': 0.31992520736802077, 'U_J': 0.9177308140558373, 'U_I': 0.5347737912022468, 'I(T2_I^2)': 0.13406082968015248, 'T2_I': 0.6868774401882847, 'U1_I': 0.5096743518780174, 'I(U_I^2)': 0.28953314499965144, 'I(RT_I^2)': 0.4818061138411725, 'VEC2': 0.4813122512106781, 'I(T2_J^2)': 0.6818401786692021, 'I(U1_I^2)': 0.38403224045237205, 'RT_I': 0.1106814933748273, 'I(T1_I^2)': 0.13751633003480299, 'I(T1_J^2)': 0.19089244296398963, 'I(U_J^2)': 0.10161002458828486, 'RT_J': 0.4054682797586085, 'T1_I': 0.19628565563854328}
+Ordered Keys: 
+['I(U_J^2)', 'RT_I', 'T1_J', 'I(T2_I^2)', 'I(T1_I^2)', 'VEC1', 'I(T1_J^2)', 'T1_I', 'I(U_I^2)', 'SCR', 'I(U1_I^2)', 'RT_J', 'I(RT_J^2)', 'VEC2', 'I(RT_I^2)', 'U1_I', 'U_I', 'T2_J', 'I(T2_J^2)', 'T2_I', 'U_J']
+No variables within acceptable threshold
+Unique Variables: []
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Pruning Model
+Getting fixed variables
+Prf Values: 
+{'VEC1': 0.1671480939506792, 'I(RT_J^2)': 0.42247708878777995, 'T1_J': 0.1238657202435565, 'T2_J': 0.5466796336587338, 'SCR': 0.31992520736802077, 'U_J': 0.9177308140558373, 'U_I': 0.5347737912022468, 'I(T2_I^2)': 0.13406082968015248, 'T2_I': 0.6868774401882847, 'U1_I': 0.5096743518780174, 'I(U_I^2)': 0.28953314499965144, 'I(RT_I^2)': 0.4818061138411725, 'VEC2': 0.4813122512106781, 'I(T2_J^2)': 0.6818401786692021, 'I(U1_I^2)': 0.38403224045237205, 'RT_I': 0.1106814933748273, 'I(T1_I^2)': 0.13751633003480299, 'I(T1_J^2)': 0.19089244296398963, 'I(U_J^2)': 0.10161002458828486, 'RT_J': 0.4054682797586085, 'T1_I': 0.19628565563854328}
+Ordered Keys: 
+['I(U_J^2)', 'RT_I', 'T1_J', 'I(T2_I^2)', 'I(T1_I^2)', 'VEC1', 'I(T1_J^2)', 'T1_I', 'I(U_I^2)', 'SCR', 'I(U1_I^2)', 'RT_J', 'I(RT_J^2)', 'VEC2', 'I(RT_I^2)', 'U1_I', 'U_I', 'T2_J', 'I(T2_J^2)', 'T2_I', 'U_J']
+No variables within acceptable threshold
+Best Predicted:      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+6005   10    5   11    0   28   2   0    1    4   1    0    0   1
+
+Best From Design: [7, 4, 11, 0, 15, 13, 0, 2, 5, 0, 0, 1, 1]
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Length of requested configs: 1
+Result was on Database, Returning Now
+Baseline Point:
+4.751035
+Design Best Point:
+[7, 4, 11, 0, 15, 13, 0, 2, 5, 0, 0, 1, 1]
+Length of requested configs: 1
+Result was on Database, Returning Now
+Slowdown (Design Best): 0.110035518576
+Predicted Best Point:
+[10, 5, 11, 0, 28, 2, 0, 1, 4, 1, 0, 0, 1]
+Length of Predicted Best: 13
+Original Factor Length: 13
+Measuring Predicted Best:
+[10, 5, 11, 0, 28, 2, 0, 1, 4, 1, 0, 0, 1]
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		678
+        Multiplications: 	306
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1978
+        Writes: 		528
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest80.exe __orio_perftest80.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest80.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6612265
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Slowdown (Design Best): 0.110035518576
+Slowdown (Predicted Best): 0.139175253392
+Budget: 73/1000
+Best point from design was better than predicted point
+Updating Global Best: 0.5227826
+Current Best Point: 
+[7, 4, 11, 0, 15, 13, 0, 2, 5, 0, 0, 1, 1]
+Step 3
+Generating valid search space of size 12000 (does not spend evaluations)
+Valid coordinates: 1200/12000
+Tested coordinates: 54138
+Valid coordinates: 2400/12000
+Tested coordinates: 113046
+Valid coordinates: 3600/12000
+Tested coordinates: 169543
+Valid coordinates: 4800/12000
+Tested coordinates: 228221
+Valid coordinates: 6000/12000
+Tested coordinates: 283642
+Valid coordinates: 7200/12000
+Tested coordinates: 339304
+Valid coordinates: 8400/12000
+Tested coordinates: 398607
+Valid coordinates: 9600/12000
+Tested coordinates: 455651
+Valid coordinates: 10800/12000
+Tested coordinates: 513693
+Valid coordinates: 12000/12000
+Tested coordinates: 571411
+Valid/Tested configurations: 12000/571411
+Generated Search Space:
+NULL
+Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Clean Info:
+One-Level Factors: ['OMP']
+Two-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+Three-Level Factors: ['SCR', 'VEC1', 'VEC2', 'OMP']
+One-Level Terms: ['(Intercept)']
+Two-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Three-Level Terms: ['(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Model Quadratic: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J']
+Clean 2 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Model Cubic: []
+Clean 3 Level Factors/Terms: ['SCR', 'VEC1', 'VEC2', 'OMP', '(Intercept)', 'SCR', 'VEC1', 'VEC2']
+Updated Model Info: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Updated Full Model: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Computing D-Optimal Design
+Computing D-Optimal Design with 25 experiments
+Design Formula: ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Encoded model used in optFederov: ~ I(T1_Ie ^ 2) + I(T1_Je ^ 2) + I(T2_Ie ^ 2) + I(T2_Je ^ 2) + I(U1_Ie ^ 2) + I(U_Ie ^ 2) + I(U_Je ^ 2) + I(RT_Ie ^ 2) + I(RT_Je ^ 2) + T1_Ie + T1_Je + T2_Ie + T2_Je + U1_Ie + U_Ie + U_Je + RT_Ie + RT_Je + SCRe + VEC1e + VEC2e
+Starting "optFederov" run
+Using Search Space:
+NULL
+Encoding formulas: NULL
+Data Dimensions: [1] 12000    13
+
+Coded data: NULL
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+1051     7   11    0    0    7   1   0    2    1   0    0    0   1
+1219     1    5    0    0   29  29   0    1    5   0    1    1   1
+1223     6    7    0    8   14  10   0    4    2   1    1    1   1
+1978     0   11    7    0   18   0  29    5    2   0    0    1   1
+3336     4    2    6    0    0   0  29    2    4   1    0    1   1
+4250    10    7   11    0   27   5   0    0    1   1    1    0   1
+4819     4    0   11    4   29   0  25    4    0   1    1    0   1
+5518    11   11   11    0    8   0   8    3    3   1    1    0   1
+6167    11    0    0    3    1   0  29    0    5   0    1    0   1
+6743     6   11    7   11    1  25   0    1    0   0    1    1   1
+6946     5    0   11   11   29  24   0    5    2   0    0    0   1
+7278     0    4    5    6    0  18   0    5    0   0    1    0   1
+7643     3    7    0    8    0   0  20    0    1   1    0    0   1
+7900     8    0    8    6    8   0   0    0    1   0    0    1   1
+8125     0    5   11    8    5  20   0    2    4   0    0    1   1
+8236    11    7   11   10   29   0   9    3    0   0    0    1   1
+8462     0    5    5    5   16  28   0    0    1   1    0    0   1
+8901     0    0    1    1   28  17   0    3    0   1    0    1   1
+9430     3    5    6    0   14   0  13    2    5   0    0    0   1
+9523     1   10   11   11    6   0   0    5    0   1    1    0   1
+10046    0    2    1   11   15   0  29    1    0   0    1    0   1
+10658    5   11   11   11   15  13   0    0    5   1    0    1   1
+10715   11    0    0   10    6  28   0    5    0   1    1    1   1
+10989    0   11    5   11   29   1   0    4    3   1    1    0   1
+11481    0    0    0    0    0   0  15    0    2   0    1    1   1
+
+D-Efficiency Approximation: [1] 0.2093834
+
+Measuring design of size 25
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		243
+        Multiplications: 	84
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			547
+        Writes: 		86
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest81.exe __orio_perftest81.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest81.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7540105
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		14535
+        Multiplications: 	4356
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			22025
+        Writes: 		2281
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest82.exe __orio_perftest82.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest82.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8884122
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		810
+        Multiplications: 	420
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2382
+        Writes: 		619
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest83.exe __orio_perftest83.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest83.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8079986
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		15403
+        Multiplications: 	4620
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			23253
+        Writes: 		2367
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest84.exe __orio_perftest84.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest84.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8887251
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		1397
+        Multiplications: 	705
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			3965
+        Writes: 		993
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest85.exe __orio_perftest85.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest85.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8063775
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		179
+        Multiplications: 	63
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			537
+        Writes: 		163
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest86.exe __orio_perftest86.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest86.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5745834
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		2486
+        Multiplications: 	1377
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			6708
+        Writes: 		1624
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest87.exe __orio_perftest87.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest87.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5607561
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = iii
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	4
+        Additions: 		926
+        Multiplications: 	486
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2596
+        Writes: 		645
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest88.exe __orio_perftest88.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest88.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5791245
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	4
+        Additions: 		587
+        Multiplications: 	252
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1330
+        Writes: 		150
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest89.exe __orio_perftest89.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest89.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9132991
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		319
+        Multiplications: 	116
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			741
+        Writes: 		122
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest90.exe __orio_perftest90.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest90.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8968005
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		3517
+        Multiplications: 	1160
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			6024
+        Writes: 		671
+        Comparisons:		16
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest91.exe __orio_perftest91.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest91.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 1.003807
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		519
+        Multiplications: 	208
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1180
+        Writes: 		156
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest92.exe __orio_perftest92.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest92.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.882471
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	8
+        Max loop nest depth: 	5
+        Additions: 		188
+        Multiplications: 	72
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			548
+        Writes: 		142
+        Comparisons:		8
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest93.exe __orio_perftest93.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest93.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8741974
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = iii
+Code stats:
+        Number of loops: 	7
+        Max loop nest depth: 	4
+        Additions: 		46
+        Multiplications: 	12
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			131
+        Writes: 		34
+        Comparisons:		7
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest94.exe __orio_perftest94.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest94.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.970976
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	18
+        Max loop nest depth: 	5
+        Additions: 		5763
+        Multiplications: 	1768
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			9034
+        Writes: 		957
+        Comparisons:		18
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest95.exe __orio_perftest95.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest95.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.5855671
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = iii
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		1273
+        Multiplications: 	396
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2151
+        Writes: 		264
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest96.exe __orio_perftest96.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest96.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7858227
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 32 must be greater than the stride value 32; tile index = jjj
+Code stats:
+        Number of loops: 	11
+        Max loop nest depth: 	4
+        Additions: 		533
+        Multiplications: 	270
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1629
+        Writes: 		446
+        Comparisons:		11
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest97.exe __orio_perftest97.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest97.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8234301
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	4
+        Additions: 		249
+        Multiplications: 	81
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			731
+        Writes: 		221
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest98.exe __orio_perftest98.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest98.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8891588
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	14
+        Max loop nest depth: 	5
+        Additions: 		2822
+        Multiplications: 	940
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			4836
+        Writes: 		517
+        Comparisons:		14
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest99.exe __orio_perftest99.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest99.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8678897
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	6
+        Additions: 		264
+        Multiplications: 	99
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			778
+        Writes: 		208
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest100.exe __orio_perftest100.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest100.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6763402
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	13
+        Max loop nest depth: 	5
+        Additions: 		1035
+        Multiplications: 	372
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1997
+        Writes: 		235
+        Comparisons:		13
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest101.exe __orio_perftest101.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest101.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8985056
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		2665
+        Multiplications: 	1485
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			7237
+        Writes: 		1756
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest102.exe __orio_perftest102.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest102.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.6848969
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	4
+        Additions: 		472
+        Multiplications: 	186
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			1404
+        Writes: 		388
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest103.exe __orio_perftest103.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest103.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7471962
+Length of requested configs: 1
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 2048 must be greater than the stride value 2048; tile index = jjj
+Code stats:
+        Number of loops: 	15
+        Max loop nest depth: 	4
+        Additions: 		986
+        Multiplications: 	513
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2792
+        Writes: 		711
+        Comparisons:		15
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest104.exe __orio_perftest104.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest104.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.8439602
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	3
+        Max loop nest depth: 	2
+        Additions: 		37
+        Multiplications: 	16
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			105
+        Writes: 		19
+        Comparisons:		3
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest105.exe __orio_perftest105.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest105.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.9761847
+Complete design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+1051     7   11    0    0    7   1   0    2    1   0    0    0   1 0.7540105
+1219     1    5    0    0   29  29   0    1    5   0    1    1   1 0.8884122
+1223     6    7    0    8   14  10   0    4    2   1    1    1   1 0.8079986
+1978     0   11    7    0   18   0  29    5    2   0    0    1   1 0.8887251
+3336     4    2    6    0    0   0  29    2    4   1    0    1   1 0.8063775
+4250    10    7   11    0   27   5   0    0    1   1    1    0   1 0.5745834
+4819     4    0   11    4   29   0  25    4    0   1    1    0   1 0.5607561
+5518    11   11   11    0    8   0   8    3    3   1    1    0   1 0.5791245
+6167    11    0    0    3    1   0  29    0    5   0    1    0   1 0.9132991
+6743     6   11    7   11    1  25   0    1    0   0    1    1   1 0.8968005
+6946     5    0   11   11   29  24   0    5    2   0    0    0   1 1.0038070
+7278     0    4    5    6    0  18   0    5    0   0    1    0   1 0.8824710
+7643     3    7    0    8    0   0  20    0    1   1    0    0   1 0.8741974
+7900     8    0    8    6    8   0   0    0    1   0    0    1   1 0.9709760
+8125     0    5   11    8    5  20   0    2    4   0    0    1   1 0.5855671
+8236    11    7   11   10   29   0   9    3    0   0    0    1   1 0.7858227
+8462     0    5    5    5   16  28   0    0    1   1    0    0   1 0.8234301
+8901     0    0    1    1   28  17   0    3    0   1    0    1   1 0.8891588
+9430     3    5    6    0   14   0  13    2    5   0    0    0   1 0.8678897
+9523     1   10   11   11    6   0   0    5    0   1    1    0   1 0.6763402
+10046    0    2    1   11   15   0  29    1    0   0    1    0   1 0.8985056
+10658    5   11   11   11   15  13   0    0    5   1    0    1   1 0.6848969
+10715   11    0    0   10    6  28   0    5    0   1    1    1   1 0.7471962
+10989    0   11    5   11   29   1   0    4    3   1    1    0   1 0.8439602
+11481    0    0    0    0    0   0  15    0    2   0    1    1   1 0.9761847
+
+Clean design, with measurements:
+      T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP cost_mean
+1051     7   11    0    0    7   1   0    2    1   0    0    0   1 0.7540105
+1219     1    5    0    0   29  29   0    1    5   0    1    1   1 0.8884122
+1223     6    7    0    8   14  10   0    4    2   1    1    1   1 0.8079986
+1978     0   11    7    0   18   0  29    5    2   0    0    1   1 0.8887251
+3336     4    2    6    0    0   0  29    2    4   1    0    1   1 0.8063775
+4250    10    7   11    0   27   5   0    0    1   1    1    0   1 0.5745834
+4819     4    0   11    4   29   0  25    4    0   1    1    0   1 0.5607561
+5518    11   11   11    0    8   0   8    3    3   1    1    0   1 0.5791245
+6167    11    0    0    3    1   0  29    0    5   0    1    0   1 0.9132991
+6743     6   11    7   11    1  25   0    1    0   0    1    1   1 0.8968005
+6946     5    0   11   11   29  24   0    5    2   0    0    0   1 1.0038070
+7278     0    4    5    6    0  18   0    5    0   0    1    0   1 0.8824710
+7643     3    7    0    8    0   0  20    0    1   1    0    0   1 0.8741974
+7900     8    0    8    6    8   0   0    0    1   0    0    1   1 0.9709760
+8125     0    5   11    8    5  20   0    2    4   0    0    1   1 0.5855671
+8236    11    7   11   10   29   0   9    3    0   0    0    1   1 0.7858227
+8462     0    5    5    5   16  28   0    0    1   1    0    0   1 0.8234301
+8901     0    0    1    1   28  17   0    3    0   1    0    1   1 0.8891588
+9430     3    5    6    0   14   0  13    2    5   0    0    0   1 0.8678897
+9523     1   10   11   11    6   0   0    5    0   1    1    0   1 0.6763402
+10046    0    2    1   11   15   0  29    1    0   0    1    0   1 0.8985056
+10658    5   11   11   11   15  13   0    0    5   1    0    1   1 0.6848969
+10715   11    0    0   10    6  28   0    5    0   1    1    1   1 0.7471962
+10989    0   11    5   11   29   1   0    4    3   1    1    0   1 0.8439602
+11481    0    0    0    0    0   0  15    0    2   0    1    1   1 0.9761847
+
+Anova Formula in Python: cost_mean ~ I(T1_I ^ 2) + I(T1_J ^ 2) + I(T2_I ^ 2) + I(T2_J ^ 2) + I(U1_I ^ 2) + I(U_I ^ 2) + I(U_J ^ 2) + I(RT_I ^ 2) + I(RT_J ^ 2) + T1_I + T1_J + T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + VEC2
+Anova Formula in R: cost_mean ~ I(T1_I^2) + I(T1_J^2) + I(T2_I^2) + I(T2_J^2) + I(U1_I^2) + 
+    I(U_I^2) + I(U_J^2) + I(RT_I^2) + I(RT_J^2) + T1_I + T1_J + 
+    T2_I + T2_J + U1_I + U_I + U_J + RT_I + RT_J + SCR + VEC1 + 
+    VEC2
+
+Heteroscedasticity Test p-value: 0.0661989678386
+Regression Step:            Df  Sum Sq Mean Sq F value Pr(>F)  
+I(T1_I^2)    1 0.02895 0.02895   1.793 0.2730  
+I(T1_J^2)    1 0.03481 0.03481   2.156 0.2384  
+I(T2_I^2)    1 0.10195 0.10195   6.313 0.0867 .
+I(T2_J^2)    1 0.01910 0.01910   1.183 0.3564  
+I(U1_I^2)    1 0.00223 0.00223   0.138 0.7348  
+I(U_I^2)     1 0.00056 0.00056   0.035 0.8636  
+I(U_J^2)     1 0.00010 0.00010   0.006 0.9427  
+I(RT_I^2)    1 0.00003 0.00003   0.002 0.9678  
+I(RT_J^2)    1 0.00032 0.00032   0.020 0.8973  
+T1_I         1 0.00304 0.00304   0.188 0.6936  
+T1_J         1 0.01526 0.01526   0.945 0.4027  
+T2_I         1 0.03253 0.03253   2.014 0.2509  
+T2_J         1 0.00478 0.00478   0.296 0.6244  
+U1_I         1 0.00381 0.00381   0.236 0.6603  
+U_I          1 0.00168 0.00168   0.104 0.7680  
+U_J          1 0.00387 0.00387   0.239 0.6582  
+RT_I         1 0.02691 0.02691   1.667 0.2872  
+RT_J         1 0.00665 0.00665   0.412 0.5667  
+SCR          1 0.06807 0.06807   4.215 0.1324  
+VEC1         1 0.00813 0.00813   0.504 0.5291  
+VEC2         1 0.00079 0.00079   0.049 0.8394  
+Residuals    3 0.04845 0.01615                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Getting Best from Design
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Design Names:  [1] "T1_I"      "T1_J"      "T2_I"      "T2_J"      "U1_I"      "U_I"      
+ [7] "U_J"       "RT_I"      "RT_J"      "SCR"       "VEC1"      "VEC2"     
+[13] "OMP"       "cost_mean"
+
+Design Response:       cost_mean
+1051  0.7540105
+1219  0.8884122
+1223  0.8079986
+1978  0.8887251
+3336  0.8063775
+4250  0.5745834
+4819  0.5607561
+5518  0.5791245
+6167  0.9132991
+6743  0.8968005
+6946  1.0038070
+7278  0.8824710
+7643  0.8741974
+7900  0.9709760
+8125  0.5855671
+8236  0.7858227
+8462  0.8234301
+8901  0.8891588
+9430  0.8678897
+9523  0.6763402
+10046 0.8985056
+10658 0.6848969
+10715 0.7471962
+10989 0.8439602
+11481 0.9761847
+
+Current Design Names: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Initial Factors: ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2', 'OMP']
+Getting fixed Model Terms
+Prf Values: 
+{'VEC1': 0.5290592810184276, 'I(RT_J^2)': 0.8972700683264523, 'T1_J': 0.40270203778064617, 'T2_J': 0.6243556650503272, 'SCR': 0.132370293466419, 'U_J': 0.6582125259933204, 'U_I': 0.7679858945527314, 'I(T2_I^2)': 0.08673705256780659, 'T2_I': 0.25089503394788726, 'U1_I': 0.660318919636744, 'I(U_I^2)': 0.8636277755439555, 'I(RT_I^2)': 0.967809708803451, 'VEC2': 0.8393696636159207, 'I(T2_J^2)': 0.3563904623478861, 'I(U1_I^2)': 0.7347973098892031, 'RT_I': 0.2872062064873587, 'I(T1_I^2)': 0.27299775846139807, 'I(T1_J^2)': 0.2383566987974696, 'I(U_J^2)': 0.942719819959883, 'RT_J': 0.56673671587015, 'T1_I': 0.6935520101147601}
+Ordered Keys: 
+['I(T2_I^2)', 'SCR', 'I(T1_J^2)', 'T2_I', 'I(T1_I^2)', 'RT_I', 'I(T2_J^2)', 'T1_J', 'VEC1', 'RT_J', 'T2_J', 'U_J', 'U1_I', 'T1_I', 'I(U1_I^2)', 'U_I', 'VEC2', 'I(U_I^2)', 'I(RT_J^2)', 'I(U_J^2)', 'I(RT_I^2)']
+No variables within acceptable threshold
+Predicting Best Values for: []
+No variables in threshold
+Using Model: . ~ .
+Prediction Regression Step:            Df  Sum Sq Mean Sq F value Pr(>F)  
+I(T1_I^2)    1 0.02895 0.02895   1.793 0.2730  
+I(T1_J^2)    1 0.03481 0.03481   2.156 0.2384  
+I(T2_I^2)    1 0.10195 0.10195   6.313 0.0867 .
+I(T2_J^2)    1 0.01910 0.01910   1.183 0.3564  
+I(U1_I^2)    1 0.00223 0.00223   0.138 0.7348  
+I(U_I^2)     1 0.00056 0.00056   0.035 0.8636  
+I(U_J^2)     1 0.00010 0.00010   0.006 0.9427  
+I(RT_I^2)    1 0.00003 0.00003   0.002 0.9678  
+I(RT_J^2)    1 0.00032 0.00032   0.020 0.8973  
+T1_I         1 0.00304 0.00304   0.188 0.6936  
+T1_J         1 0.01526 0.01526   0.945 0.4027  
+T2_I         1 0.03253 0.03253   2.014 0.2509  
+T2_J         1 0.00478 0.00478   0.296 0.6244  
+U1_I         1 0.00381 0.00381   0.236 0.6603  
+U_I          1 0.00168 0.00168   0.104 0.7680  
+U_J          1 0.00387 0.00387   0.239 0.6582  
+RT_I         1 0.02691 0.02691   1.667 0.2872  
+RT_J         1 0.00665 0.00665   0.412 0.5667  
+SCR          1 0.06807 0.06807   4.215 0.1324  
+VEC1         1 0.00813 0.00813   0.504 0.5291  
+VEC2         1 0.00079 0.00079   0.049 0.8394  
+Residuals    3 0.04845 0.01615                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Generating valid search space of size 36000 (does not spend evaluations)
+Valid coordinates: 3600/36000
+Tested coordinates: 173468
+Valid coordinates: 7200/36000
+Tested coordinates: 343609
+Valid coordinates: 10800/36000
+Tested coordinates: 518221
+Valid coordinates: 14400/36000
+Tested coordinates: 693700
+Valid coordinates: 18000/36000
+Tested coordinates: 867097
+Tested coordinates: 1000000
+Valid coordinates: 21600/36000
+Tested coordinates: 1038819
+Valid coordinates: 25200/36000
+Tested coordinates: 1208774
+Valid coordinates: 28800/36000
+Tested coordinates: 1378157
+Valid coordinates: 32400/36000
+Tested coordinates: 1549353
+Valid coordinates: 36000/36000
+Tested coordinates: 1720372
+Valid/Tested configurations: 36000/1720372
+Generated Search Space:
+NULL
+Getting fixed variables
+Getting fixed variables
+Prf Values: 
+{'VEC1': 0.5290592810184276, 'I(RT_J^2)': 0.8972700683264523, 'T1_J': 0.40270203778064617, 'T2_J': 0.6243556650503272, 'SCR': 0.132370293466419, 'U_J': 0.6582125259933204, 'U_I': 0.7679858945527314, 'I(T2_I^2)': 0.08673705256780659, 'T2_I': 0.25089503394788726, 'U1_I': 0.660318919636744, 'I(U_I^2)': 0.8636277755439555, 'I(RT_I^2)': 0.967809708803451, 'VEC2': 0.8393696636159207, 'I(T2_J^2)': 0.3563904623478861, 'I(U1_I^2)': 0.7347973098892031, 'RT_I': 0.2872062064873587, 'I(T1_I^2)': 0.27299775846139807, 'I(T1_J^2)': 0.2383566987974696, 'I(U_J^2)': 0.942719819959883, 'RT_J': 0.56673671587015, 'T1_I': 0.6935520101147601}
+Ordered Keys: 
+['I(T2_I^2)', 'SCR', 'I(T1_J^2)', 'T2_I', 'I(T1_I^2)', 'RT_I', 'I(T2_J^2)', 'T1_J', 'VEC1', 'RT_J', 'T2_J', 'U_J', 'U1_I', 'T1_I', 'I(U1_I^2)', 'U_I', 'VEC2', 'I(U_I^2)', 'I(RT_J^2)', 'I(U_J^2)', 'I(RT_I^2)']
+No variables within acceptable threshold
+Unique Variables: []
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Pruning Model
+Getting fixed variables
+Prf Values: 
+{'VEC1': 0.5290592810184276, 'I(RT_J^2)': 0.8972700683264523, 'T1_J': 0.40270203778064617, 'T2_J': 0.6243556650503272, 'SCR': 0.132370293466419, 'U_J': 0.6582125259933204, 'U_I': 0.7679858945527314, 'I(T2_I^2)': 0.08673705256780659, 'T2_I': 0.25089503394788726, 'U1_I': 0.660318919636744, 'I(U_I^2)': 0.8636277755439555, 'I(RT_I^2)': 0.967809708803451, 'VEC2': 0.8393696636159207, 'I(T2_J^2)': 0.3563904623478861, 'I(U1_I^2)': 0.7347973098892031, 'RT_I': 0.2872062064873587, 'I(T1_I^2)': 0.27299775846139807, 'I(T1_J^2)': 0.2383566987974696, 'I(U_J^2)': 0.942719819959883, 'RT_J': 0.56673671587015, 'T1_I': 0.6935520101147601}
+Ordered Keys: 
+['I(T2_I^2)', 'SCR', 'I(T1_J^2)', 'T2_I', 'I(T1_I^2)', 'RT_I', 'I(T2_J^2)', 'T1_J', 'VEC1', 'RT_J', 'T2_J', 'U_J', 'U1_I', 'T1_I', 'I(U1_I^2)', 'U_I', 'VEC2', 'I(U_I^2)', 'I(RT_J^2)', 'I(U_J^2)', 'I(RT_I^2)']
+No variables within acceptable threshold
+Best Predicted:       T1_I T1_J T2_I T2_J U1_I U_I U_J RT_I RT_J SCR VEC1 VEC2 OMP
+26413    1    3   11    0   11   0  29    2    0   1    1    0   1
+
+Best From Design: [4, 0, 11, 4, 29, 0, 25, 4, 0, 1, 1, 0, 1]
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Length of requested configs: 1
+Result was on Database, Returning Now
+Baseline Point:
+4.751035
+Design Best Point:
+[4, 0, 11, 4, 29, 0, 25, 4, 0, 1, 1, 0, 1]
+Length of requested configs: 1
+Result was on Database, Returning Now
+Slowdown (Design Best): 0.118028198066
+Predicted Best Point:
+[1, 3, 11, 0, 11, 0, 29, 2, 0, 1, 1, 0, 1]
+Length of Predicted Best: 13
+Original Factor Length: 13
+Measuring Predicted Best:
+[1, 3, 11, 0, 11, 0, 29, 2, 0, 1, 1, 0, 1]
+Length of requested configs: 1
+Code stats:
+        Number of loops: 	12
+        Max loop nest depth: 	5
+        Additions: 		952
+        Multiplications: 	465
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			2676
+        Writes: 		678
+        Comparisons:		12
+        Gotos: 			0
+        
+ building test:
+	timeout --kill-after=30s --signal=9 30m gcc -O3 -fopenmp -DDYNAMIC  -DORIO_REPS=10 -o __orio_perftest106.exe __orio_perftest106.c timer_cpu.o -lm -lrt
+ running test:
+	timeout --kill-after=30s --signal=9 20m  ./__orio_perftest106.exe  
+Test was successful
+Stored as a sucessful configuration
+Final perf_costs: 0.7288802
+Current Model: {'inverse': [], 'linear': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J', 'SCR', 'VEC1', 'VEC2'], 'cubic': [], 'interactions': [], 'fixed_factors': {'OMP': 1}, 'quadratic': ['T1_I', 'T1_J', 'T2_I', 'T2_J', 'U1_I', 'U_I', 'U_J', 'RT_I', 'RT_J'], 'response': 'cost_mean'}
+Slowdown (Design Best): 0.118028198066
+Slowdown (Predicted Best): 0.153415034829
+Budget: 98/1000
+Best point from design was better than predicted point
+Current Best Point: 
+[7, 4, 11, 0, 15, 13, 0, 2, 5, 0, 0, 1, 1]
+Final Best Point: 
+[7, 4, 11, 0, 15, 13, 0, 2, 5, 0, 0, 1, 1]
+Ending DLMT
+Best Point: [7, 4, 11, 0, 15, 13, 0, 2, 5, 0, 0, 1, 1]
+Length of requested configs: 1
+Result was on Database, Returning Now
+Length of requested configs: 1
+Result was on Database, Returning Now
+Speedup: 9.0879746189
+----- end DLMT -----
+----- begin DLMT summary -----
+ total completed runs: 0
+ total successful runs: 0
+ total failed runs: 0
+ speedup: 9.0879746189
+----- end DLMT summary -----
+----- begin summary -----
+ best coordinate: [7, 4, 11, 0, 15, 13, 0, 2, 5, 0, 0, 1, 1]={'T1_I': 128, 'T1_J': 16, 'U_J': 1, 'U_I': 14, 'T2_I': 2048, 'T2_J': 1, 'U1_I': 16, 'OMP': True, 'VEC2': True, 'VEC1': False, 'RT_I': 4, 'SCR': False, 'RT_J': 32}, cost=5.227826e-01, transfer_time=inf, inputs=[('N', 40000)], search_time=-2871.84, runs=106
+----- end summary -----
+Length of requested configs: 1
+Result was on Database, Returning Now
+----- the obtained best performance parameters -----
+ OMP = True
+ RT_I = 4
+ RT_J = 32
+ SCR = False
+ T1_I = 128
+ T1_J = 16
+ T2_I = 2048
+ T2_J = 1
+ U1_I = 16
+ U_I = 14
+ U_J = 1
+ VEC1 = False
+ VEC2 = True
+ cost_mean = 0.5227826
+ points = 106
+ speedup = 9.0879746189
+ step = 4
+ technique = DLMT
+Code stats:
+        Number of loops: 	16
+        Max loop nest depth: 	5
+        Additions: 		8180
+        Multiplications: 	2508
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			12726
+        Writes: 		1326
+        Comparisons:		16
+        Gotos: 			0
+        
+----- finish optimizations -----
+
+----- begin removing annotations from output-----
+----- finished removing annotations from output-----
+
+----- begin writing the output file(s) -----
+--> writing output to: _bicgkernel.c
+----- finished writing the output file(s) -----
+
+====== END ORIO ======
