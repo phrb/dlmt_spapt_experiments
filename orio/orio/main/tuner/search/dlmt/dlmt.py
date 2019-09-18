@@ -35,9 +35,13 @@ class DLMT(orio.main.tuner.search.search.Search):
         self.algdesign = importr("AlgDesign")
         self.car       = importr("car")
         self.rsm       = importr("rsm")
+        self.dplyr     = importr("dplyr")
 
-        #numpy.random.seed(11221)
-        #self.base.set_seed(11221)
+        numpy.random.seed(11221)
+        self.base.set_seed(11221)
+
+        self.complete_design_data = None
+        self.complete_search_space = None
 
         self.total_runs = 20
         orio.main.tuner.search.search.Search.__init__(self, params)
@@ -275,7 +279,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return output
 
-    def transform_lm(self, design, lm_formula):
+    def transform_lm(self, design, lm_formula, method = "aov"):
         info("Power Transform Step:")
         response  = lm_formula.split("~")[0].strip()
         variables = lm_formula.split("~")[1].strip()
@@ -286,8 +290,8 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         r_snippet = """design <- %s
         boxcox_t <- powerTransform(%s, data = design)
-        regression <- lm(bcPower(%s, boxcox_t$lambda) ~ %s, data = design)
-        regression""" %(design.r_repr(), lm_formula, response, variables)
+        regression <- %s(bcPower(%s, boxcox_t$lambda) ~ %s, data = design)
+        regression""" %(design.r_repr(), lm_formula, method, response, variables)
 
         # Catching R runtime errors
         # TODO: Treat errors properly
@@ -298,66 +302,80 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return transformed_lm
 
+    def test_heteroscedasticity(self, design, formula, heteroscedasticity_threshold = 0.05):
+        lm_regression = self.stats.lm(Formula(formula), data = design)
+        heteroscedasticity_test = self.car.ncvTest(lm_regression)
+
+        info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
+
+        if heteroscedasticity_test.rx("p")[0][0] < heteroscedasticity_threshold:
+            info("Heteroscedasticity transform required.")
+            return True
+        else:
+            info("Heteroscedasticity transform NOT required.")
+            return False
+
     def anova(self, design, formula, heteroscedasticity_threshold = 0.05):
         # Checking for errors in R
         # TODO: Deal better with this, catch actual exceptions
-        try:
-            info("Anova Formula in Python: " + str(formula))
-            info("Anova Formula in R: " + str(Formula(formula)))
+        # try:
+        info("Anova Formula in Python: " + str(formula))
+        info("Anova Formula in R: " + str(Formula(formula)))
 
-            regression = self.stats.lm(Formula(formula), data = design)
-            heteroscedasticity_test = self.car.ncvTest(regression)
-            info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
+        if self.test_heteroscedasticity(self.complete_design_data, formula, heteroscedasticity_threshold):
+            regression = self.transform_lm(design, formula)
+        else:
+            regression = self.stats.aov(Formula(formula), self.complete_design_data)
 
-            if heteroscedasticity_test.rx("p")[0][0] < heteroscedasticity_threshold:
-                transformed_regression = self.transform_lm(design, formula)
+        summary_regression = self.stats.summary_aov(regression)
+        info("Regression Step:" + str(summary_regression))
 
-                if transformed_regression == None:
-                    info("Power transform failed, skipping step")
-                else:
-                    regression = transformed_regression
-                    heteroscedasticity_test = self.car.ncvTest(regression)
-                    info("Heteroscedasticity Test p-value: " + str(heteroscedasticity_test.rx("p")[0][0]))
-
-            summary_regression = self.stats.summary_aov(regression)
-            info("Regression Step:" + str(summary_regression))
-
-            prf_values = {}
-            for k, v in zip(self.base.rownames(summary_regression[0]), summary_regression[0][4]):
-                if k.strip() != "Residuals":
-                    prf_values[k.strip()] = v
-        except:
-            info("Regression Step Failed!")
-            regression = None
-            prf_values = None
+        prf_values = {}
+        for k, v in zip(self.base.rownames(summary_regression[0]), summary_regression[0][4]):
+            if k.strip() != "Residuals":
+                prf_values[k.strip()] = v
+        # except:
+        #     info("Regression Step Failed!")
+        #     regression = None
+        #     prf_values = None
 
         return regression, prf_values
 
-    def predict_best_values(self, regression, size, ordered_prf_keys, prf_values):
+    def predict_best_values(self, design, formula, size, ordered_prf_keys, prf_values):
         unique_variables = self.get_ordered_fixed_terms(ordered_prf_keys, prf_values)
         info("Predicting Best Values for: " + str(unique_variables))
 
         if unique_variables == []:
-            model = ". ~ ."
+            new_formula = formula
             info("No variables in threshold")
         else:
-            model = ". ~ " + " + ".join(unique_variables)
+            new_formula = formula.split("~")[0].strip() + " ~ " + " + ".join(unique_variables)
 
         self.iteration_data["removed_variables"] = str(unique_variables)
 
-        info("Using Model: " + str(model))
-        regression = self.stats.update(regression, Formula(model))
+        info("Using Model: " + str(new_formula))
+        info("Using Complete Design Data.")
 
-        summary_regression = self.stats.summary_aov(regression)
+        if self.test_heteroscedasticity(self.complete_design_data, new_formula):
+            regression = self.transform_lm(design, new_formula, method = "lm")
+        else:
+            regression = self.stats.lm(Formula(new_formula), self.complete_design_data)
+
+
+        summary_regression = self.stats.summary_lm(regression)
         info("Prediction Regression Step:" + str(summary_regression))
 
-        #TODO only look at the target variables
-        data = self.generate_valid_sample(size)
+        new_data = self.generate_valid_sample(size)
 
-        predicted = self.stats.predict(regression, data)
+        if self.complete_search_space == None:
+            self.complete_search_space = new_data
+        else:
+            self.complete_search_space = self.dplyr.bind_rows(self.complete_search_space, new_data)
+
+        predicted = self.stats.predict(regression, self.complete_search_space)
         predicted_min = min(predicted)
 
-        pruned_data = data.rx(predicted.ro == self.base.min(predicted), True)
+        pruned_data = self.complete_search_space.rx(predicted.ro == self.base.min(predicted), True)
 
         return pruned_data.rx(1, True)
 
@@ -568,7 +586,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Updated Constraint: " + str(constraint_text))
         return constraint
 
-    def measure_design(self, design):
+    def measure_design(self, design, step_number):
         info("Measuring design of size " + str(len(design[0])))
 
         design_names    = [str(n) for n in self.base.names(design)]
@@ -603,16 +621,34 @@ class DLMT(orio.main.tuner.search.search.Search):
         info(str(design))
 
         design = design.rx(self.stats.complete_cases(design), True)
+        design = design.rx(self.base.is_finite(self.base.rowSums(design)), True)
 
         info("Clean design, with measurements:")
         info(str(design))
+
+        self.utils.write_csv(design, "design_step_{0}.csv".format(step_number))
+
+        if self.complete_design_data == None:
+            self.complete_design_data = design
+        else:
+            self.complete_design_data = self.dplyr.bind_rows(self.complete_design_data, design)
+
 
         return design
 
     def dopt_anova_step(self, budget, trials, step_number):
         federov_samples = self.federov_sampling * trials
         prediction_samples = 3 * federov_samples
-        federov_search_space = self.generate_valid_sample(federov_samples)
+
+        new_data = self.generate_valid_sample(federov_samples)
+
+        if self.complete_search_space == None:
+            self.complete_search_space = new_data
+        else:
+            self.complete_search_space = self.dplyr.bind_rows(self.complete_search_space, new_data)
+
+        federov_search_space = self.complete_search_space
+
 
         full_model = "~ "
 
@@ -682,7 +718,6 @@ class DLMT(orio.main.tuner.search.search.Search):
             frml_file.write(str(encoded_full_model))
 
         output = self.opt_federov(encoded_full_model, trials, federov_search_space)
-        self.utils.write_csv(output.rx("design")[0], "design_step_{0}.csv".format(step_number))
         design = self.rsm.decode_data(output.rx("design")[0])
 
         info(str(design))
@@ -690,7 +725,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         self.iteration_data["D"] = float(str(output.rx("D")[0]).split(" ")[1])
 
-        design                 = self.measure_design(design)
+        design                 = self.measure_design(design, step_number)
         used_experiments       = len(design[0])
         regression, prf_values = self.anova(design, lm_formula)
 
@@ -706,7 +741,7 @@ class DLMT(orio.main.tuner.search.search.Search):
                         "used_experiments": used_experiments
                     }
         elif regression == None or prf_values == None:
-            info("Regression failed. Returning design best")
+            info("Regression failed. Returning design best.")
             return {
                         "prf_values": None,
                         "ordered_prf_keys": None,
@@ -719,9 +754,12 @@ class DLMT(orio.main.tuner.search.search.Search):
 
             if self.prediction_use_all:
                 predicted_best = self.predict_best(regression, prediction_samples)
-                #predicted_best = self.predict_best_reuse_data(regression, federov_search_space)
+
+                # Used before to reuse existing sample:
+                # predicted_best = self.predict_best_reuse_data(regression, federov_search_space)
             else:
-                predicted_best = self.predict_best_values(regression, prediction_samples, ordered_prf_keys, prf_values)
+                # Used to generate a new search space and fit a new model with only significant variables:
+                predicted_best = self.predict_best_values(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
 
             self.get_fixed_variables(predicted_best, ordered_prf_keys, prf_values)
             self.prune_model(ordered_prf_keys, prf_values)
