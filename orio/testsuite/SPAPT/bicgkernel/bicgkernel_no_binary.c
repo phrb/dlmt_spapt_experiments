@@ -94,7 +94,7 @@ int iii, jjj, kkk;
 
   transform Composite(
     unrolljam = (['i'],[U1_I]),
-    vector = (1, ['ivdep','vector always'])
+    vector = (False, ['ivdep','vector always'])
   )
   for (i = 0; i <= ny-1; i++)
     s[i] = 0;
@@ -103,10 +103,10 @@ int iii, jjj, kkk;
     tile = [('i',T1_I,'ii'),('j',T1_J,'jj'),
             (('ii','i'),T2_I,'iii'),(('jj','j'),T2_J,'jjj')],
     unrolljam = (['i','j'],[U_I,U_J]),
-    scalarreplace = (1, 'double'),
+    scalarreplace = (False, 'double'),
     regtile = (['i','j'],[RT_I,RT_J]),
-    vector = (1, ['ivdep','vector always']),
-    openmp = (1, 'omp parallel for private(iii,jjj,ii,jj,i,j)')
+    vector = (False, ['ivdep','vector always']),
+    openmp = (False, 'omp parallel for private(iii,jjj,ii,jj,i,j)')
   )
   for (i = 0; i <= nx-1; i++) {
     q[i] = 0;
