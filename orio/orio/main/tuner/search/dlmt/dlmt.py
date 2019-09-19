@@ -586,7 +586,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Updated Constraint: " + str(constraint_text))
         return constraint
 
-    def measure_design(self, design, step_number):
+    def measure_design(self, design, encoded_design, step_number):
         info("Measuring design of size " + str(len(design[0])))
 
         design_names    = [str(n) for n in self.base.names(design)]
@@ -616,6 +616,7 @@ class DLMT(orio.main.tuner.search.search.Search):
                 measurements.append(robjects.NA_Real)
 
         design = self.base.cbind(design, DataFrame({self.model["response"]: FloatVector(measurements)}))
+        encoded_design = self.base.cbind(encoded_design, DataFrame({self.model["response"]: FloatVector(measurements)}))
 
         info("Complete design, with measurements:")
         info(str(design))
@@ -623,16 +624,22 @@ class DLMT(orio.main.tuner.search.search.Search):
         design = design.rx(self.stats.complete_cases(design), True)
         design = design.rx(self.base.is_finite(self.base.rowSums(design)), True)
 
+        encoded_design = encoded_design.rx(self.stats.complete_cases(encoded_design), True)
+        encoded_design = encoded_design.rx(self.base.is_finite(self.base.rowSums(encoded_design)), True)
+
         info("Clean design, with measurements:")
         info(str(design))
 
-        self.utils.write_csv(design, "design_step_{0}.csv".format(step_number))
+        info("Clean encoded design, with measurements:")
+        info(str(encoded_design))
+
+        self.utils.write_csv(encoded_design, "design_step_{0}.csv".format(step_number))
+        self.utils.write_csv(design, "decoded_design_step_{0}.csv".format(step_number))
 
         if self.complete_design_data == None:
             self.complete_design_data = design
         else:
             self.complete_design_data = self.dplyr.bind_rows(self.complete_design_data, design)
-
 
         return design
 
@@ -718,14 +725,15 @@ class DLMT(orio.main.tuner.search.search.Search):
             frml_file.write(str(encoded_full_model))
 
         output = self.opt_federov(encoded_full_model, trials, federov_search_space)
-        design = self.rsm.decode_data(output.rx("design")[0])
+        encoded_design = output.rx("design")[0]
+        design = self.rsm.decode_data(encoded_design)
 
         info(str(design))
         info("D-Efficiency Approximation: " + str(output.rx("D")[0]))
 
         self.iteration_data["D"] = float(str(output.rx("D")[0]).split(" ")[1])
 
-        design                 = self.measure_design(design, step_number)
+        design                 = self.measure_design(design, encoded_design, step_number)
         used_experiments       = len(design[0])
         regression, prf_values = self.anova(design, lm_formula)
 
