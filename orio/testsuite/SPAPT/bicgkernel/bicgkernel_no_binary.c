@@ -63,7 +63,7 @@
     #arg dlmt_cubic = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
     arg dlmt_linear = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
     arg dlmt_quadratic = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
-    arg dlmt_cubic = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
+    # arg dlmt_cubic = '["T1_I", "T1_J", "T2_I", "T2_J", "U1_I", "U_I", "U_J", "RT_I", "RT_J"]';
   }
 
   def input_params
