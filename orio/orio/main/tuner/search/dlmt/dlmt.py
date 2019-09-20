@@ -320,10 +320,12 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Anova Formula in Python: " + str(formula))
         info("Anova Formula in R: " + str(Formula(formula)))
 
-        if self.test_heteroscedasticity(self.complete_design_data, formula, heteroscedasticity_threshold):
-            regression = self.transform_lm(self.complete_design_data, formula)
+        aov_data = self.prune_data(self.complete_design_data)
+
+        if self.test_heteroscedasticity(aov_data, formula, heteroscedasticity_threshold):
+            regression = self.transform_lm(aov_data, formula)
         else:
-            regression = self.stats.aov(Formula(formula), self.complete_design_data)
+            regression = self.stats.aov(Formula(formula), aov_data)
 
         summary_regression = self.stats.summary_aov(regression)
         info("Regression Step:" + str(summary_regression))
@@ -354,11 +356,12 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Using Model: " + str(new_formula))
         info("Using Complete Design Data.")
 
-        if self.test_heteroscedasticity(self.complete_design_data, new_formula):
-            regression = self.transform_lm(self.complete_design_data, new_formula, method = "lm")
-        else:
-            regression = self.stats.lm(Formula(new_formula), self.complete_design_data)
+        lm_data = self.prune_data(self.complete_design_data)
 
+        if self.test_heteroscedasticity(lm_data, new_formula):
+            regression = self.transform_lm(lm_data, new_formula, method = "lm")
+        else:
+            regression = self.stats.lm(Formula(new_formula), lm_data)
 
         summary_regression = self.stats.summary_lm(regression)
         info("Prediction Regression Step:" + str(summary_regression))
@@ -370,7 +373,8 @@ class DLMT(orio.main.tuner.search.search.Search):
         else:
             self.complete_search_space = self.dplyr.bind_rows(self.complete_search_space, new_data)
 
-        predicted = self.stats.predict(regression, self.complete_search_space)
+        prediction_data = self.prune_data(self.complete_search_space)
+        predicted = self.stats.predict(regression, prediction_data)
         predicted_min = min(predicted)
 
         pruned_data = self.complete_search_space.rx(predicted.ro == self.base.min(predicted), True)
@@ -431,6 +435,8 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         info("Pruned data:")
         info(str(self.utils.str(pruned_data)))
+        info("Initial data dimensions: " + str(self.base.dim(data)))
+        info("Pruned data dimensions: " + str(self.base.dim(pruned_data)))
         return pruned_data
 
     def get_ordered_fixed_variables(self, ordered_keys, prf_values, threshold = 60):
