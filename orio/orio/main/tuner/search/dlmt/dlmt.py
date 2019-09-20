@@ -321,7 +321,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Anova Formula in R: " + str(Formula(formula)))
 
         if self.test_heteroscedasticity(self.complete_design_data, formula, heteroscedasticity_threshold):
-            regression = self.transform_lm(self.complete_design_data, design, formula)
+            regression = self.transform_lm(self.complete_design_data, formula)
         else:
             regression = self.stats.aov(Formula(formula), self.complete_design_data)
 
