@@ -251,8 +251,7 @@ class DLMT(orio.main.tuner.search.search.Search):
                                               nTrials     = trials)
         return output
 
-    def opt_federov(self, design_formula, trials, data,
-                    max_iterations = 1000000, nullify = 0):
+    def opt_federov(self, design_formula, trials, data, max_iterations = 1000000, nullify = 0):
         info("Starting \"optFederov\" run")
         info("Using Search Space:")
         info(str(self.utils.str(data)))
@@ -261,7 +260,6 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         for parameter in self.parameter_ranges.keys():
             formulas["{0}e".format(parameter)] = Formula("{0}e ~ ({0} - {1}) / {1}".format(parameter, self.parameter_ranges[parameter][1] / 2))
-
 
         info("Encoding formulas: " + str(self.utils.str(ListVector(formulas))))
         info("Data Dimensions: " + str(self.base.dim(data)))
@@ -421,21 +419,17 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return candidate
 
-    def prune_data(self, data, predicted_best):
-        info("Pruning Data")
-        conditions = []
+    def prune_data(self, data):
+        info("Pruning Data for optFederov")
 
-        for k, v in self.model["fixed_factors"].items():
-            info("Predicted best column " + str(k) + ": " + str(predicted_best.rx2(str(k))))
-            if conditions == []:
-                conditions = data.rx2(str(k)).ro == predicted_best.rx2(str(k))
-            else:
-                conditions = conditions.ro & (data.rx2(str(k)).ro == predicted_best.rx2(str(k)))
+        if self.model["fixed_factors"] == {}:
+            pruned_data = data
+        else:
+            conditions = " & ".join(["{0} == {1}".format(k, v) for k, v in self.model["fixed_factors"].items()])
+            r_snippet = """subset(%s, %s)""" % (data.r_repr(), conditions)
+            pruned_data = robjects.r(r_snippet)
 
-        pruned_data = data.rx(conditions, True)
-
-        info("Dimensions of Pruned Data: " + str(self.base.dim(pruned_data)).strip())
-        info("Pruned data names: " + str(self.base.names(pruned_data)))
+        info("Pruned data:")
         info(str(self.utils.str(pruned_data)))
         return pruned_data
 
@@ -479,7 +473,8 @@ class DLMT(orio.main.tuner.search.search.Search):
         unique_variables = []
         for k in ordered_keys:
             if prf_values[k] < self.aov_threshold:
-                unique_variables.append(k)
+                for model_term in [term for term in ordered_keys if k in term]:
+                    unique_variables.append(model_term)
 
             if len(unique_variables) >= threshold:
                 break
@@ -654,7 +649,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         else:
             self.complete_search_space = self.dplyr.bind_rows(self.complete_search_space, new_data)
 
-        federov_search_space = self.complete_search_space
+        federov_search_space = self.prune_data(self.complete_search_space)
 
         full_model = "~ "
 
