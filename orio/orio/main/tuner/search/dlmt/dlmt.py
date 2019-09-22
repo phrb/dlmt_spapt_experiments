@@ -36,6 +36,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         self.car       = importr("car")
         self.rsm       = importr("rsm")
         self.dplyr     = importr("dplyr")
+        self.quantreg  = importr("quantreg")
 
         # numpy.random.seed(11221)
         # self.base.set_seed(11221)
@@ -383,6 +384,43 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         prediction_data = self.prune_data(self.complete_search_space)
         predicted = self.stats.predict(regression, prediction_data)
+        predicted_min = min(predicted)
+
+        pruned_data = self.complete_search_space.rx(predicted.ro == self.base.min(predicted), True)
+
+        return pruned_data.rx(1, True)
+
+    def predict_best_values_quantreg(self, design, formula, size, ordered_prf_keys, prf_values, tau = 0.10):
+        unique_variables = self.get_ordered_fixed_terms(ordered_prf_keys, prf_values)
+        info("Predicting Best Values for: " + str(unique_variables))
+
+        if unique_variables == []:
+            new_formula = formula
+            info("No variables in threshold")
+        else:
+            new_formula = formula.split("~")[0].strip() + " ~ " + " + ".join(unique_variables)
+
+        self.iteration_data["removed_variables"] = str(unique_variables)
+
+        info("Using Model: " + str(new_formula))
+        info("Using Complete Design Data.")
+
+        lm_data = self.prune_data(self.complete_design_data)
+
+        regression = self.quantreg.rq(Formula(new_formula), tau = tau, data = lm_data)
+
+        summary_regression = self.quantreg.summary_rq(regression)
+        info("Prediction Regression Step:" + str(summary_regression))
+
+        new_data = self.generate_valid_sample(size)
+
+        if self.complete_search_space == None:
+            self.complete_search_space = new_data
+        else:
+            self.complete_search_space = self.dplyr.bind_rows(self.complete_search_space, new_data)
+
+        prediction_data = self.prune_data(self.complete_search_space)
+        predicted = self.quantreg.predict_rq(regression, prediction_data)
         predicted_min = min(predicted)
 
         pruned_data = self.complete_search_space.rx(predicted.ro == self.base.min(predicted), True)
@@ -775,7 +813,11 @@ class DLMT(orio.main.tuner.search.search.Search):
                 # predicted_best = self.predict_best_reuse_data(regression, federov_search_space)
             else:
                 # Used to generate a new search space and fit a new model with only significant variables:
-                predicted_best = self.predict_best_values(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
+                # Using classical linear regression:
+                # predicted_best = self.predict_best_values(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
+
+                # Using quantile regression:
+                predicted_best = self.predict_best_values_quantreg(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
 
             self.get_fixed_variables(predicted_best, ordered_prf_keys, prf_values)
             self.prune_model(ordered_prf_keys, prf_values)
