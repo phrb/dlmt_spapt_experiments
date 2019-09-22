@@ -390,7 +390,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return pruned_data.rx(1, True)
 
-    def predict_best_values_quantreg(self, design, formula, size, ordered_prf_keys, prf_values, tau = 0.10):
+    def predict_best_values_quantreg(self, design, formula, size, ordered_prf_keys, prf_values, tau = 0.15):
         unique_variables = self.get_ordered_fixed_terms(ordered_prf_keys, prf_values)
         info("Predicting Best Values for: " + str(unique_variables))
 
@@ -515,7 +515,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return unique_variables
 
-    def get_ordered_fixed_terms(self, ordered_keys, prf_values, threshold = 60):
+    def get_ordered_fixed_terms(self, ordered_keys, prf_values, threshold = 60, carry_terms = False):
         info("Getting fixed Model Terms")
         info("Prf Values: ")
         info(str(prf_values))
@@ -525,15 +525,19 @@ class DLMT(orio.main.tuner.search.search.Search):
         unique_variables = []
         for k in ordered_keys:
             if prf_values[k] < self.aov_threshold:
-                clean_key = k.strip(" ")
-                clean_key = clean_key.replace("I(1/(1e-06 + ", "")
-                clean_key = clean_key.replace("))", "")
-                clean_key = clean_key.replace("I(", "")
-                clean_key = clean_key.replace("^2)", "")
-                clean_key = clean_key.replace("^3)", "")
+                if carry_terms:
+                    clean_key = k.strip(" ")
+                    clean_key = clean_key.replace("I(1/(1e-06 + ", "")
+                    clean_key = clean_key.replace("))", "")
+                    clean_key = clean_key.replace("I(", "")
+                    clean_key = clean_key.replace("^2)", "")
+                    clean_key = clean_key.replace("^3)", "")
 
-                for model_term in [term for term in ordered_keys if clean_key in term]:
-                    unique_variables.append(model_term)
+                    for model_term in [term for term in ordered_keys if clean_key in term]:
+                        unique_variables.append(model_term)
+
+                else:
+                    unique_variables.append(k)
 
             if len(unique_variables) >= threshold:
                 break
