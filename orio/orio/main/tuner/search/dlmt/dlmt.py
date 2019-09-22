@@ -525,7 +525,14 @@ class DLMT(orio.main.tuner.search.search.Search):
         unique_variables = []
         for k in ordered_keys:
             if prf_values[k] < self.aov_threshold:
-                for model_term in [term for term in ordered_keys if k in term]:
+                clean_key = k.strip(" ")
+                clean_key = clean_key.replace("I(1/(1e-06 + ", "")
+                clean_key = clean_key.replace("))", "")
+                clean_key = clean_key.replace("I(", "")
+                clean_key = clean_key.replace("^2)", "")
+                clean_key = clean_key.replace("^3)", "")
+
+                for model_term in [term for term in ordered_keys if clean_key in term]:
                     unique_variables.append(model_term)
 
             if len(unique_variables) >= threshold:
