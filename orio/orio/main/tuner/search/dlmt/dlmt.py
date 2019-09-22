@@ -295,8 +295,10 @@ class DLMT(orio.main.tuner.search.search.Search):
         # TODO: Treat errors properly
         try:
             transformed_lm = robjects.r(r_snippet)
+            info("Power Transform Successful")
         except:
             transformed_lm = None
+            info("Power Transform Unsuccessful")
 
         return transformed_lm
 
@@ -316,28 +318,31 @@ class DLMT(orio.main.tuner.search.search.Search):
     def anova(self, design, formula, heteroscedasticity_threshold = 0.05):
         # Checking for errors in R
         # TODO: Deal better with this, catch actual exceptions
-        # try:
-        info("Anova Formula in Python: " + str(formula))
-        info("Anova Formula in R: " + str(Formula(formula)))
+        try:
+            info("Anova Formula in Python: " + str(formula))
+            info("Anova Formula in R: " + str(Formula(formula)))
 
-        aov_data = self.prune_data(self.complete_design_data)
+            aov_data = self.prune_data(self.complete_design_data)
 
-        if self.test_heteroscedasticity(aov_data, formula, heteroscedasticity_threshold):
-            regression = self.transform_lm(aov_data, formula)
-        else:
-            regression = self.stats.aov(Formula(formula), aov_data)
+            if self.test_heteroscedasticity(aov_data, formula, heteroscedasticity_threshold):
+                regression = self.transform_lm(aov_data, formula)
+            else:
+                regression = self.stats.aov(Formula(formula), aov_data)
 
-        summary_regression = self.stats.summary_aov(regression)
-        info("Regression Step:" + str(summary_regression))
+            if regression == None:
+                regression = self.stats.aov(Formula(formula), aov_data)
 
-        prf_values = {}
-        for k, v in zip(self.base.rownames(summary_regression[0]), summary_regression[0][4]):
-            if k.strip() != "Residuals":
-                prf_values[k.strip()] = v
-        # except:
-        #     info("Regression Step Failed!")
-        #     regression = None
-        #     prf_values = None
+            summary_regression = self.stats.summary_aov(regression)
+            info("Regression Step:" + str(summary_regression))
+
+            prf_values = {}
+            for k, v in zip(self.base.rownames(summary_regression[0]), summary_regression[0][4]):
+                if k.strip() != "Residuals":
+                    prf_values[k.strip()] = v
+        except:
+            info("Regression Step Failed!")
+            regression = None
+            prf_values = None
 
         return regression, prf_values
 
@@ -361,6 +366,9 @@ class DLMT(orio.main.tuner.search.search.Search):
         if self.test_heteroscedasticity(lm_data, new_formula):
             regression = self.transform_lm(lm_data, new_formula, method = "lm")
         else:
+            regression = self.stats.lm(Formula(new_formula), lm_data)
+
+        if regression == None:
             regression = self.stats.lm(Formula(new_formula), lm_data)
 
         summary_regression = self.stats.summary_lm(regression)
