@@ -390,7 +390,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return pruned_data.rx(1, True)
 
-    def predict_best_values_quantreg(self, design, formula, size, ordered_prf_keys, prf_values, tau = 0.15):
+    def predict_best_values_quantreg(self, design, formula, size, ordered_prf_keys, prf_values, tau = 0.05):
         unique_variables = self.get_ordered_fixed_terms(ordered_prf_keys, prf_values)
         info("Predicting Best Values for: " + str(unique_variables))
 
