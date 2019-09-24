@@ -515,7 +515,7 @@ class DLMT(orio.main.tuner.search.search.Search):
 
         return unique_variables
 
-    def get_ordered_fixed_terms(self, ordered_keys, prf_values, threshold = 60, carry_terms = False):
+    def get_ordered_fixed_terms(self, ordered_keys, prf_values, threshold = 60, carry_terms = True):
         info("Getting fixed Model Terms")
         info("Prf Values: ")
         info(str(prf_values))
