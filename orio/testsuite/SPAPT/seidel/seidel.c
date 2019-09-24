@@ -51,14 +51,14 @@
   {
     arg algorithm = 'DLMT';
     arg total_runs = 1;
-    arg dlmt_federov_sampling = 30;
+    arg dlmt_federov_sampling = 800;
     arg dlmt_extra_experiments = 1;
     arg dlmt_design_multiplier = 1.2;
     arg dlmt_steps = 4;
-    arg dlmt_aov_threshold = 0.05;
+    arg dlmt_aov_threshold = 0.01;
     arg dlmt_linear = '["T1_T", "T1_I", "T1_J", "T1_Ta", "T1_Ia", "T1_Ja", "U1_T", "U1_I", "U1_J", "RT1_I", "RT1_J", "RT1_T", "SCR", "VEC", "OMP"]';
     arg dlmt_quadratic = '["T1_T", "T1_I", "T1_J", "T1_Ta", "T1_Ia", "T1_Ja", "U1_T", "U1_I", "U1_J", "RT1_I", "RT1_J", "RT1_T"]';
-    arg dlmt_cubic = '["T1_T", "T1_I", "T1_J", "T1_Ta", "T1_Ia", "T1_Ja", "U1_T", "U1_I", "U1_J", "RT1_I", "RT1_J", "RT1_T"]';
+    # arg dlmt_cubic = '["T1_T", "T1_I", "T1_J", "T1_Ta", "T1_Ia", "T1_Ja", "U1_T", "U1_I", "U1_J", "RT1_I", "RT1_J", "RT1_T"]';
   }
 
   def input_params
@@ -108,4 +108,3 @@ for (t=0; t<=T-1; t++)
 
 /*@ end @*/
 /*@ end @*/
-
