@@ -260,7 +260,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         formulas = {}
 
         for parameter in self.parameter_ranges.keys():
-            formulas["{0}e".format(parameter)] = Formula("{0}e ~ ({0} - {1}) / {1}".format(parameter, self.parameter_ranges[parameter][1] / 2))
+            formulas["{0}e".format(parameter)] = Formula("{0}e ~ ({0} - {1}) / {1}".format(parameter, (self.parameter_ranges[parameter][1] - 1) / 2))
 
         info("Encoding formulas: " + str(self.utils.str(ListVector(formulas))))
         info("Data Dimensions: " + str(self.base.dim(data)))
