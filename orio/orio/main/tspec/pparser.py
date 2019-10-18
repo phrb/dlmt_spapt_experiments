@@ -24,6 +24,7 @@ keywords = [
     'cudacfg_instmix', 'dlmt_interactions', 'dlmt_quadratic', 'dlmt_linear',
     'dlmt_inverse', 'dlmt_cubic', 'dlmt_federov_sampling', 'dlmt_steps', 'dlmt_extra_experiments', 'dlmt_design_multiplier',
     'dlmt_aov_threshold','dlmt_prediction_use_all',
+    'gpr_starting_sample', 'gpr_steps', 'gpr_extra_experiments',
     'validation', 'validation_file', 'expected_output',
     'macro', 'performance_test_code', 'skeleton_test_code', 'skeleton_code_file',
     'other', 'device_spec_file',
@@ -230,6 +231,9 @@ def p_arg_type(p):
                 | DLMT_AOV_THRESHOLD
                 | DLMT_STEPS
                 | DLMT_PREDICTION_USE_ALL
+                | GPR_STARTING_SAMPLE
+                | GPR_STEPS
+                | GPR_EXTRA_EXPERIMENTS
                 | SIMPLEX_X0
                 | CUDACFG_INSTMIX
                 | VALIDATION_FILE
@@ -403,5 +407,3 @@ class TSpecParser:
     def parseSpec(self, code, line_no = 1):
         '''To parse the given specification body and return a sequence of statements'''
         return self.__parse(code, line_no, 'specs')
-
-
