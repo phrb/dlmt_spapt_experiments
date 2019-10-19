@@ -31,8 +31,8 @@ class GPR(orio.main.tuner.search.search.Search):
         self.quantreg  = importr("quantreg")
         self.dicekrig  = importr("DiceKriging")
 
-        numpy.random.seed(11221)
-        self.base.set_seed(11221)
+        # numpy.random.seed(11221)
+        # self.base.set_seed(11221)
 
         self.complete_design_data = None
         self.complete_search_space = None
@@ -56,15 +56,10 @@ class GPR(orio.main.tuner.search.search.Search):
 
         info("Parameter Range Values: " + str(self.parameter_values))
 
-        # self.starting_sample    = 60
-        # self.steps              = 4
-        # self.extra_experiments  = 30
-        # self.testing_set_size   = 150000
-
-        self.starting_sample    = 14
-        self.steps              = 2
-        self.extra_experiments  = 3
-        self.testing_set_size   = 150
+        self.starting_sample    = 30
+        self.steps              = 3
+        self.extra_experiments  = 15
+        self.testing_set_size   = 150000
 
         self.__readAlgoArgs()
 
