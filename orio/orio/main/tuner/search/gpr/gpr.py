@@ -31,8 +31,8 @@ class GPR(orio.main.tuner.search.search.Search):
         self.quantreg  = importr("quantreg")
         self.dicekrig  = importr("DiceKriging")
 
-        # numpy.random.seed(11221)
-        # self.base.set_seed(11221)
+        numpy.random.seed(11221)
+        self.base.set_seed(11221)
 
         self.complete_design_data = None
         self.complete_search_space = None
@@ -56,10 +56,15 @@ class GPR(orio.main.tuner.search.search.Search):
 
         info("Parameter Range Values: " + str(self.parameter_values))
 
-        self.starting_sample    = 60
-        self.steps              = 4
-        self.extra_experiments  = 30
-        self.testing_set_size   = 150000
+        # self.starting_sample    = 60
+        # self.steps              = 4
+        # self.extra_experiments  = 30
+        # self.testing_set_size   = 150000
+
+        self.starting_sample    = 14
+        self.steps              = 2
+        self.extra_experiments  = 3
+        self.testing_set_size   = 150
 
         self.__readAlgoArgs()
 
@@ -165,7 +170,7 @@ class GPR(orio.main.tuner.search.search.Search):
         data[data$cost_mean == min(data$cost_mean), ]""" % (decoded_design.r_repr())
 
         best_line    = robjects.r(r_snippet)
-        design_names = [str(n) for n in self.base.names(decoded_design) if n not in ["cost_mean", "predicted_mean", "predicted_sd", "predicted_mean_2s"]]
+        design_names = [str(n) for n in self.base.names(best_line) if n not in ["cost_mean", "predicted_mean", "predicted_sd", "predicted_mean_2s"]]
         factors      = self.params["axis_names"]
 
         info("Factors: " + str(factors))
@@ -175,12 +180,18 @@ class GPR(orio.main.tuner.search.search.Search):
         if type(best_line.rx(1, True)[0]) is int:
             design_line = [v for v in best_line.rx(1, True)]
         else:
-            design_line = [int(v[0]) for v in best_line.rx(1, True)]
+            design_line = [int(round(float(v[0]))) for v in best_line.rx(1, True)]
 
         candidate = [0] * len(factors)
 
         for i in range(len(design_names)):
             candidate[factors.index(design_names[i])] = design_line[i]
+
+        info("Design Line: ")
+        info(str(design_line))
+
+        info("Candidate Line: ")
+        info(str(candidate))
 
         return candidate
 
@@ -202,7 +213,7 @@ class GPR(orio.main.tuner.search.search.Search):
             if type(design.rx(line, True)[0]) is int:
                 design_line = [v for v in design.rx(line, True)]
             else:
-                design_line = [int(v[0]) for v in design.rx(line, True)]
+                design_line = [int(round(float(v[0]))) for v in design.rx(line, True)]
 
             candidate = [0] * len(initial_factors)
 
@@ -252,7 +263,6 @@ class GPR(orio.main.tuner.search.search.Search):
                                                               testing_data)
 
         measured_training_data = self.measure_design(training_data, self.current_iteration_id)
-
 
         for i in range(iterations):
             self.current_iteration_id = i + 1

@@ -248,6 +248,11 @@ class Search:
 
             # get the performance parameters
             perf_params = self.coordToPerfParams(coord)
+            info("coords:")
+            info(str(coord))
+
+            info("Perf params:")
+            info(str(perf_params))
 
             # test if parameters are in database
             experiments = self.search_database['experiments']
