@@ -56,8 +56,8 @@ class GPR(orio.main.tuner.search.search.Search):
 
         info("Parameter Range Values: " + str(self.parameter_values))
 
-        self.starting_sample    = len(self.params["axis_names"]) * 2
-        self.steps              = 20
+        self.starting_sample    = len(self.params["axis_names"]) * 10
+        self.steps              = 10
         self.extra_experiments  = len(self.params["axis_names"]) * 2
         self.testing_set_size   = 300000
 
