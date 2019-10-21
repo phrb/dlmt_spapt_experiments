@@ -30,6 +30,7 @@ class GPR(orio.main.tuner.search.search.Search):
         self.dplyr     = importr("dplyr")
         self.quantreg  = importr("quantreg")
         self.dicekrig  = importr("DiceKriging")
+        self.diced     = importr("DiceDesign")
 
         # numpy.random.seed(11221)
         # self.base.set_seed(11221)
@@ -56,10 +57,10 @@ class GPR(orio.main.tuner.search.search.Search):
 
         info("Parameter Range Values: " + str(self.parameter_values))
 
-        self.starting_sample    = len(self.params["axis_names"]) * 10
-        self.steps              = 10
-        self.extra_experiments  = len(self.params["axis_names"]) * 2
-        self.testing_set_size   = 300000
+        self.starting_sample    = len(self.params["axis_names"]) * 2
+        self.steps              = 40
+        self.extra_experiments  = len(self.params["axis_names"]) * 1
+        self.testing_set_size   = 10000
 
         self.__readAlgoArgs()
 
@@ -130,6 +131,82 @@ class GPR(orio.main.tuner.search.search.Search):
         coded_search_space_dataframe_r = self.encode_data(search_space_dataframe_r)
 
         return coded_search_space_dataframe_r
+
+    def generate_valid_lhs(self, sample_size):
+        sample = None
+        step_size = 6000
+        valid_experiments = 0
+
+        parameters = {}
+
+        for p in self.parameter_ranges.keys():
+            parameters[p] = FloatVector([self.parameter_ranges[p][1] - 1.0])
+
+        parameters = DataFrame(parameters)
+
+        info("Computed parameter ranges:")
+        info(str(parameters))
+
+        while(valid_experiments < sample_size):
+            r_snippet = """library(DiceDesign)
+            ranges <- %s
+            output <- lhsDesign(n = %s, dimension = %s)
+            design <- output$design
+            encoded_design <- data.frame(round(design %%*%% diag(ranges)))
+            names(encoded_design) <- names(ranges)
+            encoded_design""" % (parameters.r_repr(), step_size, len(self.axis_names))
+
+            candidate_lhs = robjects.r(r_snippet)
+
+            info("Candidate LHS:")
+            info(str(self.utils.str(candidate_lhs)))
+
+            valid_lines = []
+
+            for line in range(1, len(candidate_lhs[0]) + 1):
+                if type(candidate_lhs.rx(line, True)[0]) is int:
+                    candidate_line = [v for v in candidate_lhs.rx(line, True)]
+                else:
+                    candidate_line = [int(round(float(v[0]))) for v in candidate_lhs.rx(line, True)]
+
+                design_names    = [str(n) for n in self.base.names(candidate_lhs)]
+                initial_factors = self.params["axis_names"]
+
+                candidate = [0] * len(initial_factors)
+
+                for i in range(len(design_names)):
+                    candidate[initial_factors.index(design_names[i])] = candidate_line[i]
+
+                perf_params = self.coordToPerfParams(candidate)
+                is_valid = eval(self.constraint, copy.copy(perf_params),
+                                dict(self.input_params))
+
+                if is_valid:
+                    valid_lines.append(line)
+
+            info("Valid Lines:")
+            info(str(len(valid_lines)))
+
+            if sample == None:
+                sample = candidate_lhs.rx(IntVector(valid_lines), True)
+            else:
+                sample = self.dplyr.bind_rows(sample,
+                                              candidate_lhs.rx(IntVector(valid_lines),
+                                                               True))
+
+            valid_experiments += len(valid_lines)
+
+            info("Current Design:")
+            info(str(self.utils.str(sample)))
+
+        sample = sample.rx(IntVector([i for i in range(1, sample_size + 1)]), True)
+
+        info("Pruned Design:")
+        info(str(self.utils.str(sample)))
+
+        coded_search_space_dataframe_r = self.encode_data(sample)
+
+        return sample
 
     def encode_data(self, data):
         formulas = {}
@@ -247,8 +324,8 @@ class GPR(orio.main.tuner.search.search.Search):
         best_value       = float("inf")
         best_point       = []
 
-        training_data = self.generate_valid_sample(self.starting_sample)
-        testing_data = self.base.rbind(self.generate_valid_sample(self.testing_set_size),
+        training_data = self.generate_valid_lhs(self.starting_sample)
+        testing_data = self.base.rbind(self.generate_valid_lhs(self.testing_set_size),
                                             training_data)
 
         if self.complete_search_space == None:
