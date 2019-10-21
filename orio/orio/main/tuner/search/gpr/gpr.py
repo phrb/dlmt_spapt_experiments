@@ -204,7 +204,7 @@ class GPR(orio.main.tuner.search.search.Search):
         info("Pruned Design:")
         info(str(self.utils.str(sample)))
 
-        coded_search_space_dataframe_r = self.encode_data(sample)
+        sample = self.encode_data(sample)
 
         return sample
 
