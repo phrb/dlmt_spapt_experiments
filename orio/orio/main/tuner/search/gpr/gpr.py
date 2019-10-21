@@ -60,7 +60,7 @@ class GPR(orio.main.tuner.search.search.Search):
         self.starting_sample    = len(self.params["axis_names"]) * 2
         self.steps              = 40
         self.extra_experiments  = len(self.params["axis_names"]) * 1
-        self.testing_set_size   = 10000
+        self.testing_set_size   = 300000
 
         self.__readAlgoArgs()
 
@@ -134,7 +134,7 @@ class GPR(orio.main.tuner.search.search.Search):
 
     def generate_valid_lhs(self, sample_size):
         sample = None
-        step_size = 6000
+        step_size = 12000
         valid_experiments = 0
 
         parameters = {}
@@ -351,12 +351,12 @@ class GPR(orio.main.tuner.search.search.Search):
             library(DiceKriging)
             library(rsm)
 
-            training_data <- read.csv("complete_design_data.csv", header = TRUE)
+            training_data <- distinct(read.csv("complete_design_data.csv", header = TRUE))
             training_data$X <- NULL
             gpr_model <- km(design = select(training_data, -cost_mean),
                             response = training_data$cost_mean)
 
-            testing_data <- read.csv("complete_search_space.csv", header = TRUE)
+            testing_data <- distinct(read.csv("complete_search_space.csv", header = TRUE))
             testing_data$X <- NULL
             gpr_prediction <- predict(gpr_model, testing_data, 'UK')
 
