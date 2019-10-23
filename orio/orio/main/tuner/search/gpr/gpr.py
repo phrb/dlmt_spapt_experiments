@@ -55,7 +55,16 @@ class GPR(orio.main.tuner.search.search.Search):
         for i in range(len(self.params["axis_val_ranges"])):
             self.parameter_values[self.params["axis_names"][i]] = self.params["axis_val_ranges"][i]
 
+        info("Parameter Real Ranges: " + str(self.axis_val_ranges))
         info("Parameter Range Values: " + str(self.parameter_values))
+
+        self.range_matrix = {}
+
+        for i in range(len(self.axis_names)):
+            self.range_matrix[self.axis_names[i]] = IntVector(self.axis_val_ranges[i])
+
+        self.range_matrix = ListVector(self.range_matrix)
+        info("DataFrame Ranges: " + str(self.utils.str(self.range_matrix)))
 
         self.starting_sample   = len(self.params["axis_names"]) * 2
         self.steps             = 40
@@ -79,6 +88,7 @@ class GPR(orio.main.tuner.search.search.Search):
         info("Starting sample: " + str(self.starting_sample))
         info("GPR steps: " + str(self.steps))
         info("Experiments added per step: " + str(self.extra_experiments))
+        info("Constraints: " + str(self.constraint))
 
     def generate_valid_sample(self, sample_size):
         search_space_dataframe = {}
@@ -133,11 +143,13 @@ class GPR(orio.main.tuner.search.search.Search):
         return coded_search_space_dataframe_r
 
     def generate_valid_lhs(self, sample_size):
-        sample = None
-        step_size = 12000
-        valid_experiments = 0
+        # TODO: Expose step size as parameter!
+        step_size = 150 * sample_size
 
         parameters = {}
+
+        info("pkeys: " + str([k for k in self.parameter_ranges.keys()]))
+        info("axisnames: " + str([n for n in self.axis_names]))
 
         for p in self.parameter_ranges.keys():
             parameters[p] = FloatVector([self.parameter_ranges[p][1] - 1.0])
@@ -147,66 +159,60 @@ class GPR(orio.main.tuner.search.search.Search):
         info("Computed parameter ranges:")
         info(str(parameters))
 
-        while(valid_experiments < sample_size):
-            r_snippet = """library(DiceDesign)
-            ranges <- %s
-            output <- lhsDesign(n = %s, dimension = %s)
-            design <- output$design
-            encoded_design <- data.frame(round(design %%*%% diag(ranges)))
-            names(encoded_design) <- names(ranges)
-            encoded_design""" % (parameters.r_repr(), step_size, len(self.axis_names))
+        r_snippet = """library(DiceDesign)
+        library(stringr)
+        library(tibble)
 
-            candidate_lhs = robjects.r(r_snippet)
+        ranges <- %s
+        output <- lhsDesign(n = %s, dimension = %s)
+        design <- output$design
 
-            info("Candidate LHS:")
-            info(str(self.utils.str(candidate_lhs)))
+        encoded_matrix <- round(design %%*%% diag(ranges))
+        mode(encoded_matrix) <- "integer"
 
-            valid_lines = []
+        encoded_design <- data.frame(encoded_matrix)
+        names(encoded_design) <- names(ranges)
 
-            for line in range(1, len(candidate_lhs[0]) + 1):
-                if type(candidate_lhs.rx(line, True)[0]) is int:
-                    candidate_line = [v for v in candidate_lhs.rx(line, True)]
-                else:
-                    candidate_line = [int(round(float(v[0]))) for v in candidate_lhs.rx(line, True)]
+        range_list <- %s
 
-                design_names    = [str(n) for n in self.base.names(candidate_lhs)]
-                initial_factors = self.params["axis_names"]
+        convert_parameters <- function(name) {
+          encoded_design[, name] <- range_list[[name]][encoded_design[, name] + 1]
+        }
 
-                candidate = [0] * len(initial_factors)
+        converted_design <- data.frame(sapply(names(encoded_design), convert_parameters))
 
-                for i in range(len(design_names)):
-                    candidate[initial_factors.index(design_names[i])] = candidate_line[i]
+        constraint <- "%s" %%>%%
+            str_replace_all(c("True and " = "TRUE & ",
+                              "==" = "== ",
+                              "<=" = "<= ",
+                              "or" = " |",
+                              "and" = "&",
+                              "\\\\*" = "\\\\* ",
+                              " \\\\)" = "\\\\)",
+                              "%%" = " %%%% ")) %%>%%
+            rlang::parse_expr()
 
-                perf_params = self.coordToPerfParams(candidate)
-                is_valid = eval(self.constraint, copy.copy(perf_params),
-                                dict(self.input_params))
+        print(str(constraint))
 
-                if is_valid:
-                    valid_lines.append(line)
+        valid_design <- converted_design %%>%%
+            rownames_to_column() %%>%%
+            filter(!!!constraint)
 
-            info("Valid Lines:")
-            info(str(len(valid_lines)))
+        encoded_design <- encoded_design[valid_design$rowname, ]
 
-            if sample == None:
-                sample = candidate_lhs.rx(IntVector(valid_lines), True)
-            else:
-                sample = self.dplyr.bind_rows(sample,
-                                              candidate_lhs.rx(IntVector(valid_lines),
-                                                               True))
+        encoded_design[ , %s]""" % (parameters.r_repr(),
+                                    step_size,
+                                    len(self.axis_names),
+                                    self.range_matrix.r_repr(),
+                                    self.constraint,
+                                    StrVector(self.axis_names).r_repr())
 
-            valid_experiments += len(valid_lines)
+        candidate_lhs = robjects.r(r_snippet)
 
-            info("Current Design:")
-            info(str(self.utils.str(sample)))
+        info("Candidate LHS:")
+        info(str(self.utils.str(candidate_lhs)))
 
-        sample = sample.rx(IntVector([i for i in range(1, sample_size + 1)]), True)
-
-        info("Pruned Design:")
-        info(str(self.utils.str(sample)))
-
-        sample = self.encode_data(sample)
-
-        return sample
+        return self.encode_data(candidate_lhs)
 
     def encode_data(self, data):
         formulas = {}
