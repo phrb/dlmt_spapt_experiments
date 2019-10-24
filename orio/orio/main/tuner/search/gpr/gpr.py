@@ -69,7 +69,7 @@ class GPR(orio.main.tuner.search.search.Search):
         self.starting_sample   = len(self.params["axis_names"]) * 2
         self.steps             = 40
         self.extra_experiments = len(self.params["axis_names"]) * 1
-        self.testing_set_size  = 30000
+        self.testing_set_size  = 300000
 
         self.__readAlgoArgs()
 
@@ -166,6 +166,77 @@ class GPR(orio.main.tuner.search.search.Search):
         ranges <- %s
         output <- lhsDesign(n = %s, dimension = %s)
         design <- output$design
+
+        encoded_matrix <- round(design %%*%% diag(ranges))
+        mode(encoded_matrix) <- "integer"
+
+        encoded_design <- data.frame(encoded_matrix)
+        names(encoded_design) <- names(ranges)
+
+        range_list <- %s
+
+        convert_parameters <- function(name) {
+          encoded_design[, name] <- range_list[[name]][encoded_design[, name] + 1]
+        }
+
+        converted_design <- data.frame(sapply(names(encoded_design), convert_parameters))
+
+        constraint <- "%s" %%>%%
+            str_replace_all(c("True and " = "TRUE & ",
+                              "==" = "== ",
+                              "<=" = "<= ",
+                              "or" = " |",
+                              "and" = "&",
+                              "\\\\*" = "\\\\* ",
+                              " \\\\)" = "\\\\)",
+                              "%%" = " %%%% ")) %%>%%
+            rlang::parse_expr()
+
+        print(str(constraint))
+
+        valid_design <- converted_design %%>%%
+            rownames_to_column() %%>%%
+            filter(!!!constraint)
+
+        encoded_design <- encoded_design[valid_design$rowname, ]
+
+        encoded_design[ , %s]""" % (parameters.r_repr(),
+                                    step_size,
+                                    len(self.axis_names),
+                                    self.range_matrix.r_repr(),
+                                    self.constraint,
+                                    StrVector(self.axis_names).r_repr())
+
+        candidate_lhs = robjects.r(r_snippet)
+
+        info("Candidate LHS:")
+        info(str(self.utils.str(candidate_lhs)))
+
+        return self.encode_data(candidate_lhs)
+
+    def generate_valid_sobol(self, sample_size):
+        # TODO: Expose step size as parameter!
+        step_size = 150 * sample_size
+
+        parameters = {}
+
+        info("pkeys: " + str([k for k in self.parameter_ranges.keys()]))
+        info("axisnames: " + str([n for n in self.axis_names]))
+
+        for p in self.parameter_ranges.keys():
+            parameters[p] = FloatVector([self.parameter_ranges[p][1] - 1.0])
+
+        parameters = DataFrame(parameters)
+
+        info("Computed parameter ranges:")
+        info(str(parameters))
+
+        r_snippet = """library(randtoolbox)
+        library(stringr)
+        library(tibble)
+
+        ranges <- %s
+        design <- sobol(n = %s, dim = %s)
 
         encoded_matrix <- round(design %%*%% diag(ranges))
         mode(encoded_matrix) <- "integer"
@@ -330,8 +401,8 @@ class GPR(orio.main.tuner.search.search.Search):
         best_value       = float("inf")
         best_point       = []
 
-        training_data = self.generate_valid_lhs(self.starting_sample)
-        testing_data = self.base.rbind(self.generate_valid_lhs(self.testing_set_size),
+        training_data = self.generate_valid_sobol(self.starting_sample)
+        testing_data = self.base.rbind(self.generate_valid_sobol(self.testing_set_size),
                                             training_data)
 
         if self.complete_search_space == None:
