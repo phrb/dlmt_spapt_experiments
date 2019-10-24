@@ -66,9 +66,9 @@ class GPR(orio.main.tuner.search.search.Search):
         self.range_matrix = ListVector(self.range_matrix)
         info("DataFrame Ranges: " + str(self.utils.str(self.range_matrix)))
 
-        self.starting_sample   = len(self.params["axis_names"]) * 2
-        self.steps             = 40
-        self.extra_experiments = len(self.params["axis_names"]) * 1
+        self.starting_sample   = len(self.params["axis_names"]) * 4
+        self.steps             = 15
+        self.extra_experiments = len(self.params["axis_names"]) * 2
         self.testing_set_size  = 300000
 
         self.__readAlgoArgs()
