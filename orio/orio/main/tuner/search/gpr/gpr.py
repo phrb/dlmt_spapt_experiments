@@ -68,7 +68,7 @@ class GPR(orio.main.tuner.search.search.Search):
         info("DataFrame Ranges: " + str(self.utils.str(self.range_matrix)))
 
         self.starting_sample   = len(self.params["axis_names"]) * 2
-        self.steps             = 15
+        self.steps             = 30
         self.extra_experiments = len(self.params["axis_names"]) * 1
         self.testing_set_size  = 300000
 
@@ -440,20 +440,23 @@ class GPR(orio.main.tuner.search.search.Search):
             training_data <- distinct(read.csv("complete_design_data.csv", header = TRUE))
             training_data$X <- NULL
 
-            cores <- 8
-            registerDoParallel(cores = cores)
+            cores <- 16
+            cluster <-  makeCluster(cores)
+            registerDoParallel(cluster)
 
             gpr_model <- km(design = select(training_data, -cost_mean),
                             response = training_data$cost_mean,
-                            multistart = cores) #,
-                            # optim.method = "gen",
-                            # control = list(pop.size = 2000,
-                            #                max.generations = 300,
-                            #                wait.generations = 20))
+                            multistart = 2 * cores,
+                            optim.method = "BFGS",
+                            control = list(pop.size = 4000)) #,
+                                           # max.generations = 300,
+                                           # wait.generations = 20))
+
+            stopCluster(cluster)
 
             testing_data <- distinct(read.csv("complete_search_space.csv", header = TRUE))
             testing_data$X <- NULL
-            gpr_prediction <- predict(gpr_model, testing_data, 'UK')
+            gpr_prediction <- predict(gpr_model, newdata = testing_data, type = 'UK')
 
             testing_data$predicted_mean <- gpr_prediction$mean
             testing_data$predicted_sd <- gpr_prediction$sd
