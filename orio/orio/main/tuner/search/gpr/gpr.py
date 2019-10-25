@@ -9,6 +9,7 @@ import copy
 import json
 import dataset
 import os
+import gc
 
 import rpy2.rinterface as ri
 import rpy2.robjects as robjects
@@ -269,9 +270,14 @@ class GPR(orio.main.tuner.search.search.Search):
             rownames_to_column() %%>%%
             filter(!!!constraint)
 
-        encoded_design <- encoded_design[valid_design$rowname, ]
+        result_design <- encoded_design[valid_design$rowname, ]
 
-        encoded_design[ , %s]""" % (parameters.r_repr(),
+        rm(encoded_design)
+        rm(converted_design)
+        rm(valid_design)
+        gc()
+
+        result_design[ , %s]""" % (parameters.r_repr(),
                                     step_size,
                                     len(self.axis_names),
                                     self.range_matrix.r_repr(),
@@ -279,6 +285,7 @@ class GPR(orio.main.tuner.search.search.Search):
                                     StrVector(self.axis_names).r_repr())
 
         candidate_lhs = robjects.r(r_snippet)
+        gc.collect()
 
         info("Candidate LHS:")
         info(str(self.utils.str(candidate_lhs)))
@@ -457,10 +464,16 @@ class GPR(orio.main.tuner.search.search.Search):
             gpr_best_points <- arrange(testing_data,
                                        predicted_mean_2s)[1:%s, ]
 
+            rm(testing_data)
+            rm(training_data)
+            gc()
+
             gpr_best_points""" %(self.extra_experiments)
 
             best_predicted_points = robjects.r(r_snippet)
             best_predicted_points = self.rsm.coded_data(best_predicted_points, formulas = self.rsm.codings(self.complete_design_data))
+
+            gc.collect()
 
             info("Best Predictions:")
             info(str(best_predicted_points))
