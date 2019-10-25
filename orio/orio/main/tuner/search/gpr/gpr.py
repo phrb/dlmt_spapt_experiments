@@ -66,9 +66,9 @@ class GPR(orio.main.tuner.search.search.Search):
         self.range_matrix = ListVector(self.range_matrix)
         info("DataFrame Ranges: " + str(self.utils.str(self.range_matrix)))
 
-        self.starting_sample   = len(self.params["axis_names"]) * 4
+        self.starting_sample   = len(self.params["axis_names"]) * 2
         self.steps             = 15
-        self.extra_experiments = len(self.params["axis_names"]) * 2
+        self.extra_experiments = len(self.params["axis_names"]) * 1
         self.testing_set_size  = 300000
 
         self.__readAlgoArgs()
@@ -426,12 +426,23 @@ class GPR(orio.main.tuner.search.search.Search):
 
             r_snippet = """library(dplyr)
             library(DiceKriging)
+            library(doParallel)
+            library(foreach)
             library(rsm)
 
             training_data <- distinct(read.csv("complete_design_data.csv", header = TRUE))
             training_data$X <- NULL
+
+            cores <- 6
+            registerDoParallel(cores = cores)
+
             gpr_model <- km(design = select(training_data, -cost_mean),
-                            response = training_data$cost_mean)
+                            response = training_data$cost_mean,
+                            multistart = cores,
+                            optim.method = "gen",
+                            control = list(pop.size = 2000,
+                                           max.generations = 300,
+                                           wait.generations = 20))
 
             testing_data <- distinct(read.csv("complete_search_space.csv", header = TRUE))
             testing_data$X <- NULL
