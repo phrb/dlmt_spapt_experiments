@@ -440,16 +440,16 @@ class GPR(orio.main.tuner.search.search.Search):
             training_data <- distinct(read.csv("complete_design_data.csv", header = TRUE))
             training_data$X <- NULL
 
-            cores <- 6
+            cores <- 8
             registerDoParallel(cores = cores)
 
             gpr_model <- km(design = select(training_data, -cost_mean),
                             response = training_data$cost_mean,
-                            multistart = cores,
-                            optim.method = "gen",
-                            control = list(pop.size = 2000,
-                                           max.generations = 300,
-                                           wait.generations = 20))
+                            multistart = cores) #,
+                            # optim.method = "gen",
+                            # control = list(pop.size = 2000,
+                            #                max.generations = 300,
+                            #                wait.generations = 20))
 
             testing_data <- distinct(read.csv("complete_search_space.csv", header = TRUE))
             testing_data$X <- NULL
