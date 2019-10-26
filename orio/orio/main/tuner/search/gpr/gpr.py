@@ -446,9 +446,9 @@ class GPR(orio.main.tuner.search.search.Search):
 
             gpr_model <- km(design = select(training_data, -cost_mean),
                             response = training_data$cost_mean,
-                            multistart = 2 * cores,
-                            optim.method = "BFGS",
-                            control = list(pop.size = 4000)) #,
+                            multistart = 2 * cores) #,
+                            # optim.method = "BFGS",
+                            # control = list(pop.size = 4000)) #,
                                            # max.generations = 300,
                                            # wait.generations = 20))
 
