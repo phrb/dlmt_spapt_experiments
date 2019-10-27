@@ -201,7 +201,7 @@ class DLMT(orio.main.tuner.search.search.Search):
                 perf_params = self.coordToPerfParams(candidate_point)
 
                 for k, v in self.model["fixed_factors"].items():
-                    perf_params[k] = self.parameter_values[k][int(v)]
+                    perf_params[k] = self.parameter_values[k][int(round(float(v)))]
 
                 is_valid = eval(self.constraint, copy.copy(perf_params),
                                 dict(self.input_params))
@@ -260,7 +260,7 @@ class DLMT(orio.main.tuner.search.search.Search):
         formulas = {}
 
         for parameter in self.parameter_ranges.keys():
-            formulas["{0}e".format(parameter)] = Formula("{0}e ~ ({0} - {1}) / {1}".format(parameter, (self.parameter_ranges[parameter][1] - 1) / 2))
+            formulas["{0}e".format(parameter)] = Formula("{0}e ~ ({0} - {1}) / {1}".format(parameter, (self.parameter_ranges[parameter][1] - 1.0) / 2.0))
 
         info("Encoding formulas: " + str(self.utils.str(ListVector(formulas))))
         info("Data Dimensions: " + str(self.base.dim(data)))
@@ -458,11 +458,11 @@ class DLMT(orio.main.tuner.search.search.Search):
         info("Current Design Names: " + str(design_names))
         info("Initial Factors: " + str(initial_factors))
 
-        design_line = [int(v[0]) for v in best_line.rx(1, True)]
+        design_line = [int(round(float(v[0]))) for v in best_line.rx(1, True)]
         candidate   = [0] * len(initial_factors)
 
         for k, v in self.model["fixed_factors"].items():
-            candidate[initial_factors.index(k)] = int(v)
+            candidate[initial_factors.index(k)] = int(round(float(v)))
 
         for i in range(len(design_names)):
             candidate[initial_factors.index(design_names[i])] = design_line[i]
@@ -622,11 +622,11 @@ class DLMT(orio.main.tuner.search.search.Search):
         variable_ranges = self.parameter_values
 
         for k, v in fixed_variables.items():
-            current_value = str(variable_ranges[k][int(v)])
+            current_value = str(variable_ranges[k][int(round(float(v)))])
             constraint_text = constraint_text.replace(k, current_value)
 
         for i in range(len(factors)):
-            current_value = ("variable_ranges[\"{0}\"][int(x[{1}])]".format(factors[i], i))
+            current_value = ("variable_ranges[\"{0}\"][int(round(float(x[{1}])))]".format(factors[i], i))
 
             old_value = factors[i]
             constraint_text = constraint_text.replace(old_value, current_value)
@@ -657,12 +657,12 @@ class DLMT(orio.main.tuner.search.search.Search):
             if type(design.rx(line, True)[0]) is int:
                 design_line = [v for v in design.rx(line, True)]
             else:
-                design_line = [int(v[0]) for v in design.rx(line, True)]
+                design_line = [int(round(float(v[0]))) for v in design.rx(line, True)]
 
             candidate = [0] * len(initial_factors)
 
             for k, v in self.model["fixed_factors"].items():
-                candidate[initial_factors.index(k)] = int(v)
+                candidate[initial_factors.index(k)] = int(round(float(v)))
 
             for i in range(len(design_names)):
                 candidate[initial_factors.index(design_names[i])] = design_line[i]
@@ -909,7 +909,7 @@ class DLMT(orio.main.tuner.search.search.Search):
             if step_data["predicted_best"] == None:
                 info("It seems regression failed. Skipping model update.")
             else:
-                predicted_best = [int(v[0]) for v in step_data["predicted_best"].rx(1, True)]
+                predicted_best = [int(round(float(v[0]))) for v in step_data["predicted_best"].rx(1, True)]
                 info("Predicted Best Point:")
                 info(str(predicted_best))
                 info("Length of Predicted Best: " + str(len(predicted_best)))
