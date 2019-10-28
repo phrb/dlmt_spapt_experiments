@@ -278,11 +278,11 @@ class GPR(orio.main.tuner.search.search.Search):
         gc()
 
         result_design[ , %s]""" % (parameters.r_repr(),
-                                    step_size,
-                                    len(self.axis_names),
-                                    self.range_matrix.r_repr(),
-                                    self.constraint,
-                                    StrVector(self.axis_names).r_repr())
+                                   step_size,
+                                   len(self.axis_names),
+                                   self.range_matrix.r_repr(),
+                                   self.constraint,
+                                   StrVector(self.axis_names).r_repr())
 
         candidate_lhs = robjects.r(r_snippet)
         gc.collect()
