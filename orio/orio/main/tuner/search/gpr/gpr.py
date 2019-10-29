@@ -422,8 +422,8 @@ class GPR(orio.main.tuner.search.search.Search):
         for i in range(iterations):
             self.current_iteration_id = i + 1
 
-            self.complete_design_data = self.dplyr.anti_join(self.complete_search_space,
-                                                             self.complete_design_data)
+            self.complete_search_space = self.dplyr.anti_join(self.complete_search_space,
+                                                              self.complete_design_data)
 
             info("Design data:")
             info(str(self.utils.str(self.complete_design_data)))
@@ -462,20 +462,18 @@ class GPR(orio.main.tuner.search.search.Search):
 
 
             # gpr_prediction <- predict(gpr_model, newdata = testing_data, type = 'UK')
-
             # testing_data$predicted_mean <- gpr_prediction$mean
             # testing_data$predicted_sd <- gpr_prediction$sd
-
             # testing_data$predicted_mean_2s <- testing_data$predicted_mean -
             #                                   (2 * testing_data$predicted_sd)
 
             testing_data$expected_improvement <- apply(testing_data, 1, EI, gpr_model)
 
-            # gpr_best_points <- arrange(testing_data,
-            #                            predicted_mean_2s)[1:%%s, ]
-
             gpr_best_points <- testing_data %%>%%
               arrange(desc(expected_improvement))
+
+            # gpr_best_points <- arrange(testing_data,
+            #                            predicted_mean_2s)[1:%%s, ]
 
             gpr_best_points <- gpr_best_points[1:%s, ]
 
