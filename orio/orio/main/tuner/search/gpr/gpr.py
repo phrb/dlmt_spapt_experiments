@@ -481,7 +481,7 @@ class GPR(orio.main.tuner.search.search.Search):
             rm(training_data)
             gc()
 
-            gpr_best_points""" %(self.extra_experiments)
+            select(gpr_best_points, -expected_improvement)""" %(self.extra_experiments)
 
             best_predicted_points = robjects.r(r_snippet)
             best_predicted_points = self.rsm.coded_data(best_predicted_points, formulas = self.rsm.codings(self.complete_design_data))
