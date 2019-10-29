@@ -474,7 +474,7 @@ class GPR(orio.main.tuner.search.search.Search):
             # gpr_best_points <- arrange(testing_data,
             #                            predicted_mean_2s)[1:%%s, ]
 
-            gpr_best_points <- testing_data %>%
+            gpr_best_points <- testing_data %%>%%
               arrange(desc(expected_improvement))
 
             gpr_best_points <- gpr_best_points[1:%s, ]
