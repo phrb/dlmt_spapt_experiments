@@ -67,9 +67,9 @@ class GPR(orio.main.tuner.search.search.Search):
         self.range_matrix = ListVector(self.range_matrix)
         info("DataFrame Ranges: " + str(self.utils.str(self.range_matrix)))
 
-        self.starting_sample   = len(self.params["axis_names"]) * 2
-        self.steps             = 60
-        self.extra_experiments = len(self.params["axis_names"]) / 2
+        self.starting_sample   = int(round(len(self.params["axis_names"]) * 2))
+        self.steps             = 30
+        self.extra_experiments = int(round(len(self.params["axis_names"]) / 2.0))
         self.testing_set_size  = 300000
 
         self.__readAlgoArgs()
@@ -415,13 +415,15 @@ class GPR(orio.main.tuner.search.search.Search):
         if self.complete_search_space == None:
             self.complete_search_space = testing_data
         else:
-            self.complete_search_space = self.base.rbind(self.complete_search_space,
-                                                              testing_data)
+            self.complete_search_space = self.base.rbind(self.complete_search_space)
 
         measured_training_data = self.measure_design(training_data, self.current_iteration_id)
 
         for i in range(iterations):
             self.current_iteration_id = i + 1
+
+            self.complete_design_data = self.dplyr.anti_join(self.complete_search_space,
+                                                             self.complete_design_data)
 
             info("Design data:")
             info(str(self.utils.str(self.complete_design_data)))
@@ -433,11 +435,12 @@ class GPR(orio.main.tuner.search.search.Search):
 
             r_snippet = """library(dplyr)
             library(DiceKriging)
+            library(DiceOptim)
             library(doParallel)
             library(foreach)
             library(rsm)
 
-            training_data <- distinct(read.csv("complete_design_data.csv", header = TRUE))
+            training_data <- read.csv("complete_design_data.csv", header = TRUE)
             training_data$X <- NULL
 
             cores <- 16
@@ -454,18 +457,27 @@ class GPR(orio.main.tuner.search.search.Search):
 
             stopCluster(cluster)
 
-            testing_data <- distinct(read.csv("complete_search_space.csv", header = TRUE))
+            testing_data <- read.csv("complete_search_space.csv", header = TRUE)
             testing_data$X <- NULL
-            gpr_prediction <- predict(gpr_model, newdata = testing_data, type = 'UK')
 
-            testing_data$predicted_mean <- gpr_prediction$mean
-            testing_data$predicted_sd <- gpr_prediction$sd
 
-            testing_data$predicted_mean_2s <- testing_data$predicted_mean -
-                                              (2 * testing_data$predicted_sd)
+            # gpr_prediction <- predict(gpr_model, newdata = testing_data, type = 'UK')
 
-            gpr_best_points <- arrange(testing_data,
-                                       predicted_mean_2s)[1:%s, ]
+            # testing_data$predicted_mean <- gpr_prediction$mean
+            # testing_data$predicted_sd <- gpr_prediction$sd
+
+            # testing_data$predicted_mean_2s <- testing_data$predicted_mean -
+            #                                   (2 * testing_data$predicted_sd)
+
+            testing_data$expected_improvement <- apply(testing_data, 1, EI, gpr_model)
+
+            # gpr_best_points <- arrange(testing_data,
+            #                            predicted_mean_2s)[1:%%s, ]
+
+            gpr_best_points <- testing_data %>%
+              arrange(desc(expected_improvement))
+
+            gpr_best_points <- gpr_best_points[1:%s, ]
 
             rm(testing_data)
             rm(training_data)
@@ -482,6 +494,9 @@ class GPR(orio.main.tuner.search.search.Search):
             info(str(best_predicted_points))
 
             measured_predictions = self.measure_design(best_predicted_points, self.current_iteration_id)
+
+            self.complete_design_data = self.dplyr.anti_join(self.complete_search_space,
+                                                             self.complete_design_data)
 
             info("Design data:")
             info(str(self.utils.str(self.complete_design_data)))
