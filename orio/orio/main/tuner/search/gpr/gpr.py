@@ -495,8 +495,8 @@ class GPR(orio.main.tuner.search.search.Search):
 
             measured_predictions = self.measure_design(best_predicted_points, self.current_iteration_id)
 
-            self.complete_design_data = self.dplyr.anti_join(self.complete_search_space,
-                                                             self.complete_design_data)
+            self.complete_search_space = self.dplyr.anti_join(self.complete_search_space,
+                                                              self.complete_design_data)
 
             info("Design data:")
             info(str(self.utils.str(self.complete_design_data)))
