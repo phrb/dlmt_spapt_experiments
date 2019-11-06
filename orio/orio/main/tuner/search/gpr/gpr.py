@@ -239,7 +239,7 @@ class GPR(orio.main.tuner.search.search.Search):
         ranges <- %s
 
         # Old sobol, generated the same sample all of the time:
-        # design <- sobol(n = %s, dim = %s)
+        # design <- sobol(n = %%s, dim = %%s)
 
         design <- sobol(n = %s,
                         dim = %s,
