@@ -237,7 +237,15 @@ class GPR(orio.main.tuner.search.search.Search):
         library(tibble)
 
         ranges <- %s
-        design <- sobol(n = %s, dim = %s)
+
+        # Old sobol, generated the same sample all of the time:
+        # design <- sobol(n = %s, dim = %s)
+
+        design <- sobol(n = %s,
+                        dim = %s,
+                        scrambling = 3,
+                        seed = as.integer((99999 - 10000) * runif(1) + 10000),
+                        init = FALSE)
 
         encoded_matrix <- round(design %%*%% diag(ranges))
         mode(encoded_matrix) <- "integer"
