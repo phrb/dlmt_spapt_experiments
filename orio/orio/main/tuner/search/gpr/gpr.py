@@ -241,8 +241,17 @@ class GPR(orio.main.tuner.search.search.Search):
         # Old sobol, generated the same sample all of the time:
         # design <- sobol(n = %%s, dim = %%s)
 
-        design <- sobol(n = %s,
-                        dim = %s,
+        sobol_n <- %s
+        sobol_dim <- %s
+
+        sobol(n = sobol_n,
+              dim = sobol_dim,
+              scrambling = 3,
+              seed = as.integer((99999 - 10000) * runif(1) + 10000),
+              init = TRUE)
+
+        design <- sobol(n = sobol_n,
+                        dim = sobol_dim,
                         scrambling = 3,
                         seed = as.integer((99999 - 10000) * runif(1) + 10000),
                         init = FALSE)
