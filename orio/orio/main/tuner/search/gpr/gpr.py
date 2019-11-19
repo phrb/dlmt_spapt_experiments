@@ -19,7 +19,9 @@ from rpy2.robjects import DataFrame, ListVector, IntVector, FloatVector, StrVect
 class GPR(orio.main.tuner.search.search.Search):
     __STEPS              = "steps"
     __STARTING_SAMPLE    = "starting_sample"
-    __EXTRA_POINTS       = "extra_points"
+    __EXTRA_EXPERIMENTS  = "extra_experiments"
+    __TESTING_SET_SIZE   = "testing_set_size"
+    __FAILURE_MULTIPLIER = "failure_multiplier"
 
     def __init__(self, params):
         self.base      = importr("base")
@@ -67,10 +69,11 @@ class GPR(orio.main.tuner.search.search.Search):
         self.range_matrix = ListVector(self.range_matrix)
         info("DataFrame Ranges: " + str(self.utils.str(self.range_matrix)))
 
-        self.starting_sample   = int(round(len(self.params["axis_names"]) + 2))
-        self.steps             = 22
-        self.extra_experiments = int(round(len(self.params["axis_names"]) * 1))
-        self.testing_set_size  = 300000
+        self.starting_sample    = int(round(len(self.params["axis_names"]) + 2))
+        self.steps              = 22
+        self.extra_experiments  = int(round(len(self.params["axis_names"]) * 1))
+        self.testing_set_size   = 300000
+        self.failure_multiplier = 100
 
         self.__readAlgoArgs()
 
@@ -89,6 +92,7 @@ class GPR(orio.main.tuner.search.search.Search):
         info("Starting sample: " + str(self.starting_sample))
         info("GPR steps: " + str(self.steps))
         info("Experiments added per step: " + str(self.extra_experiments))
+        info("Initial Testing Set Size: " + str(self.testing_set_size))
         info("Constraints: " + str(self.constraint))
 
     def generate_valid_sample(self, sample_size):
@@ -215,9 +219,8 @@ class GPR(orio.main.tuner.search.search.Search):
 
         return self.encode_data(candidate_lhs)
 
-    def generate_valid_sobol(self, sample_size):
-        # TODO: Expose step size as parameter!
-        step_size = 100 * sample_size
+    def generate_valid_sobol(self, sample_size, failure_multiplier):
+        step_size = failure_multiplier * sample_size
 
         parameters = {}
 
@@ -244,11 +247,14 @@ class GPR(orio.main.tuner.search.search.Search):
         sobol_n <- %s
         sobol_dim <- %s
 
-        sobol(n = sobol_n,
-              dim = sobol_dim,
-              scrambling = 3,
-              seed = as.integer((99999 - 10000) * runif(1) + 10000),
-              init = TRUE)
+        temp_sobol <- sobol(n = sobol_n,
+                            dim = sobol_dim,
+                            scrambling = 3,
+                            seed = as.integer((99999 - 10000) * runif(1) + 10000),
+                            init = TRUE)
+
+        rm(temp_sobol)
+        gc()
 
         design <- sobol(n = sobol_n,
                         dim = sobol_dim,
@@ -304,7 +310,7 @@ class GPR(orio.main.tuner.search.search.Search):
         candidate_lhs = robjects.r(r_snippet)
         gc.collect()
 
-        info("Candidate LHS:")
+        info("Valid Design:")
         info(str(self.utils.str(candidate_lhs)))
 
         return self.encode_data(candidate_lhs)
@@ -425,9 +431,13 @@ class GPR(orio.main.tuner.search.search.Search):
         best_value       = float("inf")
         best_point       = []
 
-        training_data = self.generate_valid_sobol(self.starting_sample)
-        testing_data = self.base.rbind(self.generate_valid_sobol(self.testing_set_size),
-                                            training_data)
+        training_data = self.generate_valid_sobol(self.starting_sample,
+                                                  self.failure_multiplier)
+
+        # TODO: Expose training failure rate as a separate parameter
+        testing_data = self.base.rbind(self.generate_valid_sobol(self.testing_set_size,
+                                                                 100),
+                                       training_data)
 
         if self.complete_search_space == None:
             self.complete_search_space = testing_data
@@ -570,6 +580,10 @@ class GPR(orio.main.tuner.search.search.Search):
                 self.steps = rhs
             elif vname == self.__EXTRA_EXPERIMENTS:
                 self.extra_experiments = rhs
+            elif vname == self.__TESTING_SET_SIZE:
+                self.testing_set_size = rhs
+            elif vname == self.__FAILURE_MULTIPLIER:
+                self.failure_multiplier = rhs
             else:
                 err('orio.main.tuner.search.gpr: unrecognized %s algorithm-specific argument: "%s"'
                     % (self.__class__.__name__, vname))

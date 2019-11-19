@@ -24,7 +24,8 @@ keywords = [
     'cudacfg_instmix', 'dlmt_interactions', 'dlmt_quadratic', 'dlmt_linear',
     'dlmt_inverse', 'dlmt_cubic', 'dlmt_federov_sampling', 'dlmt_steps', 'dlmt_extra_experiments', 'dlmt_design_multiplier',
     'dlmt_aov_threshold','dlmt_prediction_use_all',
-    'gpr_starting_sample', 'gpr_steps', 'gpr_extra_experiments',
+    'gpr_starting_sample', 'gpr_steps', 'gpr_extra_experiments', 'gpr_testing_set_size',
+    'gpr_failure_multiplier',
     'validation', 'validation_file', 'expected_output',
     'macro', 'performance_test_code', 'skeleton_test_code', 'skeleton_code_file',
     'other', 'device_spec_file',
@@ -234,6 +235,8 @@ def p_arg_type(p):
                 | GPR_STARTING_SAMPLE
                 | GPR_STEPS
                 | GPR_EXTRA_EXPERIMENTS
+                | GPR_TESTING_SET_SIZE
+                | GPR_FAILURE_MULTIPLIER
                 | SIMPLEX_X0
                 | CUDACFG_INSTMIX
                 | VALIDATION_FILE
