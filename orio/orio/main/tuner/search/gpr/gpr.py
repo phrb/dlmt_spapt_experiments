@@ -468,7 +468,7 @@ class GPR(orio.main.tuner.search.search.Search):
             library(rsm)
 
             training_data <- read.csv("complete_design_data.csv", header = TRUE)
-            training_data$X <- NULL
+            training_data <- distinct(select(training_data, -X))
 
             cores <- 16
             cluster <-  makeCluster(cores)
@@ -487,28 +487,18 @@ class GPR(orio.main.tuner.search.search.Search):
             testing_data <- read.csv("complete_search_space.csv", header = TRUE)
             testing_data$X <- NULL
 
-
-            # gpr_prediction <- predict(gpr_model, newdata = testing_data, type = 'UK')
-            # testing_data$predicted_mean <- gpr_prediction$mean
-            # testing_data$predicted_sd <- gpr_prediction$sd
-            # testing_data$predicted_mean_2s <- testing_data$predicted_mean -
-            #                                   (2 * testing_data$predicted_sd)
-
             testing_data$expected_improvement <- apply(testing_data, 1, EI, gpr_model)
 
             gpr_best_points <- testing_data %%>%%
               arrange(desc(expected_improvement))
 
-            # gpr_best_points <- arrange(testing_data,
-            #                            predicted_mean_2s)[1:%%s, ]
-
-            gpr_best_points <- gpr_best_points[1:%s, ]
+            gpr_best_points <- select(gpr_best_points[1:%s, ], -expected_improvement)
 
             rm(testing_data)
             rm(training_data)
             gc()
 
-            select(gpr_best_points, -expected_improvement)""" %(self.extra_experiments)
+            distinct(gpr_best_points)""" %(self.extra_experiments)
 
             best_predicted_points = robjects.r(r_snippet)
             best_predicted_points = self.rsm.coded_data(best_predicted_points, formulas = self.rsm.codings(self.complete_design_data))
