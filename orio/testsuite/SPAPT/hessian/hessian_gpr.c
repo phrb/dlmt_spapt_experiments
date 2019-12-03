@@ -35,9 +35,9 @@
     arg total_runs = 1;
     arg gpr_starting_sample = 13;
     arg gpr_steps = 31;
-    arg gpr_extra_experiments = 9;
+    arg gpr_extra_experiments = 12;
     arg gpr_testing_set_size = 300000;
-    arg gpr_failure_multiplier = 100;
+    arg gpr_failure_multiplier = 80;
   }
 
   def input_params
