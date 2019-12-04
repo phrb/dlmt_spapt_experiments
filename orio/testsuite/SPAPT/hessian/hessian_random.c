@@ -24,9 +24,9 @@
 
     param SCREP[] = [False,True];
     param VEC[] = [False,True];
-    param OMP[] = [False,True];
+    # param OMP[] = [False,True];
 
-    #constraint reg_capacity = (4*U_I*U_J + 3*U_I + 3*U_J <= 128);
+    constraint reg_capacity = (4*U_I*U_J + 3*U_I + 3*U_J <= 128);
     constraint unroll_limit = ((U_I == 1) or (U_J == 1));
   }
 
@@ -82,7 +82,7 @@ int i,j,ii,jj,iii,jjj,it,jt;
     scalarreplace = (SCREP, 'double', 'scv_'),
     regtile = (['i','j'],[RT_I,RT_J]),
     vector = (VEC, ['ivdep','vector always']),
-    openmp = (OMP, 'omp parallel for private(i,j,ii,jj,iii,jjj,Y_copy,X0_copy,X1_copy,X2_copy)')
+    openmp = (False, 'omp parallel for private(i,j,ii,jj,iii,jjj,Y_copy,X0_copy,X1_copy,X2_copy)')
   )
 
 for (i=0; i<=N-1; i++)
@@ -113,5 +113,3 @@ for (i=0; i<=N-1; i++)
 
 /*@ end @*/
 /*@ end @*/
-
-
