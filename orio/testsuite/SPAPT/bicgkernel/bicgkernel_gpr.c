@@ -53,11 +53,6 @@
   {
     arg algorithm = 'GPR';
     arg total_runs = 75;
-    arg gpr_starting_sample = 40;
-    arg gpr_steps = 13;
-    arg gpr_extra_experiments = 20;
-    arg gpr_testing_set_size = 300000;
-    arg gpr_failure_multiplier = 80;
   }
 
   def input_params
