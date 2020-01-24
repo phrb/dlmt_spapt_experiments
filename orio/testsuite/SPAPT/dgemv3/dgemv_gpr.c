@@ -110,7 +110,7 @@
     arg gpr_starting_sample = 280;
     arg gpr_extra_experiments = 2;
     arg gpr_steps = 10;
-    arg gpr_failure_multiplier = 1000;
+    arg gpr_failure_multiplier = 20000;
   }
 
   def input_params
