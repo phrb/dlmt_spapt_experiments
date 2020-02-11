@@ -35,8 +35,8 @@ class GPR(orio.main.tuner.search.search.Search):
         self.dicekrig  = importr("DiceKriging")
         self.diced     = importr("DiceDesign")
 
-        # numpy.random.seed(11221)
-        # self.base.set_seed(11221)
+        numpy.random.seed(11221)
+        self.base.set_seed(11221)
 
         self.complete_design_data = None
         self.complete_search_space = None
@@ -67,7 +67,7 @@ class GPR(orio.main.tuner.search.search.Search):
             self.range_matrix[self.axis_names[i]] = IntVector(self.axis_val_ranges[i])
 
         self.range_matrix = ListVector(self.range_matrix)
-        info("DataFrame Ranges: " + str(self.utils.str(self.range_matrix)))
+        info("DataFrame Ranges: " + str(self.base.summary_default(self.range_matrix)))
 
         self.starting_sample    = int(round(len(self.params["axis_names"]) + 2))
         self.steps              = 22
@@ -141,7 +141,7 @@ class GPR(orio.main.tuner.search.search.Search):
         search_space_dataframe_r = search_space_dataframe_r.rx(StrVector(self.axis_names))
 
         info("Generated Search Space:")
-        info(str(self.utils.str(search_space_dataframe_r)))
+        info(str(self.base.summary_default(search_space_dataframe_r)))
 
         coded_search_space_dataframe_r = self.encode_data(search_space_dataframe_r)
 
@@ -215,7 +215,7 @@ class GPR(orio.main.tuner.search.search.Search):
         candidate_lhs = robjects.r(r_snippet)
 
         info("Candidate LHS:")
-        info(str(self.utils.str(candidate_lhs)))
+        info(str(self.base.summary_default(candidate_lhs)))
 
         return self.encode_data(candidate_lhs)
 
@@ -240,9 +240,6 @@ class GPR(orio.main.tuner.search.search.Search):
         library(tibble)
 
         ranges <- %s
-
-        # Old sobol, generated the same sample all of the time:
-        # design <- sobol(n = %%s, dim = %%s)
 
         sobol_n <- %s
         sobol_dim <- %s
@@ -311,7 +308,7 @@ class GPR(orio.main.tuner.search.search.Search):
         gc.collect()
 
         info("Valid Design:")
-        info(str(self.utils.str(candidate_lhs)))
+        info(str(self.base.summary_default(candidate_lhs)))
 
         return self.encode_data(candidate_lhs)
 
@@ -321,7 +318,7 @@ class GPR(orio.main.tuner.search.search.Search):
         for parameter in self.parameter_ranges.keys():
             formulas["{0}e".format(parameter)] = Formula("{0}e ~ ({0} - {1}) / {1}".format(parameter, (self.parameter_ranges[parameter][1] - 1.0) / 2.0))
 
-        info("Encoding formulas: " + str(self.utils.str(ListVector(formulas))))
+        info("Encoding formulas: " + str(self.base.summary_default(ListVector(formulas))))
         info("Data Dimensions: " + str(self.base.dim(data)))
 
         return self.rsm.coded_data(data, formulas = ListVector(formulas))
@@ -332,7 +329,7 @@ class GPR(orio.main.tuner.search.search.Search):
         for parameter in self.parameter_ranges.keys():
             formulas["{0}".format(parameter)] = Formula("{0} ~ round(({0}e * {1}) + {1})".format(parameter, (self.parameter_ranges[parameter][1] - 1.0) / 2.0))
 
-        info("Encoding formulas: " + str(self.utils.str(ListVector(formulas))))
+        info("Encoding formulas: " + str(self.base.summary_default(ListVector(formulas))))
         info("Data Dimensions: " + str(self.base.dim(data)))
 
         return self.rsm.coded_data(data, formulas = ListVector(formulas))
@@ -388,6 +385,9 @@ class GPR(orio.main.tuner.search.search.Search):
         info("Complete decoded design:")
         info(str(design))
 
+        info("Complete original design:")
+        info(str(encoded_design))
+
         for line in range(1, len(design[0]) + 1):
             if type(design.rx(line, True)[0]) is int:
                 design_line = [v for v in design.rx(line, True)]
@@ -397,7 +397,13 @@ class GPR(orio.main.tuner.search.search.Search):
             candidate = [0] * len(initial_factors)
 
             for i in range(len(design_names)):
+            #    if should_redecode:
+            #        candidate[initial_factors.index(design_names[i])] = self.parameter_values[design_names[i]].index(design_line[i])
+            #    else:
                 candidate[initial_factors.index(design_names[i])] = design_line[i]
+
+            info("Evaluating candidate:")
+            info(str(candidate))
 
             measurement = self.getPerfCosts([candidate])
             if measurement != {}:
@@ -409,22 +415,92 @@ class GPR(orio.main.tuner.search.search.Search):
         encoded_design = self.dplyr.bind_cols(encoded_design, DataFrame({"cost_mean": FloatVector(measurements)}))
 
         info("Complete design, with measurements:")
-        info(str(self.utils.str(encoded_design)))
+        info(str(self.base.summary_default(encoded_design)))
 
         encoded_design = encoded_design.rx(self.stats.complete_cases(encoded_design), True)
         encoded_design = encoded_design.rx(self.base.is_finite(self.base.rowSums(encoded_design)), True)
 
         info("Clean encoded design, with measurements:")
-        info(str(self.utils.str(encoded_design)))
+        info(str(self.base.summary_default(encoded_design)))
 
         self.utils.write_csv(encoded_design, "design_step_{0}.csv".format(step_number))
 
         if self.complete_design_data == None:
             self.complete_design_data = encoded_design
         else:
+            info(str(self.complete_design_data))
+            info(str(encoded_design))
+
             self.complete_design_data = self.base.rbind(self.complete_design_data, encoded_design)
 
         return encoded_design
+
+    def validate_sample(self, sample, selected):
+        decoded_sample = self.rsm.decode_data(sample)
+
+        parameters = {}
+
+        info("pkeys: " + str([k for k in self.parameter_ranges.keys()]))
+        info("axisnames: " + str([n for n in self.axis_names]))
+
+        for p in self.parameter_ranges.keys():
+            parameters[p] = FloatVector([self.parameter_ranges[p][1] - 1.0])
+
+        parameters = DataFrame(parameters)
+
+        info("Computed parameter ranges:")
+        info(str(parameters))
+
+        r_snippet = """ library(stringr)
+        library(tibble)
+
+        ranges <- %s
+        print("Ranges:")
+        print(str(ranges))
+
+        constraint <- "%s" %%>%%
+            str_replace_all(c("True and " = "TRUE & ",
+                              "==" = "== ",
+                              "<=" = "<= ",
+                              "or" = " |",
+                              "and" = "&",
+                              "\\\\*" = "\\\\* ",
+                              " \\\\)" = "\\\\)",
+                              "%%" = " %%%% ")) %%>%%
+            rlang::parse_expr()
+
+        print(str(constraint))
+
+        sample <- %s
+        print(str(sample))
+
+        encoded_matrix <- round(sample)
+        print(str(encoded_matrix))
+
+        encoded_design <- data.frame(encoded_matrix)
+
+        range_list <- %s
+
+        convert_parameters <- function(name) {
+          encoded_design[, name] <- range_list[[name]][encoded_design[, name] + 1]
+        }
+
+        converted_design <- data.frame(sapply(names(encoded_design), convert_parameters))
+
+        valid_sample <- converted_design %%>%%
+            rownames_to_column() %%>%%
+            filter(!!!constraint)
+
+        valid_sample$rowname""" % (parameters.r_repr(),
+                                   self.constraint,
+                                   decoded_sample.r_repr(),
+                                   self.range_matrix.r_repr())
+
+        valid_sample = robjects.r(r_snippet)
+        validated_sample = sample.rx(valid_sample[1:selected], True)
+        info(str(self.base.summary_default(validated_sample)))
+
+        return validated_sample
 
     def gpr(self):
         iterations       = self.steps
@@ -453,26 +529,35 @@ class GPR(orio.main.tuner.search.search.Search):
                                                               self.complete_design_data)
 
             info("Design data:")
-            info(str(self.utils.str(self.complete_design_data)))
+            info(str(self.base.summary_default(self.complete_design_data)))
             info("Complete Search Space:")
-            info(str(self.utils.str(self.complete_search_space)))
+            info(str(self.base.summary_default(self.complete_search_space)))
 
             self.utils.write_csv(self.complete_design_data, "complete_design_data.csv")
             self.utils.write_csv(self.complete_search_space, "complete_search_space.csv")
 
             r_snippet = """library(dplyr)
+            library(randtoolbox)
             library(DiceKriging)
             library(DiceOptim)
-            library(doParallel)
             library(foreach)
+            library(future.apply)
             library(rsm)
+
+            quiet <- function(x) {
+              sink(tempfile())
+              on.exit(sink())
+              invisible(force(x))
+            }
+
+            extra_experiments <- %s
+
+            plan(multiprocess, workers = 2)
 
             training_data <- read.csv("complete_design_data.csv", header = TRUE)
             training_data <- distinct(select(training_data, -X))
 
-            cores <- 16
-            cluster <-  makeCluster(cores)
-            registerDoParallel(cluster)
+            cores <- 2
 
             gpr_model <- km(design = select(training_data, -cost_mean),
                             response = training_data$cost_mean,
@@ -480,26 +565,94 @@ class GPR(orio.main.tuner.search.search.Search):
                             control = list(pop.size = 400,
                                            BFGSburnin = 500))
 
-            stopCluster(cluster)
-
             testing_data <- read.csv("complete_search_space.csv", header = TRUE)
             testing_data$X <- NULL
 
-            testing_data$expected_improvement <- apply(testing_data, 1, EI, gpr_model)
+            print("Applying EI to experiments")
+
+            testing_data$expected_improvement <- future_apply(testing_data, 1, EI, gpr_model)
 
             gpr_best_points <- testing_data %%>%%
               arrange(desc(expected_improvement))
 
-            gpr_best_points <- select(gpr_best_points[1:%s, ], -expected_improvement)
+            gpr_best_points <- select(gpr_best_points[1:extra_experiments, ],
+                                      -expected_improvement)
+
+            print("Generating perturbation sample")
+
+            gpr_neighbourhood_factor <- 5000
+            perturbation_range <- 0.25
+
+            temp_sobol <- sobol(n = extra_experiments * gpr_neighbourhood_factor,
+                                dim = length(names(gpr_best_points)),
+                                scrambling = 3,
+                                seed = as.integer((99999 - 10000) * runif(1) + 10000),
+                                init = TRUE)
+
+            rm(temp_sobol)
+            quiet(gc())
+
+            perturbation <- sobol(n = extra_experiments * gpr_neighbourhood_factor,
+                                  dim = length(names(gpr_best_points)),
+                                  scrambling = 3,
+                                  seed = as.integer((99999 - 10000) * runif(1) + 10000),
+                                  init = FALSE)
+
+            perturbation <- data.frame(perturbation)
+            perturbation <- (2 * perturbation_range * perturbation) - perturbation_range
+
+            names(perturbation) <- names(gpr_best_points)
+
+            gpr_selected_neighbourhood <- data.frame(gpr_best_points) %%>%%
+                slice(rep(row_number(), gpr_neighbourhood_factor))
+
+            print(str(gpr_selected_neighbourhood))
+            print(str(perturbation))
+            gpr_selected_neighbourhood <- gpr_selected_neighbourhood + perturbation
+
+            gpr_selected_neighbourhood[gpr_selected_neighbourhood < -1.0] <- -1.0
+            gpr_selected_neighbourhood[gpr_selected_neighbourhood > 1.0] <- 1.0
+
+            gpr_sample <- bind_rows(select(testing_data, -expected_improvement),
+                                           gpr_selected_neighbourhood) %%>%%
+                distinct()
+
+            write.csv(gpr_sample, "complete_search_space.csv")
+
+            print(str(gpr_sample))
+
+            gpr_selected_points <- bind_rows(gpr_best_points,
+                                             gpr_selected_neighbourhood)
+
+            gpr_best_points <- gpr_best_points %%>%%
+                distinct()
+
+            print("Computing perturbed EI")
+            gpr_selected_points$expected_improvement <- future_apply(gpr_selected_points,
+                                                                     1,
+                                                                     EI,
+                                                                     gpr_model)
+
+            gpr_selected_points <- gpr_selected_points %%>%%
+                arrange(desc(expected_improvement))
+
+            gpr_selected_points <- select(gpr_selected_points,
+                                          -expected_improvement) %%>%%
+                                   distinct()
+
+            print(str(gpr_selected_points))
 
             rm(testing_data)
             rm(training_data)
             gc()
 
-            distinct(gpr_best_points)""" %(self.extra_experiments)
+            gpr_selected_points""" %(self.extra_experiments)
 
             best_predicted_points = robjects.r(r_snippet)
             best_predicted_points = self.rsm.coded_data(best_predicted_points, formulas = self.rsm.codings(self.complete_design_data))
+
+            best_predicted_points = self.validate_sample(best_predicted_points,
+                                                         3 * self.extra_experiments)
 
             gc.collect()
 
@@ -512,9 +665,9 @@ class GPR(orio.main.tuner.search.search.Search):
                                                               self.complete_design_data)
 
             info("Design data:")
-            info(str(self.utils.str(self.complete_design_data)))
+            info(str(self.base.summary_default(self.complete_design_data)))
             info("Complete Search Space:")
-            info(str(self.utils.str(self.complete_search_space)))
+            info(str(self.base.summary_default(self.complete_search_space)))
 
         return self.get_design_best(self.complete_design_data), self.starting_sample + (self.steps * self.extra_experiments)
 
