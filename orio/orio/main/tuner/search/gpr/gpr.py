@@ -35,8 +35,8 @@ class GPR(orio.main.tuner.search.search.Search):
         self.dicekrig  = importr("DiceKriging")
         self.diced     = importr("DiceDesign")
 
-        numpy.random.seed(11221)
-        self.base.set_seed(11221)
+        #numpy.random.seed(11221)
+        #self.base.set_seed(11221)
 
         self.complete_design_data = None
         self.complete_search_space = None
