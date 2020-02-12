@@ -498,7 +498,11 @@ class GPR(orio.main.tuner.search.search.Search):
 
         valid_sample = robjects.r(r_snippet)
         validated_sample = sample.rx(valid_sample[1:selected], True)
+        info("Validated Sample:")
         info(str(self.base.summary_default(validated_sample)))
+
+        self.complete_search_space = self.base.rbind(self.complete_search_space,
+                                                     validated_sample)
 
         return validated_sample
 
@@ -651,7 +655,7 @@ class GPR(orio.main.tuner.search.search.Search):
             best_predicted_points = self.rsm.coded_data(best_predicted_points, formulas = self.rsm.codings(self.complete_design_data))
 
             best_predicted_points = self.validate_sample(best_predicted_points,
-                                                         3 * self.extra_experiments)
+                                                         self.extra_experiments)
 
             gc.collect()
 
