@@ -53,8 +53,8 @@
   {
     arg algorithm = 'GPR';
     arg total_runs = 75;
-    arg gpr_starting_sample = 30;
-    arg gpr_extra_experiments = 6;
+    arg gpr_starting_sample = 150;
+    arg gpr_extra_experiments = 15;
     arg gpr_testing_set_size = 300000;
     arg gpr_steps = 10;
   }
