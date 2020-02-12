@@ -553,12 +553,12 @@ class GPR(orio.main.tuner.search.search.Search):
 
             extra_experiments <- %s
 
-            plan(multiprocess, workers = 2)
+            plan(multiprocess, workers = 16)
 
             training_data <- read.csv("complete_design_data.csv", header = TRUE)
             training_data <- distinct(select(training_data, -X))
 
-            cores <- 2
+            cores <- 8
 
             gpr_model <- km(design = select(training_data, -cost_mean),
                             response = training_data$cost_mean,
@@ -581,7 +581,7 @@ class GPR(orio.main.tuner.search.search.Search):
 
             print("Generating perturbation sample")
 
-            gpr_neighbourhood_factor <- 5000
+            gpr_neighbourhood_factor <- 10000
             perturbation_range <- 0.25
 
             temp_sobol <- sobol(n = extra_experiments * gpr_neighbourhood_factor,
