@@ -518,7 +518,8 @@ class GPR(orio.main.tuner.search.search.Search):
         if self.complete_search_space == None:
             self.complete_search_space = testing_data
         else:
-            self.complete_search_space = self.base.rbind(self.complete_search_space)
+            self.complete_search_space = self.base.rbind(self.complete_search_space,
+                                                         testing_data)
 
         measured_training_data = self.measure_design(training_data, self.current_iteration_id)
 
@@ -616,8 +617,6 @@ class GPR(orio.main.tuner.search.search.Search):
             gpr_sample <- bind_rows(select(testing_data, -expected_improvement),
                                            gpr_selected_neighbourhood) %%>%%
                 distinct()
-
-            write.csv(gpr_sample, "complete_search_space.csv")
 
             print(str(gpr_sample))
 
