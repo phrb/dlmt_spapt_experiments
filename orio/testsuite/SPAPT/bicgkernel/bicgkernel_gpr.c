@@ -55,7 +55,7 @@
     arg total_runs = 75;
     arg gpr_starting_sample = 150;
     arg gpr_extra_experiments = 15;
-    arg gpr_testing_set_size = 300000;
+    arg gpr_testing_set_size = 30000;
     arg gpr_steps = 10;
   }
 
