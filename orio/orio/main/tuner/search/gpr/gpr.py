@@ -586,7 +586,7 @@ class GPR(orio.main.tuner.search.search.Search):
             print("Generating perturbation sample")
 
             gpr_neighbourhood_factor <- 10000
-            perturbation_range <- 0.25
+            perturbation_range <- 0.15
 
             temp_sobol <- sobol(n = extra_experiments * gpr_neighbourhood_factor,
                                 dim = length(names(gpr_best_points)),
