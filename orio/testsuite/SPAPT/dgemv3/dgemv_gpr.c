@@ -107,9 +107,9 @@
   {
     arg algorithm = 'GPR';
     arg total_runs = 75;
-    arg gpr_starting_sample = 280;
-    arg gpr_extra_experiments = 2;
-    arg gpr_steps = 10;
+    arg gpr_starting_sample = 150;
+    arg gpr_extra_experiments = 5;
+    arg gpr_steps = 45;
     arg gpr_failure_multiplier = 20000;
   }
 
