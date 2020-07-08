@@ -564,8 +564,10 @@ class GPR(orio.main.tuner.search.search.Search):
 
             cores <- 8
 
-            gpr_model <- km(design = select(training_data, -cost_mean),
+            gpr_model <- km(formula = ~ .,
+                            design = select(training_data, -cost_mean),
                             response = training_data$cost_mean,
+                            nugget = 1e-8 * var(training_data$cost_mean),
                             multistart = 2 * cores,
                             control = list(pop.size = 400,
                                            BFGSburnin = 500))
@@ -575,7 +577,13 @@ class GPR(orio.main.tuner.search.search.Search):
 
             print("Applying EI to experiments")
 
-            testing_data$expected_improvement <- future_apply(testing_data, 1, EI, gpr_model)
+            # testing_data$expected_improvement <- future_apply(testing_data,
+            #                                                   1,
+            #                                                   EI,
+            #                                                   gpr_model)
+
+            pred <- predict(gpr_model, testing_data, "UK")
+            testing_data$expected_improvement <- pred$mean - (1.96 * pred$sd)
 
             gpr_best_points <- testing_data %%>%%
               arrange(desc(expected_improvement))
@@ -631,10 +639,13 @@ class GPR(orio.main.tuner.search.search.Search):
                 distinct()
 
             print("Computing perturbed EI")
-            gpr_selected_points$expected_improvement <- future_apply(gpr_selected_points,
-                                                                     1,
-                                                                     EI,
-                                                                     gpr_model)
+            # gpr_selected_points$expected_improvement <- future_apply(gpr_selected_points,
+            #                                                          1,
+            #                                                          EI,
+            #                                                          gpr_model)
+
+            pred <- predict(gpr_model, gpr_selected_points, "UK")
+            gpr_selected_points$expected_improvement <- pred$mean - (1.96 * pred$sd)
 
             gpr_selected_points <- gpr_selected_points %%>%%
                 arrange(desc(expected_improvement))
