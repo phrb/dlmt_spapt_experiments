@@ -560,9 +560,9 @@ class GPR(orio.main.tuner.search.search.Search):
             r_snippet = """library(dplyr)
             library(randtoolbox)
             library(DiceKriging)
-            #library(DiceOptim)
-            #library(foreach)
-            #library(future.apply)
+            # library(DiceOptim)
+            # library(foreach)
+            # library(future.apply)
             library(rsm)
 
             quiet <- function(x) {
@@ -573,7 +573,8 @@ class GPR(orio.main.tuner.search.search.Search):
 
             extra_experiments <- %s
 
-            plan(multiprocess, workers = 16)
+            # From library(future.apply)
+            # plan(multiprocess, workers = 16)
 
             training_data <- read.csv("complete_design_data.csv", header = TRUE)
             training_data <- distinct(select(training_data, -X))
