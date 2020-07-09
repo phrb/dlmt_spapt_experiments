@@ -415,12 +415,16 @@ class GPR(orio.main.tuner.search.search.Search):
 
         info("Encoded design")
         info(str(encoded_design))
+        info("Dims design")
+        info(str(self.base.dim(encoded_design)))
         info("Measurements")
         info(str(measurements))
         info("FloatVector Measurements")
         info(str(FloatVector(measurements)))
         info("Attempting DF")
-        info(str(DataFrame({"cost_mean": FloatVector(measurements)})))
+        info(str(self.base.dim(DataFrame({"cost_mean": FloatVector(measurements)}))))
+        info("Dims DF")
+        info(str(self.base.dim(DataFrame({"cost_mean": FloatVector(measurements)}))))
 
         encoded_design = self.dplyr.bind_cols(encoded_design, DataFrame({"cost_mean": FloatVector(measurements)}))
 
