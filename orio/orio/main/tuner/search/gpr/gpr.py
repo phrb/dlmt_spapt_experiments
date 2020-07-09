@@ -426,7 +426,9 @@ class GPR(orio.main.tuner.search.search.Search):
         info("Dims DF")
         info(str(self.base.dim(DataFrame({"cost_mean": FloatVector(measurements)}))))
 
-        encoded_design = self.dplyr.bind_cols(encoded_design, DataFrame({"cost_mean": FloatVector(measurements)}))
+        encoded_design = self.dplyr.bind_cols(encoded_design,
+                                              DataFrame({"cost_mean":
+                                                         FloatVector(measurements)}))
 
         info("Complete design, with measurements:")
         info(str(self.base.summary_default(encoded_design)))
@@ -558,9 +560,9 @@ class GPR(orio.main.tuner.search.search.Search):
             r_snippet = """library(dplyr)
             library(randtoolbox)
             library(DiceKriging)
-            library(DiceOptim)
-            library(foreach)
-            library(future.apply)
+            #library(DiceOptim)
+            #library(foreach)
+            #library(future.apply)
             library(rsm)
 
             quiet <- function(x) {
