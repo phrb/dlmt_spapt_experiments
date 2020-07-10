@@ -602,8 +602,12 @@ class GPR(orio.main.tuner.search.search.Search):
             pred <- predict(gpr_model, testing_data, "UK")
             testing_data$expected_improvement <- pred$mean - (1.96 * pred$sd)
 
+            # Decrease for EI:
+            # gpr_best_points <- testing_data %%>%%
+            #   arrange(desc(expected_improvement))
+
             gpr_best_points <- testing_data %%>%%
-              arrange(desc(expected_improvement))
+              arrange(expected_improvement)
 
             gpr_best_points <- select(gpr_best_points[1:extra_experiments, ],
                                       -expected_improvement)
@@ -664,8 +668,12 @@ class GPR(orio.main.tuner.search.search.Search):
             pred <- predict(gpr_model, gpr_selected_points, "UK")
             gpr_selected_points$expected_improvement <- pred$mean - (1.96 * pred$sd)
 
+            # Decrease for EI:
+            # gpr_selected_points <- gpr_selected_points %%>%%
+            #     arrange(desc(expected_improvement))
+
             gpr_selected_points <- gpr_selected_points %%>%%
-                arrange(desc(expected_improvement))
+                arrange(expected_improvement)
 
             gpr_selected_points <- select(gpr_selected_points,
                                           -expected_improvement) %%>%%
