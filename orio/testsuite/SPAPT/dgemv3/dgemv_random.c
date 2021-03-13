@@ -111,8 +111,8 @@
 
   def input_params
   {
-    param M = 20000;
-    param N = 20000;
+    param M = 20;
+    param N = 20;
   }
 
   def input_vars {

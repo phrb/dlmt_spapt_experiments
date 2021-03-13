@@ -825,10 +825,10 @@ class DLMT(orio.main.tuner.search.search.Search):
             else:
                 # Used to generate a new search space and fit a new model with only significant variables:
                 # Using classical linear regression:
-                # predicted_best = self.predict_best_values(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
+                predicted_best = self.predict_best_values(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
 
                 # Using quantile regression:
-                predicted_best = self.predict_best_values_quantreg(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
+                # predicted_best = self.predict_best_values_quantreg(design, lm_formula, prediction_samples, ordered_prf_keys, prf_values)
 
             self.get_fixed_variables(predicted_best, ordered_prf_keys, prf_values)
             self.prune_model(ordered_prf_keys, prf_values)
