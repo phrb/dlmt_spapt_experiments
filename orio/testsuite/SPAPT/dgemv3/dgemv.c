@@ -107,10 +107,10 @@
   {
     arg algorithm = 'DLMT';
     arg total_runs = 1;
-    arg dlmt_federov_sampling = 30;
+    arg dlmt_federov_sampling = 3;
     arg dlmt_aov_threshold = 0.05;
     arg dlmt_extra_experiments = 1;
-    arg dlmt_design_multiplier = 1.1;
+    arg dlmt_design_multiplier = 1;
     arg dlmt_steps = 4;
     arg dlmt_linear = '["SCR", "VEC1", "VEC2", "VEC3", "VEC4", "VEC5", "VEC6", "VEC7", "VEC8", "VEC9", "VEC10", "T1_I", "T1_J", "T1_Ia", "T1_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T5_I", "T5_J", "T5_Ia", "T5_Ja", "T7_I", "T7_J", "T7_Ia", "T7_Ja", "U1_I", "U1_J", "U2_I", "U3_I", "U3_J", "U4_I", "U5_I", "U5_J", "U6_I", "U7_I", "U7_J", "U8_I", "U9_I", "U10_I", "RT1_I", "RT1_J", "RT3_I", "RT3_J", "RT5_I", "RT5_J", "RT7_I", "RT7_J"]';
     arg dlmt_quadratic = '[ "T1_I", "T1_J", "T1_Ia", "T1_Ja", "T3_I", "T3_J", "T3_Ia", "T3_Ja", "T5_I", "T5_J", "T5_Ia", "T5_Ja", "T7_I", "T7_J", "T7_Ia", "T7_Ja", "U1_I", "U1_J", "U2_I", "U3_I", "U3_J", "U4_I", "U5_I", "U5_J", "U6_I", "U7_I", "U7_J", "U8_I", "U9_I", "U10_I", "RT1_I", "RT1_J", "RT3_I", "RT3_J", "RT5_I", "RT5_J", "RT7_I", "RT7_J"]';
